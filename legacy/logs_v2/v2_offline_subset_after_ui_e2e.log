@@ -1,0 +1,77 @@
+test_config_fingerprint_mismatch_is_refused (tests.test_semantic_needs.AnalyzerRefusesUnmergeableChunks.test_config_fingerprint_mismatch_is_refused) ... ok
+test_duplicated_seed_across_chunks_is_refused (tests.test_semantic_needs.AnalyzerRefusesUnmergeableChunks.test_duplicated_seed_across_chunks_is_refused) ... ok
+test_missing_seed_coverage_is_refused (tests.test_semantic_needs.AnalyzerRefusesUnmergeableChunks.test_missing_seed_coverage_is_refused) ... ok
+test_a_mis_split_plan_is_rejected (tests.test_semantic_needs.ChunkPlanPartitionsTheFrozenSeeds.test_a_mis_split_plan_is_rejected)
+Word splitting once turned `dev_1_6:1 2 3 4 5 6` into six bogus specs and overwrote ... ok
+test_seeds_1_to_26_appear_exactly_once (tests.test_semantic_needs.ChunkPlanPartitionsTheFrozenSeeds.test_seeds_1_to_26_appear_exactly_once) ... ok
+test_evidence_must_quote_the_student (tests.test_semantic_needs.HardConstraintsBelongToRules.test_evidence_must_quote_the_student) ... ok
+test_required_courses_come_from_curriculum_only (tests.test_semantic_needs.HardConstraintsBelongToRules.test_required_courses_come_from_curriculum_only) ... ok
+test_validator_rejects_every_illegal_inference (tests.test_semantic_needs.HardConstraintsBelongToRules.test_validator_rejects_every_illegal_inference) ... ok
+test_every_wire_request_isolates_the_hidden_utility (tests.test_semantic_needs.JPromptCarriesNoHiddenTruth.test_every_wire_request_isolates_the_hidden_utility) ... ok
+test_payload_carries_only_public_catalogue_fields_and_the_frozen_schema (tests.test_semantic_needs.JPromptCarriesNoHiddenTruth.test_payload_carries_only_public_catalogue_fields_and_the_frozen_schema) ... ok
+test_low_relevance_rows_are_not_adopted (tests.test_semantic_needs.PredictedWeightsAreShared.test_low_relevance_rows_are_not_adopted) ... ok
+test_never_overwrites_a_disclosed_score (tests.test_semantic_needs.PredictedWeightsAreShared.test_never_overwrites_a_disclosed_score) ... ok
+test_second_read_of_the_same_profile_costs_nothing (tests.test_semantic_needs.ProfilesAreCached.test_second_read_of_the_same_profile_costs_nothing) ... ok
+test_metrics_agree_with_hand_computed_counts (tests.test_semantic_needs.QualityMetricsAreBounded.test_metrics_agree_with_hand_computed_counts) ... ok
+test_goal_line_is_prose_not_topic_labels (tests.test_semantic_needs.ReaderInputIsProse.test_goal_line_is_prose_not_topic_labels) ... ok
+test_rule_rows_are_evidenced_and_capped (tests.test_semantic_needs.ReaderInputIsProse.test_rule_rows_are_evidenced_and_capped) ... ok
+test_semantic_gap_is_partial_not_total (tests.test_semantic_needs.ReaderInputIsProse.test_semantic_gap_is_partial_not_total)
+A rule baseline that recovers nothing is a straw man; one that recovers everything ... ok
+test_missing_api_key_falls_back_and_is_recorded (tests.test_semantic_needs.ReferenceArmIsFlagged.test_missing_api_key_falls_back_and_is_recorded) ... ok
+test_truth_parser_marks_hidden_utility_and_rule_parser_does_not (tests.test_semantic_needs.ReferenceArmIsFlagged.test_truth_parser_marks_hidden_utility_and_rule_parser_does_not) ... ok
+test_alias_table_uses_the_published_row_keys (tests.test_semantic_needs.ReportNeedSection.test_alias_table_uses_the_published_row_keys)
+Renaming a key in rule_alias_coverage must break this test, not a 3-hour batch. ... ok
+test_arm_headings_are_in_a_stable_order (tests.test_semantic_needs.ReportNeedSection.test_arm_headings_are_in_a_stable_order)
+NEED_ARMS is a set: unsorted iteration would reshuffle the report between runs. ... ok
+test_no_need_rows_means_no_need_section (tests.test_semantic_needs.ReportNeedSection.test_no_need_rows_means_no_need_section) ... ok
+test_failure_falls_back_to_rules_and_says_so (tests.test_semantic_needs_v2.CacheIsVersionedAndShared.test_failure_falls_back_to_rules_and_says_so) ... [need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+ok
+test_second_run_pays_nothing_and_stays_out_of_the_v1_file (tests.test_semantic_needs_v2.CacheIsVersionedAndShared.test_second_run_pays_nothing_and_stays_out_of_the_v1_file) ... ok
+test_batch_size_and_sentinels_are_usable (tests.test_semantic_needs_v2.J2PromptCarriesNoHiddenTruth.test_batch_size_and_sentinels_are_usable)
+The instrument itself: 12 students must be more than one call, and the sentinels unique. ... ok
+test_catalogue_and_schema_do_not_smuggle_state (tests.test_semantic_needs_v2.J2PromptCarriesNoHiddenTruth.test_catalogue_and_schema_do_not_smuggle_state)
+Only the public course fields and the output template may accompany the prose. ... ok
+test_every_wire_request_isolates_the_hidden_utility (tests.test_semantic_needs_v2.J2PromptCarriesNoHiddenTruth.test_every_wire_request_isolates_the_hidden_utility) ... ok
+test_every_overclaim_is_rejected_and_named (tests.test_semantic_needs_v2.ModelClaimsAreNotTakenOnTrust.test_every_overclaim_is_rejected_and_named) ... ok
+test_kept_rows_are_clean_and_downgraded (tests.test_semantic_needs_v2.ModelClaimsAreNotTakenOnTrust.test_kept_rows_are_clean_and_downgraded) ... ok
+test_metrics_are_computed_by_code_not_by_the_reader (tests.test_semantic_needs_v2.ModelClaimsAreNotTakenOnTrust.test_metrics_are_computed_by_code_not_by_the_reader) ... ok
+test_shared_bridge_still_consumes_the_records (tests.test_semantic_needs_v2.ModelClaimsAreNotTakenOnTrust.test_shared_bridge_still_consumes_the_records) ... ok
+test_all_five_fields_present_and_classes_legal (tests.test_semantic_needs_v2.RuleReaderFillsEveryField.test_all_five_fields_present_and_classes_legal) ... ok
+test_goal_quotes_are_verbatim (tests.test_semantic_needs_v2.RuleReaderFillsEveryField.test_goal_quotes_are_verbatim) ... ok
+test_rule_recovers_the_named_course_and_the_openness_clause (tests.test_semantic_needs_v2.RuleReaderFillsEveryField.test_rule_recovers_the_named_course_and_the_openness_clause) ... ok
+test_reference_arm_is_labelled_and_not_deployable (tests.test_semantic_needs_v2.TruthArmStaysMarked.test_reference_arm_is_labelled_and_not_deployable) ... ok
+test_row_level_explicit_class_is_structurally_unreachable (tests.test_semantic_needs_v2.TruthArmStaysMarked.test_row_level_explicit_class_is_structurally_unreachable) ... ok
+2026-10-18 01:44:37.496 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 01:44:37.497 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 01:44:37.497 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+test_default_selection_is_the_offline_rule_arm (tests.test_app_need_v2_tab.V2NeedTabInApp.test_default_selection_is_the_offline_rule_arm) ... ok
+test_expander_declares_that_it_does_not_re_solve (tests.test_app_need_v2_tab.V2NeedTabInApp.test_expander_declares_that_it_does_not_re_solve) ... ok
+test_llm_arm_warns_about_shared_quota_and_is_never_clicked_here (tests.test_app_need_v2_tab.V2NeedTabInApp.test_llm_arm_warns_about_shared_quota_and_is_never_clicked_here) ... ok
+test_llm_guard_is_armed_on_the_module_the_app_calls (tests.test_app_need_v2_tab.V2NeedTabInApp.test_llm_guard_is_armed_on_the_module_the_app_calls) ... ok
+test_rule_arm_yields_a_v2_shaped_model_without_calling_the_llm (tests.test_app_need_v2_tab.V2NeedTabInApp.test_rule_arm_yields_a_v2_shaped_model_without_calling_the_llm) ... ok
+test_solver_guard_bites_through_the_app_import_path (tests.test_app_need_v2_tab.V2NeedTabInApp.test_solver_guard_bites_through_the_app_import_path) ... 2026-10-18 01:44:38.621 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 01:44:38.626 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 01:44:38.627 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 01:44:39.002 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 136, in exec_func_with_error_handling
+    result = func()
+             ^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 924, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/app.py", line 253, in <module>
+    sem_preset, sem_diag = solve_assignment(world, sem_visible)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/tests/test_app_need_v2_tab.py", line 78, in _raise
+    raise AssertionError(f"{name} 被调用：本文件承诺不进求解器、不发 API 请求")
+AssertionError: planner_core.solve_assignment 被调用：本文件承诺不进求解器、不发 API 请求
+ok
+test_truth_arm_has_no_natural_language_goals_by_contract (tests.test_app_need_v2_tab.V2NeedTabInApp.test_truth_arm_has_no_natural_language_goals_by_contract) ... ok
+test_verdict_is_either_shown_or_declared_missing_never_blurred (tests.test_app_need_v2_tab.V2NeedTabInApp.test_verdict_is_either_shown_or_declared_missing_never_blurred) ... ok
+
+----------------------------------------------------------------------
+Ran 44 tests in 2.448s
+
+OK

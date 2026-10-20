@@ -1,0 +1,231 @@
+--progress is a global compose flag, better use `docker compose --progress xx build ...
+ Image ai-course-planner:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 949B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 3.39kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.13kB done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#5 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.0s done
+#5 DONE 0.0s
+
+#6 [2/8] WORKDIR /app
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 48.77kB done
+#7 DONE 0.0s
+
+#8 [3/8] COPY requirements.txt /app/requirements.txt
+#8 DONE 0.1s
+
+#9 [4/8] RUN pip install  --no-cache-dir -r /app/requirements.txt  && python -c "import ortools, streamlit, pandas, requests, dotenv; print('deps-ok')"
+#9 1.513 Collecting altair==6.3.0 (from -r /app/requirements.txt (line 3))
+#9 2.188   Downloading altair-6.3.0-py3-none-any.whl.metadata (11 kB)
+#9 2.441 Collecting ortools==9.15.6755 (from -r /app/requirements.txt (line 4))
+#9 2.622   Downloading ortools-9.15.6755-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+#9 2.959 Collecting pandas==3.0.6 (from -r /app/requirements.txt (line 5))
+#9 3.138   Downloading pandas-3.0.6-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+#9 3.550 Collecting python-dotenv==1.2.4 (from -r /app/requirements.txt (line 6))
+#9 3.728   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#9 3.941 Collecting requests==2.34.2 (from -r /app/requirements.txt (line 7))
+#9 4.118   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#9 4.336 Collecting streamlit==1.66.0 (from -r /app/requirements.txt (line 8))
+#9 4.513   Downloading streamlit-1.66.0-py3-none-any.whl.metadata (10 kB)
+#9 4.703 Collecting jinja2 (from altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 4.883   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#9 5.071 Collecting jsonschema>=3.0 (from altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 5.248   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#9 5.459 Collecting narwhals>=2.4.0 (from altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 5.634   Downloading narwhals-2.27.1-py3-none-any.whl.metadata (15 kB)
+#9 5.829 Collecting packaging (from altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 6.009   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#9 6.190 Collecting typing-extensions>=4.12.0 (from altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 6.367   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#9 6.547 Collecting absl-py>=2.0.0 (from ortools==9.15.6755->-r /app/requirements.txt (line 4))
+#9 6.723   Downloading absl_py-2.5.1-py3-none-any.whl.metadata (3.3 kB)
+#9 7.093 Collecting numpy>=2.0.2 (from ortools==9.15.6755->-r /app/requirements.txt (line 4))
+#9 7.270   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#9 7.584 Collecting protobuf<6.34,>=6.33.1 (from ortools==9.15.6755->-r /app/requirements.txt (line 4))
+#9 7.762   Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+#9 7.940 Collecting immutabledict>=3.0.0 (from ortools==9.15.6755->-r /app/requirements.txt (line 4))
+#9 8.115   Downloading immutabledict-4.3.1-py3-none-any.whl.metadata (3.5 kB)
+#9 8.298 Collecting python-dateutil>=2.8.2 (from pandas==3.0.6->-r /app/requirements.txt (line 5))
+#9 8.474   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#9 8.769 Collecting charset_normalizer<4,>=2 (from requests==2.34.2->-r /app/requirements.txt (line 7))
+#9 8.945   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+#9 9.164 Collecting idna<4,>=2.5 (from requests==2.34.2->-r /app/requirements.txt (line 7))
+#9 9.344   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#9 9.536 Collecting urllib3<3,>=1.26 (from requests==2.34.2->-r /app/requirements.txt (line 7))
+#9 9.758   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#9 9.940 Collecting certifi>=2023.5.7 (from requests==2.34.2->-r /app/requirements.txt (line 7))
+#9 10.12   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+#9 10.30 Collecting click<9,>=7.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 10.48   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#9 10.85 Collecting pillow<13,>=9.2.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 11.03   Downloading pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#9 11.22 Collecting pydeck<1,>=0.8.0b4 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 11.39   Downloading pydeck-0.9.3-py2.py3-none-any.whl.metadata (4.2 kB)
+#9 11.65 Collecting pyarrow!=25.0.0,<27,>=10.0.1 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 11.83   Downloading pyarrow-26.0.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+#9 12.03 Collecting starlette<2,>=0.46.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 12.21   Downloading starlette-1.8.0-py3-none-any.whl.metadata (6.6 kB)
+#9 12.41 Collecting uvicorn<1,>=0.30.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 12.58   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#9 12.77 Collecting anyio<5,>=4.0.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 12.94   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#9 13.13 Collecting python-multipart<1,>=0.0.10 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 13.30   Downloading python_multipart-0.0.32-py3-none-any.whl.metadata (2.1 kB)
+#9 13.58 Collecting websockets<18,>=12.0.0 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 13.76   Downloading websockets-17.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+#9 13.94 Collecting itsdangerous<3,>=2.1.2 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 14.11   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#9 14.32 Collecting watchdog<7,>=2.1.5 (from streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 14.50   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+#9 14.73 Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 14.90   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#9 15.09 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 15.26   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#9 15.45 Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 15.62   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#9 16.07 Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 16.25   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+#9 16.49 Collecting MarkupSafe>=2.0 (from jinja2->altair==6.3.0->-r /app/requirements.txt (line 3))
+#9 16.67   Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#9 16.85 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas==3.0.6->-r /app/requirements.txt (line 5))
+#9 17.03   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#9 17.21 Collecting h11>=0.8 (from uvicorn<1,>=0.30.0->streamlit==1.66.0->-r /app/requirements.txt (line 8))
+#9 17.38   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#9 17.58 Downloading altair-6.3.0-py3-none-any.whl (797 kB)
+#9 20.94    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.2/797.2 kB 3.5 MB/s eta 0:00:00
+#9 21.12 Downloading ortools-9.15.6755-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (29.8 MB)
+#9 29.70    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 29.8/29.8 MB 3.5 MB/s eta 0:00:00
+#9 29.88 Downloading pandas-3.0.6-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (10.8 MB)
+#9 32.98    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.8/10.8 MB 3.4 MB/s eta 0:00:00
+#9 33.16 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#9 33.34 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+#9 33.54 Downloading streamlit-1.66.0-py3-none-any.whl (10.4 MB)
+#9 37.04    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.4/10.4 MB 3.0 MB/s eta 0:00:00
+#9 37.22 Downloading absl_py-2.5.1-py3-none-any.whl (137 kB)
+#9 37.44 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#9 37.65 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+#9 37.87 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+#9 38.12 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#9 38.34 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#9 38.53 Downloading immutabledict-4.3.1-py3-none-any.whl (5.0 kB)
+#9 38.72 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#9 38.89 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#9 39.10 Downloading narwhals-2.27.1-py3-none-any.whl (483 kB)
+#9 39.43 Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+#9 43.63    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 4.0 MB/s eta 0:00:00
+#9 43.82 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#9 44.03 Downloading pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+#9 46.40    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 2.9 MB/s eta 0:00:00
+#9 46.58 Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl (323 kB)
+#9 46.85 Downloading pyarrow-26.0.0-cp312-cp312-manylinux_2_28_x86_64.whl (53.9 MB)
+#9 65.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 53.9/53.9 MB 3.5 MB/s eta 0:00:00
+#9 65.34 Downloading pydeck-0.9.3-py2.py3-none-any.whl (11.4 MB)
+#9 68.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.4/11.4 MB 3.4 MB/s eta 0:00:00
+#9 68.90 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#9 69.12 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#9 69.36 Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
+#9 69.54 Downloading starlette-1.8.0-py3-none-any.whl (79 kB)
+#9 69.73 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#9 69.93 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#9 70.14 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#9 70.34 Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+#9 70.54 Downloading websockets-17.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (225 kB)
+#9 70.78 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#9 70.99 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#9 71.17 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#9 71.34 Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+#9 71.52 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#9 71.70 Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+#9 71.97 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#9 72.09 Installing collected packages: websockets, watchdog, urllib3, typing-extensions, six, rpds-py, python-multipart, python-dotenv, pyarrow, protobuf, pillow, packaging, numpy, narwhals, MarkupSafe, itsdangerous, immutabledict, idna, h11, click, charset_normalizer, certifi, attrs, absl-py, uvicorn, requests, referencing, python-dateutil, jinja2, anyio, starlette, pydeck, pandas, jsonschema-specifications, ortools, jsonschema, altair, streamlit
+#9 80.96 Successfully installed MarkupSafe-3.0.4 absl-py-2.5.1 altair-6.3.0 anyio-4.15.1 attrs-26.1.0 certifi-2026.7.22 charset_normalizer-3.5.2 click-8.5.0 h11-0.16.0 idna-3.20 immutabledict-4.3.1 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 narwhals-2.27.1 numpy-2.5.4 ortools-9.15.6755 packaging-26.3 pandas-3.0.6 pillow-12.3.0 protobuf-6.33.6 pyarrow-26.0.0 pydeck-0.9.3 python-dateutil-2.9.0.post0 python-dotenv-1.2.4 python-multipart-0.0.32 referencing-0.37.0 requests-2.34.2 rpds-py-2026.9.1 six-1.17.0 starlette-1.8.0 streamlit-1.66.0 typing-extensions-4.16.0 urllib3-2.8.0 uvicorn-0.54.0 watchdog-6.0.0 websockets-17.2
+#9 80.96 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#9 81.62 
+#9 81.62 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#9 81.62 [notice] To update, run: pip install --upgrade pip
+#9 82.51 deps-ok
+#9 DONE 82.8s
+
+#10 [5/8] RUN set -eux;     if [ -n "libgomp1 tzdata ca-certificates" ]; then       if [ -n "" ]; then         sed -i "s|http://deb.debian.org/debian-security|/debian-security|g;                 s|http://deb.debian.org/debian|/debian|g" /etc/apt/sources.list.d/debian.sources;       fi;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 update;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 install -y --no-install-recommends libgomp1 tzdata ca-certificates;       rm -rf /var/lib/apt/lists/*;     fi
+#10 0.144 + [ -n libgomp1 tzdata ca-certificates ]
+#10 0.144 + [ -n  ]
+#10 0.144 + apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 update
+#10 0.666 Hit:1 http://deb.debian.org/debian trixie InRelease
+#10 0.993 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#10 1.676 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#10 2.118 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+#10 5.106 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+#10 8.360 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [269 kB]
+#10 8.658 Fetched 10.0 MB in 6s (1800 kB/s)
+#10 8.658 Reading package lists...
+#10 9.089 + apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 install -y --no-install-recommends libgomp1 tzdata ca-certificates
+#10 9.094 Reading package lists...
+#10 9.538 Building dependency tree...
+#10 9.654 Reading state information...
+#10 9.800 tzdata is already the newest version (2026c-0+deb13u1).
+#10 9.800 ca-certificates is already the newest version (20250419).
+#10 9.800 The following NEW packages will be installed:
+#10 9.801   libgomp1
+#10 10.21 0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+#10 10.21 Need to get 137 kB of archives.
+#10 10.21 After this operation, 377 kB of additional disk space will be used.
+#10 10.21 Get:1 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19 [137 kB]
+#10 10.63 debconf: unable to initialize frontend: Dialog
+#10 10.63 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#10 10.63 debconf: falling back to frontend: Readline
+#10 10.63 debconf: unable to initialize frontend: Readline
+#10 10.63 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 1.)
+#10 10.63 debconf: falling back to frontend: Teletype
+#10 10.63 debconf: unable to initialize frontend: Teletype
+#10 10.63 debconf: (This frontend requires a controlling tty.)
+#10 10.63 debconf: falling back to frontend: Noninteractive
+#10 11.08 Fetched 137 kB in 1s (193 kB/s)
+#10 11.12 Selecting previously unselected package libgomp1:amd64.
+#10 11.12 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5660 files and directories currently installed.)
+#10 11.13 Preparing to unpack .../libgomp1_14.2.0-19_amd64.deb ...
+#10 11.15 Unpacking libgomp1:amd64 (14.2.0-19) ...
+#10 11.21 Setting up libgomp1:amd64 (14.2.0-19) ...
+#10 11.23 Processing triggers for libc-bin (2.41-12+deb13u4) ...
+#10 11.30 + rm -rf /var/lib/apt/lists/auxfiles /var/lib/apt/lists/deb.debian.org_debian-security_dists_trixie-security_InRelease /var/lib/apt/lists/deb.debian.org_debian-security_dists_trixie-security_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/deb.debian.org_debian_dists_trixie-updates_InRelease /var/lib/apt/lists/deb.debian.org_debian_dists_trixie-updates_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/deb.debian.org_debian_dists_trixie_InRelease /var/lib/apt/lists/deb.debian.org_debian_dists_trixie_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/lock /var/lib/apt/lists/partial
+#10 DONE 11.3s
+
+#11 [6/8] COPY . .
+#11 DONE 0.1s
+
+#12 [7/8] COPY data/ /app/data_ship/
+#12 DONE 0.1s
+
+#13 [8/8] RUN useradd --create-home --uid 1000 --shell /bin/bash planner  && mkdir -p /app/data /app/semantic_cache /app/logs /app/outputs  && cp -rn /app/data_ship/. /app/data/  && chmod +x /app/docker-entrypoint.sh  && find /app -name __pycache__ -type d -prune -exec rm -rf {} +  && chown -R planner:planner /app
+#13 DONE 1.5s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 11.9s done
+#14 exporting manifest sha256:1939d07b99b40be24294c6b6b3e5bb32afbfae700be5d849a47345bec6c7afaf 0.0s done
+#14 exporting config sha256:497dd39426262a260e11955da8ece25e648aefc8df8e7577ce51c2ce7427d5ec 0.0s done
+#14 exporting attestation manifest sha256:b3cc18c8cb759efeab3d10e2946182b086c72dcae50891306402b49b59c6a11f 0.1s done
+#14 exporting manifest list sha256:c7757b710fa48de371c47526ac1f08af247ad7a29f330d3327209d4ab0bf7f68
+#14 exporting manifest list sha256:c7757b710fa48de371c47526ac1f08af247ad7a29f330d3327209d4ab0bf7f68 0.0s done
+#14 naming to docker.io/library/ai-course-planner:local 0.0s done
+#14 unpacking to docker.io/library/ai-course-planner:local
+#14 unpacking to docker.io/library/ai-course-planner:local 2.5s done
+#14 DONE 14.6s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image ai-course-planner:local Built 

@@ -1,0 +1,57 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.27kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 867B done
+#3 DONE 0.1s
+
+#4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#4 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.0s done
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 4.11MB 0.0s done
+#5 DONE 0.2s
+
+#6 [6/8] COPY . .
+#6 CACHED
+
+#7 [2/8] WORKDIR /app
+#7 CACHED
+
+#8 [3/8] RUN apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [4/8] COPY requirements.txt /app/requirements.txt
+#9 CACHED
+
+#10 [5/8] RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r /app/requirements.txt  && python -c "import ortools, streamlit, pandas, requests, dotenv; print('deps-ok')"
+#10 CACHED
+
+#11 [7/8] COPY data/ /app/data_ship/
+#11 ERROR: failed to calculate checksum of ref 6vo2ansee1j9d0coj0rpdq0kv::fhquoy3i7n8vpixq4lkj9v4iv: "/data": not found
+
+#4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#4 CANCELED
+------
+ > [7/8] COPY data/ /app/data_ship/:
+------
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - CopyIgnoredFile: Attempting to Copy file "data" that is excluded by .dockerignore (line 36)
+Dockerfile:36
+--------------------
+  34 |     # .dockerignore 已经把 .venv、实验数据分块、日志、.env 排除在外；这里进来的是代码 + 两份冻结判定 + 预注册文档。
+  35 |     COPY . .
+  36 | >>> COPY data/ /app/data_ship/
+  37 |     
+  38 |     RUN useradd --create-home --uid 1000 --shell /bin/bash planner \
+--------------------
+ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref 6vo2ansee1j9d0coj0rpdq0kv::fhquoy3i7n8vpixq4lkj9v4iv: "/data": not found

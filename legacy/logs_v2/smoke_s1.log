@@ -1,0 +1,6 @@
+[seed 1] I2_规则完整需求模型=13461.0  J2_AI完整需求模型=None  K2_真实需求标签参照=13610.67
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/smoke_s1/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/smoke_s1/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/smoke_s1/PERFORMANCE_REPORT_V2.md
+smoke rc=0

@@ -1,0 +1,6 @@
+[seed 43] A_现行机制基线=12884.67  B0_一次性优化无交互=13051.67  B_规则式集体规划=12849.0  G_等预算随机询问=12849.0  H_获取信息不改预置=13051.67  D_完整信息参照=13134.33  E_LLM协调提案=None  F_规则协调提案=13227.67  C_AI集体规划=None
+
+原始结果：.tmp_determinism_check/seed_43/raw_rows.csv
+汇总指标：.tmp_determinism_check/seed_43/summary.json
+性能报告：.tmp_determinism_check/seed_43/PERFORMANCE_REPORT.md
+注意：2 行未运行或被剔除，报告中已单独说明，未计入均值。

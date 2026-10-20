@@ -1,0 +1,30 @@
+# 构建上下文里不该进镜像的东西：虚拟环境、运行时状态、缓存、日志、密钥。
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.git/
+.env
+.streamlit/secrets.toml
+*Zone.Identifier
+
+# 运行时状态在容器里由卷提供；data/ 反过来要进镜像——它是这份交付的应用自带的示例数据集，
+# 容器起来就能跑通端到端。卷挂载在 /app/data 之上，入口脚本用不覆盖已有文件的方式播种，
+# 所以部署方放进卷里的真实表格永远优先于镜像里的那一份。
+semantic_cache/
+logs/
+outputs/
+*.log
+.tmp_pptx/
+.tmp_need_smoke/
+
+# 历史归档不参与交付（README 里的结论不依赖它们）。
+archive_30seeds/
+archive_rejected_action_space/
+archive_single_round_baseline/
+
+# 实验记录、判定原文、预注册文档、核对过程日志与全部核对脚本都随镜像交付（合计约 1.5 MB），
+# 这样评审能在容器里直接复跑 results_need_v2/_run_delivery_guards.sh 那条交付链。
+# 只排除各批次目录里的缓存与字节码。
+results/**/__pycache__/

@@ -1,0 +1,10 @@
+2026-10-18 10:31:30.762 Uvicorn server started on 0.0.0.0:8501
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+  Network URL: http://10.196.234.7:8501
+  External URL: http://18.140.113.215:8501
+
+  Detected WSL. Using poll-based file watching for better compatibility. To force watchdog, set server.fileWatcherType = "watchdog".
+  Stopping...

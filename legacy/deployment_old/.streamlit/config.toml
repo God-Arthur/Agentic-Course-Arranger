@@ -1,0 +1,8 @@
+[browser]
+# 关掉匿名使用统计上报，研究原型不应把运行信息发给第三方。
+gatherUsageStats = false
+
+[server]
+port = 8501
+# 这里刻意不设 server.address：本机运行时只监听 127.0.0.1。
+# 容器里由 docker-entrypoint.sh 传 --server.address=0.0.0.0（可再用 PLANNER_BIND_ADDRESS 收回内网网卡）。

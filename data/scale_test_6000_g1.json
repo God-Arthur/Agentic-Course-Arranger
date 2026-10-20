@@ -1,0 +1,118 @@
+{
+ "students": 6000,
+ "preset_s": 1.08,
+ "rounds_s": 0.5,
+ "total_s": 1.59,
+ "courses_per_student": 10.11,
+ "students_missing_required": 3164,
+ "students_missing_required_pct": 52.7,
+ "by_category": {
+  "专业基础课": {
+   "required_seats": 3013,
+   "shortfall_seats": 74,
+   "students_hit": 48,
+   "shortfall_pct": 2.5,
+   "supply_seats": 18748,
+   "seats_left": 14967,
+   "full_sections": 16,
+   "sections": 245
+  },
+  "专业课": {
+   "required_seats": 4413,
+   "shortfall_seats": 0,
+   "students_hit": 0,
+   "shortfall_pct": 0.0,
+   "supply_seats": 105564,
+   "seats_left": 100299,
+   "full_sections": 6,
+   "sections": 2122
+  },
+  "外语类": {
+   "required_seats": 10833,
+   "shortfall_seats": 3329,
+   "students_hit": 2613,
+   "shortfall_pct": 30.7,
+   "supply_seats": 8406,
+   "seats_left": 600,
+   "full_sections": 165,
+   "sections": 191
+  },
+  "思政类": {
+   "required_seats": 19693,
+   "shortfall_seats": 15,
+   "students_hit": 12,
+   "shortfall_pct": 0.1,
+   "supply_seats": 27712,
+   "seats_left": 7120,
+   "full_sections": 127,
+   "sections": 231
+  },
+  "自然科学通识类": {
+   "required_seats": 11249,
+   "shortfall_seats": 453,
+   "students_hit": 370,
+   "shortfall_pct": 4.0,
+   "supply_seats": 24512,
+   "seats_left": 12908,
+   "full_sections": 122,
+   "sections": 287
+  },
+  "计算机通识类": {
+   "required_seats": 6978,
+   "shortfall_seats": 1756,
+   "students_hit": 1490,
+   "shortfall_pct": 25.2,
+   "supply_seats": 6669,
+   "seats_left": 926,
+   "full_sections": 53,
+   "sections": 73
+  },
+  "通识与体育类": {
+   "required_seats": 5047,
+   "shortfall_seats": 0,
+   "students_hit": 0,
+   "shortfall_pct": 0.0,
+   "supply_seats": 51927,
+   "seats_left": 46044,
+   "full_sections": 3,
+   "sections": 1142
+  }
+ },
+ "total_required_seats": 61226,
+ "total_shortfall_seats": 5627,
+ "total_supply_seats": 243538,
+ "_meta": {
+  "sizes_source": "2026 年浙江「专业级招生计划」直接命中 + 大类计划按未命中专业等分补齐，再整体放大到全国年级规模",
+  "sizes_meta": {
+   "synthetic": false,
+   "method": "2026 年浙江「专业级招生计划」直接命中 + 大类计划按未命中专业等分补齐，再整体放大到全国年级规模",
+   "generated_from": [
+    "/home/redaunt/ai_course_planner_mvp/zju_catalog/enroll_2026/zhejiang_yiduan_2026.csv",
+    "/home/redaunt/ai_course_planner_mvp/zju_catalog/enroll_2026/zhejiang_sanyi_tixi_2026.csv",
+    "data/courses.json plan.majors"
+   ],
+   "grade_year": 2026,
+   "per_grade_total": 6000,
+   "all_grades_total": 24000,
+   "zhejiang_plan_total": 3092,
+   "national_scale_factor": 1.94,
+   "assumptions": [
+    "招生计划数≠实际录取人数；分省分专业只有浙江，放大到全国假设专业结构与浙江一致",
+    "两张表口径不同（一段/三位一体），此处按发起人要求合并作为一个相对规模信号",
+    "专业名精确命中优先；去括号后唯一命中才算数，撞车（如 自动化 对应多个方案专业）不猜",
+    "大类行（工科/理科/人文/社会科学试验班等）没有官方分流构成，其计划数在未直接命中的专业之间等分",
+    "四个年级假设同构（只爬到了 2026 级方案与 2026 招生计划）"
+   ],
+   "direct_majors": 64,
+   "direct_plan": 1178,
+   "group_rows": 51,
+   "group_plan": 1914,
+   "undecided_majors": 96,
+   "pool_share_per_major": 19.94
+  },
+  "grades": 1,
+  "courses_file": "/home/redaunt/redo/data/courses.json",
+  "plans_file": "/home/redaunt/ai_course_planner_mvp/zju_catalog/pyfa_2026/plan_courses.csv",
+  "behavior": "规则回退路径（_static_round），未调用 LLM，零 API 配额"
+ }
+}

@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.streamlit/secrets.toml
+*:Zone.Identifier
+*.log
+!results/headless_apptest_smoke.log
+!results_confirmatory_41_80/*.log
+!results_batches/*.log
+!results_batches/determinism_rerun/*.log
+!results_confirmatory_41_80/*.log
+!results_batches/*.log
+.tmp_pptx/
+results_smoke/
+results_v2/

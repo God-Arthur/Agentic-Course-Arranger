@@ -1,0 +1,31 @@
+test_every_rule_declares_its_provenance (tests.test_selection_sim.SelectionPolicyTests.test_every_rule_declares_its_provenance) ... ok
+test_final_timetable_conflict_cannot_be_switched_off (tests.test_selection_sim.SelectionPolicyTests.test_final_timetable_conflict_cannot_be_switched_off) ... ok
+test_unknown_rule_key_is_rejected_instead_of_silently_ignored (tests.test_selection_sim.SelectionPolicyTests.test_unknown_rule_key_is_rejected_instead_of_silently_ignored) ... ok
+test_proposal_bonus_never_relaxes_a_hard_constraint (tests.test_selection_sim.SolverDiagnosticsTests.test_proposal_bonus_never_relaxes_a_hard_constraint) ... ok
+test_single_worker_solver_is_reproducible (tests.test_selection_sim.SolverDiagnosticsTests.test_single_worker_solver_is_reproducible) ... ok
+test_solver_reports_status_objective_and_bound (tests.test_selection_sim.SolverDiagnosticsTests.test_solver_reports_status_objective_and_bound) ... ok
+test_check_final_constraints_detects_a_broken_timetable (tests.test_selection_sim.TwoRoundSimulationTests.test_check_final_constraints_detects_a_broken_timetable)
+The checker must actually fail a bad timetable: the old assertion sum==sum was always true. ... ok
+test_final_timetable_respects_every_hard_constraint (tests.test_selection_sim.TwoRoundSimulationTests.test_final_timetable_respects_every_hard_constraint) ... ok
+test_preset_occupying_seats_reserves_the_recommended_course (tests.test_selection_sim.TwoRoundSimulationTests.test_preset_occupying_seats_reserves_the_recommended_course) ... ok
+test_preset_that_does_not_occupy_seats_still_competes_for_capacity (tests.test_selection_sim.TwoRoundSimulationTests.test_preset_that_does_not_occupy_seats_still_competes_for_capacity) ... ok
+test_required_course_is_listed_before_conflicting_elective (tests.test_selection_sim.TwoRoundSimulationTests.test_required_course_is_listed_before_conflicting_elective) ... ok
+test_round_two_can_only_improve_the_final_outcome (tests.test_selection_sim.TwoRoundSimulationTests.test_round_two_can_only_improve_the_final_outcome) ... ok
+test_same_seed_reproduces_the_same_final_timetable (tests.test_selection_sim.TwoRoundSimulationTests.test_same_seed_reproduces_the_same_final_timetable) ... ok
+test_students_may_drop_a_preset_course_they_do_not_value (tests.test_selection_sim.TwoRoundSimulationTests.test_students_may_drop_a_preset_course_they_do_not_value) ... ok
+2026-10-18 17:41:06.397 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+test_1_semantic_tab_exists (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_1_semantic_tab_exists) ... ok
+test_1b_exports_are_reachable_without_running_mechanisms (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_1b_exports_are_reachable_without_running_mechanisms) ... ok
+test_2_rule_arm_reaches_preset_and_two_rounds (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_2_rule_arm_reaches_preset_and_two_rounds) ... ok
+test_3_truth_arm_is_flagged_and_makes_no_calls (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_3_truth_arm_is_flagged_and_makes_no_calls) ... ok
+test_4_llm_arms_stay_off_by_default (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_4_llm_arms_stay_off_by_default) ... ok
+test_5_mechanism_tab_runs_need_arms_without_llm (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_5_mechanism_tab_runs_need_arms_without_llm) ... ok
+test_6_every_download_button_carries_the_data_it_computed (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_6_every_download_button_carries_the_data_it_computed)
+A button existing is not a file: check the bytes the page hands to Streamlit. ... ok
+test_7_verdict_status_matches_what_is_on_disk (tests.test_app_semantic_tab.SemanticNeedTabInApp.test_7_verdict_status_matches_what_is_on_disk)
+The tab must state the pre-registration status the way the filesystem actually is. ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 25.736s
+
+OK

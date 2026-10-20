@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 预置课表规划系统 · 演示</title>
+<style>
+  :root { --line:#ddd; --bg:#f7f7f9; --muted:#666; }
+  * { box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", system-ui, sans-serif; margin: 0; background: var(--bg); color: #222; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin-bottom: 20px; }
+  section.card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-bottom:16px; }
+  .flow { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .flow span { background:#eef2ff; border:1px solid #dbe1ff; border-radius:6px; padding:4px 10px; font-size:13px; }
+  fieldset { border:1px solid var(--line); border-radius:8px; margin:12px 0 0; padding:10px 14px; }
+  label { display:block; font-size:14px; margin:8px 0 2px; }
+  input[type=text], input[type=password], input[type=number] { width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; font-size:14px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+  button#run { background:#2b5cff; color:#fff; border:0; border-radius:8px; padding:10px 28px; font-size:16px; cursor:pointer; }
+  button#run:disabled { background:#9db1e8; cursor:not-allowed; }
+  .note { color:var(--muted); font-size:13px; }
+  .banner { background:#fff3f3; border:1px solid #f3c1c1; color:#a33; border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:14px; }
+  #status { margin-top:10px; font-size:14px; }
+  .cards { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0; }
+  .stat { background:#f2f6ff; border:1px solid #d9e2ff; border-radius:8px; padding:10px 16px; min-width:130px; }
+  .stat b { display:block; font-size:22px; }
+  details.stu { border:1px solid var(--line); border-radius:8px; margin-bottom:10px; background:#fff; }
+  details.stu summary { cursor:pointer; padding:10px 14px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .bar { height:10px; background:#e8e8ee; border-radius:5px; width:160px; overflow:hidden; }
+  .bar i { display:block; height:100%; background:#2b8a3e; }
+  table.tt { border-collapse:collapse; font-size:11px; width:100%; table-layout:fixed; }
+  table.tt th, table.tt td { border:1px solid var(--line); padding:2px 3px; text-align:center;
+                             vertical-align:top; overflow-wrap:anywhere; }
+  table.tt th:first-child { width:38px; }
+  table.tt th { background:#f0f0f4; }
+  td.filled { color:#fff; line-height:1.3; }
+  td.filled small { display:block; opacity:.75; font-size:10px; }
+  .tt-wrap { display:grid; gap:14px; padding:6px 14px 14px;
+             grid-template-columns:repeat(auto-fit, minmax(min(100%,440px), 1fr)); }
+  .tt-box { min-width:0; }
+  .tt-box h4 { margin:6px 0; font-size:14px; }
+  .legend { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .legend span { font-size:12px; padding:2px 8px; border-radius:4px; color:#fff; }
+  .hist { font-size:13px; color:var(--muted); }
+  .skill { font-size:12px; color:var(--muted); white-space:pre-wrap; overflow-wrap:anywhere;
+           background:var(--bg); padding:8px; border-radius:6px; margin:8px 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AI 预置课表规划系统</h1>
+  <div class="sub">教务预置 → 两轮选课模拟（LLM 填志愿 + LLM 筛中签）→ 满意度复盘改写，为每名学生生成整学期的预置课表</div>
+
+  <section class="card">
+    <b>项目介绍</b>
+    <p style="margin:8px 0 0; font-size:14px; line-height:1.8;">
+      真实选课流程是：教务系统先给每名学生生成一份<b>预置课表</b>，然后学生进入<b>两轮选课</b>（每轮可退课、可选课，
+      每轮结束后按「毕业年级 &gt; 转专业 &gt; 即将换校区 &gt; 本专业学生选专业课 &gt; 其他」的优先级分组与志愿序号筛选，
+      <b>同组内名额不足时给谁由模型判断</b>）。
+      本项目研究的正是<b>这份预置怎么生成</b>：把学生提交的 .skill 记录解析成结构化需求模型，为每名学生生成覆盖全部课程类别的预置课表；
+      再用<b>两轮选课模拟</b>评估它——每轮先由 LLM 逐生填报志愿，再由 LLM 扮演教务筛选器决定本轮中签名单，最后由 LLM 打分；
+      根据满意度<b>复盘改写预置</b>（把最差一批学生的预置连同上一轮结果交回模型重新生成），保留历史最好的一轮、重复若干次，
+      最终输出每名学生的完整预置课表。
+      <b>整条链路只有一个通路，没有规则兜底</b>：任何一次 LLM 调用失败或输出不合规都会直接终止本次演示并如实报错。
+      代码只做<b>事实校验</b>——教学班是否存在、还有没有空位、是否重复持有同一门课、时间是否冲突、志愿是否超份数上限，
+      被拒的授予计入 sanitized 并原样出现在事件流里；容量、时段、志愿上限这些制度约束模型无权改。
+      <b>谁中签由模型决定，所以同一份输入两次跑出的名单可能不同，结果不可复现。</b>
+      真实开课目录有 4000 多个教学班，无法整表送进模型：学生志愿那一步每轮只把<b>该生尚未满足类别</b>的候选教学班交给 LLM
+      （上限 80 行、满员班不列、配额在各待满足类别间轮流分配，某类被省略多少会在清单里如实标注）；
+      筛选器那一步只把<b>有学生填报的教学班及其志愿名单</b>交给模型（上限 300 行，未列出的部分同样如实标注）。
+    </p>
+    <div class="flow">
+      <span>LLM 读取 .skill → 需求模型</span><span>LLM 生成预置（全类别）</span><span>LLM 填志愿 + LLM 筛中签（两轮）</span><span>LLM 满意度</span><span>LLM 复盘改写预置</span><span>输出每生预置课表</span>
+    </div>
+  </section>
+
+  <div id="banner"></div>
+
+  <section class="card">
+    <b>演示设置</b>
+    <p class="note" style="margin:8px 0 0;">接入 AI 演示：LLM 模拟两轮选课行为并评分，耗时取决于端点速度（默认限流 20 次/分钟）。</p>
+    <fieldset>
+      <legend>LLM API 配置</legend>
+      <label>API Base URL</label>
+      <input type="text" id="base_url" placeholder="https://api.openai.com/v1">
+      <label>模型名称</label>
+      <input type="text" id="model" placeholder="gpt-4.1-mini">
+      <label>API Key</label>
+      <input type="password" id="api_key" placeholder="只在本次运行内存中使用，不写入任何文件">
+      <p class="note" id="envnote" style="margin:8px 0 0;"></p>
+      <p class="note" style="margin:8px 0 0;">密钥仅通过本次请求传给本地演示服务器，不落盘、不打印。</p>
+    </fieldset>
+    <div class="row">
+      <label style="margin:0;">学生数量：<input type="number" id="n" value="8" min="2" max="60" style="width:90px;"></label>
+      <span class="note">（学生 .skill 仍为本项目合成数据——教务不提供学生偏好；课程、教学班、上课时间与班级容量来自教务系统抓取的真实数据，见上方来源与容量口径说明）</span>
+    </div>
+    <div class="row">
+      <button id="run">生成预置课表</button>
+      <span id="status" class="note"></span>
+    </div>
+  </section>
+
+  <section class="card" id="result" style="display:none;">
+    <b>结果</b>
+    <div class="cards" id="stats"></div>
+    <div class="hist" id="hist"></div>
+    <div id="students"></div>
+  </section>
+</div>
+
+<script>
+const KEY_COLORS = {
+  "思政类":"#d9534f", "外语类":"#428bca", "计算机通识类":"#5bc0de",
+  "自然科学通识类":"#8a6d3b", "专业课":"#2b8a3e", "专业基础课":"#7b5ea7",
+  "通识与体育类":"#c77f2e"
+};
+const PERIODS = [...Array(13)].map((_, i) => i + 1);
+const DAYS = ["Mon","Tue","Wed","Thu","Fri"];
+const DAY_CN = {Mon:"周一",Tue:"周二",Wed:"周三",Thu:"周四",Fri:"周五"};
+function pLabel(p){ if(p<=5) return "上午"+p; if(p<=10) return "下午"+(p-5); return "晚上"+(p-10); }
+
+let timer = null;
+
+async function loadState(){
+  const s = await (await fetch('/api/state')).json();
+  const banner = document.getElementById('banner');
+  if (!s.course_data_loaded){
+    banner.innerHTML = '<div class="banner">'+ (s.error||'缺少课程数据') +'</div>';
+    document.getElementById('run').disabled = true;
+  } else {
+    banner.innerHTML = '<div class="banner" style="background:#f0fff0;border-color:#cde8cd;color:#2b6a2b;">'
+      + '课程数据已加载：' + s.course_count + ' 门课程 / ' + s.section_count
+      + ' 个教学班 / ' + s.majors.length + ' 个专业　来源：' + (s.source_note || '未标注')
+      + (s.data_note ? '<br>容量口径：' + s.data_note : '') + '</div>';
+    document.getElementById('run').disabled = false;
+  }
+  if (s.llm_env){
+    const bu = document.getElementById('base_url'), mo = document.getElementById('model');
+    if (s.llm_env.base_url && !bu.value) bu.value = s.llm_env.base_url;
+    if (s.llm_env.model && !mo.value) mo.value = s.llm_env.model;
+    const parts = ['已从项目根 .env 读取默认配置（页面填写值优先）：'
+      + 'Base URL ' + (s.llm_env.base_url ? '已提供' : '未提供')
+      + '、模型 ' + (s.llm_env.model ? '已提供' : '未提供')
+      + '、API Key 来自 .env：' + (s.llm_env.api_key_from_env ? '是（无需在页面填写）' : '否')];
+    if (s.llm_env.requests_per_minute) parts.push('；限流 ' + s.llm_env.requests_per_minute + ' 次/分钟');
+    document.getElementById('envnote').textContent = parts.join('');
+  }
+}
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// 教学班号形如 (2026-2027-1)-02192600-0021003-1：前段是每门课都相同的学期噪声，
+// 而且整串不可断行，会把 7 列课表顶到卡片外面。格子里只留尾号，完整编号放 title。
+function sectionTail(id){ const p = String(id).split('-'); return p.slice(-2).join('-'); }
+
+function ttTable(sections){
+  const bySlot = {};
+  sections.forEach(x => x.slotList.forEach(s => { bySlot[s.day+'-'+s.period] = x; }));
+  let html = '<table class="tt"><tr><th></th>' + DAYS.map(d=>'<th>'+DAY_CN[d]+'</th>').join('') + '</tr>';
+  PERIODS.forEach(p => {
+    html += '<tr><th>'+pLabel(p)+'</th>';
+    DAYS.forEach(d => {
+      const x = bySlot[d+'-'+p];
+      if (x){
+        const c = KEY_COLORS[x.category_key] || '#888';
+        html += '<td class="filled" style="background:'+c+'" title="'
+              + esc(x.course_name + ' ／ ' + x.section_id) + '">'
+              + esc(x.course_name) + '<small>' + esc(sectionTail(x.section_id)) + '</small></td>';
+      } else html += '<td></td>';
+    });
+    html += '</tr>';
+  });
+  return html + '</table>';
+}
+
+function parseSlots(x){ return x.slots.map(t => ({day: t.slice(0,3), period: parseInt(t.slice(4), 10)})); }
+
+function render(result){
+  const sum = result.summary;
+  document.getElementById('result').style.display = '';
+  document.getElementById('stats').innerHTML =
+    '<div class="stat"><span class="note">平均满意度</span><b>'+(sum.mean_satisfaction ?? '-')+'</b></div>'
+    + '<div class="stat"><span class="note">学生数</span><b>'+sum.students+'</b></div>'
+    + '<div class="stat"><span class="note">预置保留率</span><b>'+(sum.preset_keep_pct==null?'-':sum.preset_keep_pct+'%')+'</b></div>'
+    + '<div class="stat"><span class="note">必修未满足人次</span><b>'+sum.unmet_required_students+'</b></div>'
+    + '<div class="stat"><span class="note">耗时</span><b>'+sum.elapsed_s+'s</b></div>'
+    + '<div class="stat"><span class="note">LLM 调用</span><b>'+(result.llm_stats.calls??0)+'</b></div>';
+  document.getElementById('hist').textContent = '循环历史（每轮复盘改写后的平均满意度；轮间差异含模型抽样波动，不能单独当作优化起作用的证据）：'
+    + result.history.map(h => h.mean_satisfaction).join(' → ');
+  const legend = Object.entries(KEY_COLORS).map(([k,c]) =>
+    '<span style="background:'+c+'">'+k+'</span>').join('');
+  document.getElementById('students').innerHTML = result.students.map((st,i) => {
+    const sat = st.satisfaction;
+    const stPreset = st.preset.map(x => ({...x, slotList: parseSlots(x)}));
+    const stFinal = st.final.map(x => ({...x, slotList: parseSlots(x)}));
+    const flags = [st.graduating&&'毕业年级', st.transfer&&'转专业', st.campus_move&&'即将换校区'].filter(Boolean).join('、');
+    return '<details class="stu"><summary><b>'+st.student_id+'</b> '+esc(st.major)
+      + (flags? ' <span class="note">('+flags+')</span>':'')
+      + '<span class="bar"><i style="width:'+sat+'%;background:'+(sat>=70?'#2b8a3e':sat>=40?'#c77f2e':'#d9534f')+'"></i></span>'
+      + '<span class="note">满意度 '+sat+'</span></summary>'
+      + '<div class="skill">'+esc(st.skill)+(st.need.notes? '\n需求备注：'+esc(st.need.notes):'')
+      + (st.reason? '\n评价：'+esc(st.reason):'') +'</div>'
+      + '<div class="tt-wrap">'
+      + '<div class="tt-box"><h4>预置课表（系统输出）</h4>'+ttTable(stPreset)+'</div>'
+      + '<div class="tt-box"><h4>两轮选课后最终课表</h4>'+ttTable(stFinal)+'</div>'
+      + '</div><div class="legend" style="padding:0 14px 12px;">'+legend+'</div></details>';
+  }).join('');
+}
+
+document.getElementById('run').addEventListener('click', async () => {
+  const btn = document.getElementById('run');
+  const status = document.getElementById('status');
+  const payload = { n_students: parseInt(document.getElementById('n').value, 10),
+                    llm: { base_url: document.getElementById('base_url').value.trim(),
+                           model: document.getElementById('model').value.trim(),
+                           api_key: document.getElementById('api_key').value } };
+  btn.disabled = true;
+  const t0 = Date.now();
+  timer = setInterval(() => { status.textContent = '运行中… 已用 ' + ((Date.now()-t0)/1000).toFixed(0)
+    + ' 秒（LLM 逐生模拟两轮行为与评分，可能需要数分钟）'; }, 500);
+  try {
+    const response = await fetch('/api/run', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+    const data = await response.json();
+    if (!response.ok){ status.textContent = '失败：' + (data.error || response.status); }
+    else { status.textContent = '完成。'; render(data); }
+  } catch (err){ status.textContent = '失败：' + err; }
+  finally { clearInterval(timer); btn.disabled = false; }
+});
+
+loadState();
+</script>
+</body>
+</html>

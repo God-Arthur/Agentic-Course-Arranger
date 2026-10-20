@@ -1,0 +1,31 @@
+=== results_need_v2/need_v2_number_guard.py
+PASS（末行：问题 = 无：§7C 的 4 个数值 token、3 个差值与 2 条耗时算术全部可追溯。）
+=== results_need_v2/_selftest_number_guard.py
+PASS（末行：变异 = 6 条（注入点取自正文自己的耗时句），漏抓 = 0 条；副本已删：True。）
+=== results_semantic_need/verdict_readme_guard.py
+PASS（末行：OK（v2（I2/J2/K2））：判定原文 12 行已逐行出现在 ## 7C.（含次要指标表）与 §9（主判据），没有改写。）
+=== results_batches/readme_number_guard.py
+PASS（末行：问题 = 无：§7 每个数字都能在同一份报告里找到）
+=== results_need_v2/prereg_coverage_guard.py
+PASS（末行：问题 = 无：§4 承诺 4 项次要判据 + 4 项新字段指标，连同主判据门槛与 13 条固定要求，共 24 条全部出现在 FROZEN_VERDICT_V2.md（承诺列表取自 PREREGISTRATION_NEED_V2.md §4 的实时解析））
+=== results_need_v2/report_field_probe.py
+PASS（末行：问题 = 无：任务书 §四 点名的五项报告与成本字段，在已落盘的每一臂可用行上都有可读数值；整列为常数的项都已在清单里定性与写明机制。）
+=== results_need_v2/_selftest_field_probe_constant_mutant.py
+PASS（末行：  - 重要需求识别召回 / key_need_recall_pct @ K2_真实需求标签参照：27 行可用行的该项全是 100.0，而这张清单里没有它——整列常数既不可能是测量结果也不该被引用，先查生产端（是否 .get 默认值补了空、是否由构造决定），查清再决定写进 §7C 还是撤下…）
+=== results_need_v2/pair_health_v2.py
+PASS（末行：！判定文件已在盘上，本工具的历史读数不再具有时效，请以判定与守卫为准。）
+SKIP-HOST-ONLY：/app/semantic_cache/llm_relevance_v2.jsonl 不在，缓存产出度量只在跑过 J/J2 批次的开发机上才有意义。
+=== results_need_v2/_selftest_splice_chain.py（批次期间的合成样本预跑）
+SKIP-BY-DESIGN：真判定已在盘上，搬运链此刻由 verdict_readme_guard 用真判定核对（上面那条 PASS 就是它）。
+=== results_need_v2/_selftest_analyze_contract.py
+PASS（末行：OK：全部 (%) 列的单元格都在 0..100 内，百分比没有被当成计数加总。）
+=== results_need_v2/_selftest_prereg_coverage.py
+PASS（末行：变异 = 12 条（判定侧 6、文档侧 6），漏抓 = 0 条；副本已删：True。）
+=== results_need_v2/_selftest_waiter_bracket.py
+PASS（末行：OK：两条等待循环的每个匹配串都仍认出自己的被等对象，且都不再命中携带自身字面量的命令行；两个变异（改前字面量、过紧括号类）都被指名抓到。）
+=== results_need_v2/waiter_pattern_probe.py
+PASS（末行：问题 = 无：两条等待循环只命中真实批次与跑批外壳；批次一退出，链就会在一轮间隔内放行。（判据是「活过自己的轮询间隔」，2026-10-18 14:35:06 的 /proc 快照））
+=== -m unittest discover -s tests -t .
+PASS（末行：OK）
+汇总：失败 0 条；原始输出 logs_v2/delivery_guards_1435.log
+ALL-GUARDS-PASS

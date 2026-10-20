@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "synthetic": true,
+    "note": "合成演示数据（2026-10-18 经发起人同意）。接入真实教务数据时，整体替换本文件即可（格式见 data/README.md）。"
+  },
+  "courses": [
+    {"course_id": "SZ101", "name": "思想道德与法治", "category": "思政类"},
+    {"course_id": "SZ102", "name": "马克思主义基本原理", "category": "思政类"},
+    {"course_id": "WY101", "name": "大学英语（一）", "category": "外语类"},
+    {"course_id": "WY102", "name": "大学英语（二）", "category": "外语类"},
+    {"course_id": "JK101", "name": "计算思维与人工智能导论", "category": "计算机通识类"},
+    {"course_id": "JK102", "name": "Python 程序设计", "category": "计算机通识类"},
+    {"course_id": "ZK101", "name": "高等数学（一）", "category": "自然科学通识类"},
+    {"course_id": "ZK102", "name": "大学物理", "category": "自然科学通识类"},
+    {"course_id": "JS301", "name": "数据结构", "category": "专业课", "major": "计算机科学与技术"},
+    {"course_id": "JS302", "name": "操作系统", "category": "专业课", "major": "计算机科学与技术"},
+    {"course_id": "RJ301", "name": "软件工程导论", "category": "专业课", "major": "软件工程"},
+    {"course_id": "DS301", "name": "机器学习基础", "category": "专业课", "major": "数据科学"},
+    {"course_id": "JC201", "name": "离散数学", "category": "专业基础课"},
+    {"course_id": "JC202", "name": "程序设计基础", "category": "专业基础课"},
+    {"course_id": "JC203", "name": "概率论与数理统计", "category": "专业基础课"},
+    {"course_id": "HK101", "name": "科技与社会", "category": "通识核心课"},
+    {"course_id": "XK101", "name": "影视鉴赏", "category": "通识选修课"},
+    {"course_id": "XK102", "name": "中国传统文化概览", "category": "通识选修课"},
+    {"course_id": "TY101", "name": "篮球", "category": "体育课"},
+    {"course_id": "TY102", "name": "羽毛球", "category": "体育课"},
+    {"course_id": "TY103", "name": "游泳", "category": "体育课"}
+  ],
+  "sections": [
+    {"section_id": "SZ101-01", "course_id": "SZ101", "capacity": 40, "slots": ["Mon-1", "Mon-3"]},
+    {"section_id": "SZ101-02", "course_id": "SZ101", "capacity": 35, "slots": ["Tue-1", "Tue-3"]},
+    {"section_id": "SZ102-01", "course_id": "SZ102", "capacity": 30, "slots": ["Wed-1", "Wed-3"]},
+    {"section_id": "WY101-01", "course_id": "WY101", "capacity": 35, "slots": ["Mon-2", "Mon-4"]},
+    {"section_id": "WY101-02", "course_id": "WY101", "capacity": 35, "slots": ["Tue-2", "Tue-4"]},
+    {"section_id": "WY102-01", "course_id": "WY102", "capacity": 25, "slots": ["Wed-2", "Wed-4"]},
+    {"section_id": "JK101-01", "course_id": "JK101", "capacity": 40, "slots": ["Mon-5", "Wed-5"]},
+    {"section_id": "JK102-01", "course_id": "JK102", "capacity": 25, "slots": ["Tue-5", "Thu-5"]},
+    {"section_id": "JK102-02", "course_id": "JK102", "capacity": 25, "slots": ["Fri-2", "Fri-4"]},
+    {"section_id": "ZK101-01", "course_id": "ZK101", "capacity": 45, "slots": ["Thu-1", "Fri-1"]},
+    {"section_id": "ZK102-01", "course_id": "ZK102", "capacity": 30, "slots": ["Thu-3", "Fri-3"]},
+    {"section_id": "JS301-01", "course_id": "JS301", "capacity": 22, "slots": ["Mon-7", "Wed-7"]},
+    {"section_id": "JS302-01", "course_id": "JS302", "capacity": 20, "slots": ["Tue-7", "Thu-7"]},
+    {"section_id": "RJ301-01", "course_id": "RJ301", "capacity": 22, "slots": ["Tue-8", "Fri-8"]},
+    {"section_id": "DS301-01", "course_id": "DS301", "capacity": 20, "slots": ["Wed-8", "Fri-8"]},
+    {"section_id": "JC201-01", "course_id": "JC201", "capacity": 30, "slots": ["Mon-9", "Wed-9"]},
+    {"section_id": "JC202-01", "course_id": "JC202", "capacity": 30, "slots": ["Tue-9", "Fri-9"]},
+    {"section_id": "JC203-01", "course_id": "JC203", "capacity": 30, "slots": ["Wed-9", "Thu-9"]},
+    {"section_id": "HK101-01", "course_id": "HK101", "capacity": 35, "slots": ["Mon-6", "Wed-6"]},
+    {"section_id": "XK101-01", "course_id": "XK101", "capacity": 30, "slots": ["Thu-11"]},
+    {"section_id": "XK102-01", "course_id": "XK102", "capacity": 30, "slots": ["Fri-11"]},
+    {"section_id": "TY101-01", "course_id": "TY101", "capacity": 20, "slots": ["Mon-11"]},
+    {"section_id": "TY101-02", "course_id": "TY101", "capacity": 20, "slots": ["Mon-12"]},
+    {"section_id": "TY102-01", "course_id": "TY102", "capacity": 20, "slots": ["Tue-11"]},
+    {"section_id": "TY102-02", "course_id": "TY102", "capacity": 20, "slots": ["Tue-12"]},
+    {"section_id": "TY103-01", "course_id": "TY103", "capacity": 25, "slots": ["Wed-11"]}
+  ],
+  "plan": {
+    "majors": ["计算机科学与技术", "软件工程", "数据科学"],
+    "recommended": {
+      "计算机科学与技术": {"思政类": 1, "外语类": 1, "计算机通识类": 1, "自然科学通识类": 1, "专业基础课": 1, "专业课": 1},
+      "软件工程": {"思政类": 1, "外语类": 1, "自然科学通识类": 1, "专业基础课": 1, "专业课": 1},
+      "数据科学": {"思政类": 1, "外语类": 1, "计算机通识类": 1, "专业基础课": 1, "专业课": 1}
+    }
+  }
+}

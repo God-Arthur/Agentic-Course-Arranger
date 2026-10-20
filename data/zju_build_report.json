@@ -1,0 +1,11 @@
+{
+ "unmapped_courses": [],
+ "unmapped_total": 0,
+ "dropped": {
+  "no_time": 410,
+  "unmapped": 0,
+  "bad_time": 0,
+  "dup_section": 0,
+  "weekend": 4
+ }
+}

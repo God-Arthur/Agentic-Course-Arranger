@@ -1,0 +1,1401 @@
+{
+  "config": {
+    "n_students": 72,
+    "seeds": [
+      43
+    ],
+    "question_budget": 30,
+    "questions_per_round": 4,
+    "sim_replicates": 3,
+    "scenario_base_seed": 17,
+    "arms": [
+      "A_现行机制基线",
+      "B0_一次性优化无交互",
+      "B_规则式集体规划",
+      "C_AI集体规划",
+      "D_完整信息参照",
+      "E_LLM协调提案",
+      "F_规则协调提案",
+      "G_等预算随机询问",
+      "H_获取信息不改预置"
+    ],
+    "llm_requested": false,
+    "llm_model": null,
+    "llm_requests_per_minute": 20,
+    "solver_engine": "cp-sat（缺失时贪心回退）",
+    "solver_workers": 1,
+    "solver_max_seconds": 6.0,
+    "solver_config": {
+      "workers": 1,
+      "max_seconds": 6.0
+    },
+    "policy_rows": [
+      {
+        "规则": "max_preferences_per_category",
+        "取值": "3",
+        "依据": "发起人描述，未经官方核实",
+        "说明": "同一类型课程最多三个志愿。"
+      },
+      {
+        "规则": "same_category_conflict_allowed",
+        "取值": "是",
+        "依据": "发起人描述，未经官方核实",
+        "说明": "同类型冲突课程仍可作为候选志愿。"
+      },
+      {
+        "规则": "cross_category_conflict_allowed",
+        "取值": "否",
+        "依据": "发起人描述，未经官方核实",
+        "说明": "不同类型课程之间不允许志愿时间冲突。"
+      },
+      {
+        "规则": "final_timetable_conflict_allowed",
+        "取值": "否",
+        "依据": "系统假设",
+        "说明": "最终课表不得存在实际时间冲突；提交允许与最终允许分开处理。"
+      },
+      {
+        "规则": "prerequisites_enforced",
+        "取值": "是",
+        "依据": "系统假设",
+        "说明": "先修资格是制度硬约束，与规划策略无关。"
+      },
+      {
+        "规则": "priority_group_order",
+        "取值": "毕业年级、即将换校区、转专业、其他学生",
+        "依据": "系统假设",
+        "说明": "发起人提到毕业年级、即将换校区、转专业等类别，但官方顺序与组内划分未核实。"
+      },
+      {
+        "规则": "lottery_within_group",
+        "取值": "是",
+        "依据": "发起人描述，未经官方核实",
+        "说明": "优先级处理后进行随机分配。"
+      },
+      {
+        "规则": "preset_occupies_seat",
+        "取值": "否",
+        "依据": "系统假设",
+        "说明": "预置是否正式占用课位未经核实，默认不占位，只作为预填志愿影响学生选择。"
+      },
+      {
+        "规则": "preset_releasable",
+        "取值": "是",
+        "依据": "系统假设",
+        "说明": "假设学生可以撤销或修改预置课程。"
+      },
+      {
+        "规则": "round2_enabled",
+        "取值": "是",
+        "依据": "发起人描述，未经官方核实",
+        "说明": "第二轮继续选课与分配；具体轮次数量与规则未核实。"
+      },
+      {
+        "规则": "round2_order",
+        "取值": "random",
+        "依据": "系统假设",
+        "说明": "第二轮顺序假设为随机，而非先到先得。"
+      },
+      {
+        "规则": "max_courses_per_student",
+        "取值": "沿用学生声明",
+        "依据": "系统假设",
+        "说明": "以每名学生声明的 target_courses 作为修读上限的近似。"
+      }
+    ],
+    "behavior_rows": [
+      {
+        "参数": "report_noise",
+        "取值": 8,
+        "依据": "系统假设",
+        "说明": "学生申报偏好与隐藏真实偏好的噪声幅度。"
+      },
+      {
+        "参数": "preset_keep_score_cutoff",
+        "取值": 48,
+        "依据": "系统假设",
+        "说明": "低于此分的预置课程可能被客户撤销。"
+      },
+      {
+        "参数": "preset_off_cutoff_keep_rate",
+        "取值": 0.25,
+        "依据": "系统假设",
+        "说明": "低分预置课程仍被保留的比例。"
+      },
+      {
+        "参数": "round2_min_score",
+        "取值": 35,
+        "依据": "系统假设",
+        "说明": "第二轮补选时学生愿意接受的最低课程分。"
+      }
+    ],
+    "generated_at": "2026-10-17 13:21:13"
+  },
+  "summary": {
+    "per_mechanism": {
+      "A_现行机制基线": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 12884.67,
+            "std": 0.0,
+            "min": 12884.67,
+            "max": 12884.67
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12745.0,
+            "std": 0.0,
+            "min": 12745.0,
+            "max": 12745.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13003.0,
+            "std": 0.0,
+            "min": 13003.0,
+            "max": 13003.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 62.99,
+            "std": 0.0,
+            "min": 62.99,
+            "max": 62.99
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 51.0,
+            "std": 0.0,
+            "min": 51.0,
+            "max": 51.0
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 35.63,
+            "std": 0.0,
+            "min": 35.63,
+            "max": 35.63
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 44.47,
+            "std": 0.0,
+            "min": 44.47,
+            "max": 44.47
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 94.6,
+            "std": 0.0,
+            "min": 94.6,
+            "max": 94.6
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 81.43,
+            "std": 0.0,
+            "min": 81.43,
+            "max": 81.43
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 100.0,
+            "std": 0.0,
+            "min": 100.0,
+            "max": 100.0
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 196.67,
+            "std": 0.0,
+            "min": 196.67,
+            "max": 196.67
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 7.67,
+            "std": 0.0,
+            "min": 7.67,
+            "max": 7.67
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 46.33,
+            "std": 0.0,
+            "min": 46.33,
+            "max": 46.33
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 249.7,
+            "std": 0.0,
+            "min": 249.7,
+            "max": 249.7
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 0.0,
+        "llm_fallback_runs": 0
+      },
+      "B0_一次性优化无交互": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 13051.67,
+            "std": 0.0,
+            "min": 13051.67,
+            "max": 13051.67
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12960.0,
+            "std": 0.0,
+            "min": 12960.0,
+            "max": 12960.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13230.0,
+            "std": 0.0,
+            "min": 13230.0,
+            "max": 13230.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 63.15,
+            "std": 0.0,
+            "min": 63.15,
+            "max": 63.15
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 50.44,
+            "std": 0.0,
+            "min": 50.44,
+            "max": 50.44
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 34.7,
+            "std": 0.0,
+            "min": 34.7,
+            "max": 34.7
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 42.17,
+            "std": 0.0,
+            "min": 42.17,
+            "max": 42.17
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 95.5,
+            "std": 0.0,
+            "min": 95.5,
+            "max": 95.5
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 82.23,
+            "std": 0.0,
+            "min": 82.23,
+            "max": 82.23
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 97.33,
+            "std": 0.0,
+            "min": 97.33,
+            "max": 97.33
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 7.4,
+            "std": 0.0,
+            "min": 7.4,
+            "max": 7.4
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 200.67,
+            "std": 0.0,
+            "min": 200.67,
+            "max": 200.67
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 5.67,
+            "std": 0.0,
+            "min": 5.67,
+            "max": 5.67
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 47.0,
+            "std": 0.0,
+            "min": 47.0,
+            "max": 47.0
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 82.7,
+            "std": 0.0,
+            "min": 82.7,
+            "max": 82.7
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 0.0,
+        "llm_fallback_runs": 0
+      },
+      "B_规则式集体规划": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 12849.0,
+            "std": 0.0,
+            "min": 12849.0,
+            "max": 12849.0
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12622.0,
+            "std": 0.0,
+            "min": 12622.0,
+            "max": 12622.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13130.0,
+            "std": 0.0,
+            "min": 13130.0,
+            "max": 13130.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 62.53,
+            "std": 0.0,
+            "min": 62.53,
+            "max": 62.53
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 51.0,
+            "std": 0.0,
+            "min": 51.0,
+            "max": 51.0
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 35.17,
+            "std": 0.0,
+            "min": 35.17,
+            "max": 35.17
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 43.53,
+            "std": 0.0,
+            "min": 43.53,
+            "max": 43.53
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 95.07,
+            "std": 0.0,
+            "min": 95.07,
+            "max": 95.07
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 81.83,
+            "std": 0.0,
+            "min": 81.83,
+            "max": 81.83
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 96.47,
+            "std": 0.0,
+            "min": 96.47,
+            "max": 96.47
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 10.17,
+            "std": 0.0,
+            "min": 10.17,
+            "max": 10.17
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 197.33,
+            "std": 0.0,
+            "min": 197.33,
+            "max": 197.33
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 8.0,
+            "std": 0.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 46.67,
+            "std": 0.0,
+            "min": 46.67,
+            "max": 46.67
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 12.0,
+            "std": 0.0,
+            "min": 12,
+            "max": 12
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 6.0,
+            "std": 0.0,
+            "min": 6,
+            "max": 6
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4
+          },
+          "utility_per_informative_query": {
+            "n": 1,
+            "mean": -33.78,
+            "std": 0.0,
+            "min": -33.78,
+            "max": -33.78
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 285.3,
+            "std": 0.0,
+            "min": 285.3,
+            "max": 285.3
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 12.0,
+        "llm_fallback_runs": 0
+      },
+      "C_AI集体规划": {
+        "runs": 0,
+        "reason": "无有效运行",
+        "llm_fallback_runs": 0
+      },
+      "D_完整信息参照": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 13134.33,
+            "std": 0.0,
+            "min": 13134.33,
+            "max": 13134.33
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12910.0,
+            "std": 0.0,
+            "min": 12910.0,
+            "max": 12910.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13278.0,
+            "std": 0.0,
+            "min": 13278.0,
+            "max": 13278.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 63.11,
+            "std": 0.0,
+            "min": 63.11,
+            "max": 63.11
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 51.89,
+            "std": 0.0,
+            "min": 51.89,
+            "max": 51.89
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 34.23,
+            "std": 0.0,
+            "min": 34.23,
+            "max": 34.23
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 42.13,
+            "std": 0.0,
+            "min": 42.13,
+            "max": 42.13
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 96.3,
+            "std": 0.0,
+            "min": 96.3,
+            "max": 96.3
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 82.9,
+            "std": 0.0,
+            "min": 82.9,
+            "max": 82.9
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 97.53,
+            "std": 0.0,
+            "min": 97.53,
+            "max": 97.53
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 6.47,
+            "std": 0.0,
+            "min": 6.47,
+            "max": 6.47
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 201.0,
+            "std": 0.0,
+            "min": 201.0,
+            "max": 201.0
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 7.0,
+            "std": 0.0,
+            "min": 7.0,
+            "max": 7.0
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 47.33,
+            "std": 0.0,
+            "min": 47.33,
+            "max": 47.33
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 0.0,
+        "llm_fallback_runs": 0
+      },
+      "E_LLM协调提案": {
+        "runs": 0,
+        "reason": "无有效运行",
+        "llm_fallback_runs": 0
+      },
+      "F_规则协调提案": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 13227.67,
+            "std": 0.0,
+            "min": 13227.67,
+            "max": 13227.67
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 13069.0,
+            "std": 0.0,
+            "min": 13069.0,
+            "max": 13069.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13364.0,
+            "std": 0.0,
+            "min": 13364.0,
+            "max": 13364.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 63.51,
+            "std": 0.0,
+            "min": 63.51,
+            "max": 63.51
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 51.72,
+            "std": 0.0,
+            "min": 51.72,
+            "max": 51.72
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 36.57,
+            "std": 0.0,
+            "min": 36.57,
+            "max": 36.57
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 46.73,
+            "std": 0.0,
+            "min": 46.73,
+            "max": 46.73
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 95.83,
+            "std": 0.0,
+            "min": 95.83,
+            "max": 95.83
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 82.5,
+            "std": 0.0,
+            "min": 82.5,
+            "max": 82.5
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 96.33,
+            "std": 0.0,
+            "min": 96.33,
+            "max": 96.33
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 10.63,
+            "std": 0.0,
+            "min": 10.63,
+            "max": 10.63
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 198.67,
+            "std": 0.0,
+            "min": 198.67,
+            "max": 198.67
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 8.33,
+            "std": 0.0,
+            "min": 8.33,
+            "max": 8.33
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 45.67,
+            "std": 0.0,
+            "min": 45.67,
+            "max": 45.67
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 18.0,
+            "std": 0.0,
+            "min": 18,
+            "max": 18
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 6.0,
+            "std": 0.0,
+            "min": 6,
+            "max": 6
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 6.0,
+            "std": 0.0,
+            "min": 6,
+            "max": 6
+          },
+          "proposals_generated": {
+            "n": 1,
+            "mean": 32.0,
+            "std": 0.0,
+            "min": 32,
+            "max": 32
+          },
+          "proposals_valid": {
+            "n": 1,
+            "mean": 32.0,
+            "std": 0.0,
+            "min": 32,
+            "max": 32
+          },
+          "proposals_pruned": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "actions_rejected": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "proposals_confirmed": {
+            "n": 1,
+            "mean": 6.0,
+            "std": 0.0,
+            "min": 6,
+            "max": 6
+          },
+          "utility_per_informative_query": {
+            "n": 1,
+            "mean": 29.33,
+            "std": 0.0,
+            "min": 29.33,
+            "max": 29.33
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": -93.3,
+            "std": 0.0,
+            "min": -93.3,
+            "max": -93.3
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 18.0,
+        "llm_fallback_runs": 0
+      },
+      "G_等预算随机询问": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 12849.0,
+            "std": 0.0,
+            "min": 12849.0,
+            "max": 12849.0
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12622.0,
+            "std": 0.0,
+            "min": 12622.0,
+            "max": 12622.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13130.0,
+            "std": 0.0,
+            "min": 13130.0,
+            "max": 13130.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 62.53,
+            "std": 0.0,
+            "min": 62.53,
+            "max": 62.53
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 51.0,
+            "std": 0.0,
+            "min": 51.0,
+            "max": 51.0
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 35.17,
+            "std": 0.0,
+            "min": 35.17,
+            "max": 35.17
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 43.53,
+            "std": 0.0,
+            "min": 43.53,
+            "max": 43.53
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 95.07,
+            "std": 0.0,
+            "min": 95.07,
+            "max": 95.07
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 81.83,
+            "std": 0.0,
+            "min": 81.83,
+            "max": 81.83
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 96.47,
+            "std": 0.0,
+            "min": 96.47,
+            "max": 96.47
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 10.17,
+            "std": 0.0,
+            "min": 10.17,
+            "max": 10.17
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 197.33,
+            "std": 0.0,
+            "min": 197.33,
+            "max": 197.33
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 8.0,
+            "std": 0.0,
+            "min": 8.0,
+            "max": 8.0
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 46.67,
+            "std": 0.0,
+            "min": 46.67,
+            "max": 46.67
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 12.0,
+            "std": 0.0,
+            "min": 12,
+            "max": 12
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 7.0,
+            "std": 0.0,
+            "min": 7,
+            "max": 7
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4
+          },
+          "utility_per_informative_query": {
+            "n": 1,
+            "mean": -28.95,
+            "std": 0.0,
+            "min": -28.95,
+            "max": -28.95
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 285.3,
+            "std": 0.0,
+            "min": 285.3,
+            "max": 285.3
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 12.0,
+        "llm_fallback_runs": 0
+      },
+      "H_获取信息不改预置": {
+        "runs": 1,
+        "metrics": {
+          "total_preference_utility": {
+            "n": 1,
+            "mean": 13051.67,
+            "std": 0.0,
+            "min": 13051.67,
+            "max": 13051.67
+          },
+          "sim_min_utility": {
+            "n": 1,
+            "mean": 12960.0,
+            "std": 0.0,
+            "min": 12960.0,
+            "max": 12960.0
+          },
+          "sim_max_utility": {
+            "n": 1,
+            "mean": 13230.0,
+            "std": 0.0,
+            "min": 13230.0,
+            "max": 13230.0
+          },
+          "average_student_utility": {
+            "n": 1,
+            "mean": 63.15,
+            "std": 0.0,
+            "min": 63.15,
+            "max": 63.15
+          },
+          "student_p10_utility": {
+            "n": 1,
+            "mean": 50.44,
+            "std": 0.0,
+            "min": 50.44,
+            "max": 50.44
+          },
+          "required_course_fulfillment_pct": {
+            "n": 1,
+            "mean": 34.7,
+            "std": 0.0,
+            "min": 34.7,
+            "max": 34.7
+          },
+          "bundle_acceptance_pct": {
+            "n": 1,
+            "mean": 42.17,
+            "std": 0.0,
+            "min": 42.17,
+            "max": 42.17
+          },
+          "target_fill_pct": {
+            "n": 1,
+            "mean": 95.5,
+            "std": 0.0,
+            "min": 95.5,
+            "max": 95.5
+          },
+          "seat_utilization_pct": {
+            "n": 1,
+            "mean": 82.23,
+            "std": 0.0,
+            "min": 82.23,
+            "max": 82.23
+          },
+          "preset_keep_pct": {
+            "n": 1,
+            "mean": 97.33,
+            "std": 0.0,
+            "min": 97.33,
+            "max": 97.33
+          },
+          "preset_adjustment_pct": {
+            "n": 1,
+            "mean": 7.4,
+            "std": 0.0,
+            "min": 7.4,
+            "max": 7.4
+          },
+          "round1_grants": {
+            "n": 1,
+            "mean": 200.67,
+            "std": 0.0,
+            "min": 200.67,
+            "max": 200.67
+          },
+          "round2_grants": {
+            "n": 1,
+            "mean": 5.67,
+            "std": 0.0,
+            "min": 5.67,
+            "max": 5.67
+          },
+          "unmet_required_final": {
+            "n": 1,
+            "mean": 47.0,
+            "std": 0.0,
+            "min": 47.0,
+            "max": 47.0
+          },
+          "hard_violations": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "questions": {
+            "n": 1,
+            "mean": 12.0,
+            "std": 0.0,
+            "min": 12,
+            "max": 12
+          },
+          "informative_questions": {
+            "n": 1,
+            "mean": 7.0,
+            "std": 0.0,
+            "min": 7,
+            "max": 7
+          },
+          "rounds": {
+            "n": 1,
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4
+          },
+          "utility_per_informative_query": {
+            "n": 1,
+            "mean": 0.0,
+            "std": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "gap_to_full_information": {
+            "n": 1,
+            "mean": 82.7,
+            "std": 0.0,
+            "min": 82.7,
+            "max": 82.7
+          }
+        },
+        "violations_total": 0,
+        "questions_mean": 12.0,
+        "llm_fallback_runs": 0
+      }
+    },
+    "paired_contrasts": {
+      "B_规则式集体规划 - A_现行机制基线": {
+        "deltas": [
+          -35.7
+        ],
+        "n": 1,
+        "mean_delta_total_utility": -35.7,
+        "sign_test_wins": 0,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": -35.7,
+        "max_delta": -35.7,
+        "mean_delta_p10_utility": 0.0,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 1,
+        "tie": 0
+      },
+      "B_规则式集体规划 - B0_一次性优化无交互": {
+        "deltas": [
+          -202.7
+        ],
+        "n": 1,
+        "mean_delta_total_utility": -202.7,
+        "sign_test_wins": 0,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": -202.7,
+        "max_delta": -202.7,
+        "mean_delta_p10_utility": 0.56,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 1,
+        "tie": 0
+      },
+      "B_规则式集体规划 - G_等预算随机询问": {
+        "deltas": [
+          0.0
+        ],
+        "n": 1,
+        "mean_delta_total_utility": 0.0,
+        "min_delta": 0.0,
+        "max_delta": 0.0,
+        "mean_delta_p10_utility": 0.0,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 1
+      },
+      "B_规则式集体规划 - H_获取信息不改预置": {
+        "deltas": [
+          -202.7
+        ],
+        "n": 1,
+        "mean_delta_total_utility": -202.7,
+        "sign_test_wins": 0,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": -202.7,
+        "max_delta": -202.7,
+        "mean_delta_p10_utility": 0.56,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 1,
+        "tie": 0
+      },
+      "C_AI集体规划 - B_规则式集体规划": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "C_AI集体规划 - A_现行机制基线": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "E_LLM协调提案 - F_规则协调提案": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "E_LLM协调提案 - B0_一次性优化无交互": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "E_LLM协调提案 - B_规则式集体规划": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "E_LLM协调提案 - C_AI集体规划": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "F_规则协调提案 - B0_一次性优化无交互": {
+        "deltas": [
+          176.0
+        ],
+        "n": 1,
+        "mean_delta_total_utility": 176.0,
+        "sign_test_wins": 1,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": 176.0,
+        "max_delta": 176.0,
+        "mean_delta_p10_utility": 1.28,
+        "seeds_target_better": 1,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "F_规则协调提案 - B_规则式集体规划": {
+        "deltas": [
+          378.7
+        ],
+        "n": 1,
+        "mean_delta_total_utility": 378.7,
+        "sign_test_wins": 1,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": 378.7,
+        "max_delta": 378.7,
+        "mean_delta_p10_utility": 0.72,
+        "seeds_target_better": 1,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "D_完整信息参照 - B_规则式集体规划": {
+        "deltas": [
+          285.3
+        ],
+        "n": 1,
+        "mean_delta_total_utility": 285.3,
+        "sign_test_wins": 1,
+        "sign_test_pairs": 1,
+        "sign_test_p_two_sided": 1.0,
+        "significant_at_5pct": false,
+        "min_delta": 285.3,
+        "max_delta": 285.3,
+        "mean_delta_p10_utility": 0.89,
+        "seeds_target_better": 1,
+        "seeds_ref_better": 0,
+        "tie": 0
+      },
+      "D_完整信息参照 - E_LLM协调提案": {
+        "deltas": [],
+        "n": 0,
+        "min_delta": null,
+        "max_delta": null,
+        "mean_delta_p10_utility": null,
+        "seeds_target_better": 0,
+        "seeds_ref_better": 0,
+        "tie": 0
+      }
+    },
+    "excluded_rows": [
+      {
+        "seed": 43,
+        "mechanism": "E_LLM协调提案",
+        "note": "本次运行未启用 --include-llm",
+        "llm_calls": 0,
+        "llm_failures": ""
+      },
+      {
+        "seed": 43,
+        "mechanism": "C_AI集体规划",
+        "note": "本次运行未启用 --include-llm",
+        "llm_calls": 0,
+        "llm_failures": ""
+      }
+    ]
+  }
+}

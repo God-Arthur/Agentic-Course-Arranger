@@ -1,0 +1,16 @@
+SAVE restart-probe → /app/outputs/restart-probe
+DIGEST restart-probe/config.json sha256=19c4161914a60d0265b2fd5b41dce115f120d48d597282de67c1eae7e5617c48 bytes=205
+DIGEST restart-probe/restart_probe_courses.csv sha256=6d5180e6ea37edacea93db8a33373cf8d534ccadf1e6b07d839afa474fa7f6c7 bytes=62
+DIGEST restart-probe/run_summary.json sha256=84d6353ba0a4518bec7c205d1a9f29d38c51dc03df05b6316bef4f314fe10611 bytes=36
+=== down
+ Network ai-course-planner_default Removed 
+=== up
+ Container ai-course-planner-planner-1 Started 
+ai-course-planner-planner-1 Up 33 seconds (healthy)
+=== verify
+VERIFY restart-probe 可从索引读到，表格按列名解析为 2 行
+DIGEST restart-probe/config.json sha256=19c4161914a60d0265b2fd5b41dce115f120d48d597282de67c1eae7e5617c48 bytes=205
+DIGEST restart-probe/restart_probe_courses.csv sha256=6d5180e6ea37edacea93db8a33373cf8d534ccadf1e6b07d839afa474fa7f6c7 bytes=62
+DIGEST restart-probe/run_summary.json sha256=84d6353ba0a4518bec7c205d1a9f29d38c51dc03df05b6316bef4f314fe10611 bytes=36
+=== clean
+CLEAN 已删除 /app/outputs/restart-probe

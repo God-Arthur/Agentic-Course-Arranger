@@ -1,0 +1,32 @@
+2026-10-18 15:49:40.565 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 15:49:40.565 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 15:49:40.565 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+.....2026-10-18 15:49:41.092 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 15:49:41.095 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 15:49:41.095 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 15:49:41.266 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 136, in exec_func_with_error_handling
+    result = func()
+             ^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 924, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/app.py", line 347, in <module>
+    sem_preset, sem_diag = solve_assignment(world, sem_visible)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/tests/test_app_need_v2_tab.py", line 78, in _raise
+    raise AssertionError(f"{name} 被调用：本文件承诺不进求解器、不发 API 请求")
+AssertionError: planner_core.solve_assignment 被调用：本文件承诺不进求解器、不发 API 请求
+...2026-10-18 15:49:41.404 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+....................................[runlog] 写入 run_start 失败（不影响本次运行）：NotADirectoryError: [Errno 20] Not a directory: '/tmp/tmp509q95sb/file/sub'
+[runlog] 读取失败：NotADirectoryError: [Errno 20] Not a directory: '/tmp/tmp509q95sb/file/sub/runs.jsonl'
+........................................................................................................................[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+..[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+...............
+----------------------------------------------------------------------
+Ran 181 tests in 22.360s
+
+OK

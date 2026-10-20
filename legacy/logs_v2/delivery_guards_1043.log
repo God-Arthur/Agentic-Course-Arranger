@@ -1,0 +1,202 @@
+=== results_need_v2/need_v2_number_guard.py
+OK：I2_规则完整需求模型=13461.0 能在盘上的落盘文件或批次日志里找到。
+OK：J2_AI完整需求模型=13390.0 能在盘上的落盘文件或批次日志里找到。
+OK：K2_真实需求标签参照=13528.0 能在盘上的落盘文件或批次日志里找到。
+OK：K2_真实需求标签参照=13610.67 能在盘上的落盘文件或批次日志里找到。
+OK：差值 −82.67 与 13610.67、13528.0 的算术一致（本守卫重算）。
+OK：差值 −40.0 与 212480.0、212440.0 的算术一致（本守卫重算）。
+OK：差值 +790.0 与 213760.0、214550.0 的算术一致（本守卫重算）。
+OK：13.86 分钟/种子 × 分块计划的 26 颗种子 = 6.01 小时（本守卫重算）。
+OK：1872 档案 ÷ 5.19 个/分钟 = 6.01 小时，且 1872 = 26 × 72（分块计划与批次脚本）。
+问题 = 无：§7C 的 4 个数值 token、3 个差值与 2 条耗时算术全部可追溯。
+=== results_need_v2/_selftest_number_guard.py
+真 README 通过：问题 = 无：§7C 的 4 个数值 token、3 个差值与 2 条耗时算术全部可追溯。
+OK：变异「整批小时数被改大 1 小时」被抓到 → FAIL：文中写 7.01 小时，但 13.86 × 26 ÷ 60 = 6.01。
+OK：变异「整批小时数末位漂移（复刻 00:31 那次 8.10 对 8.09）」被抓到 → FAIL：文中写 6.02 小时，但 13.86 × 26 ÷ 60 = 6.01。
+OK：变异「档案总数与分块计划不符」被抓到 → FAIL：文中写 1874 个档案，但分块计划是 26 种子 × 72 人 = 1872。
+OK：变异「速率句里两个速率写成了不同的数」被抓到 → FAIL：同一句里写了两个速率 5.19 与 5.20。
+OK：变异「两条耗时句整条删掉」被抓到 → FAIL：§7C 的耗时核对少了一条路径（「分钟/种子 ⇒」与「个档案/分钟 ⇒」两条都要在）。只剩一条时，把另一句改写掉就能让那条检查空转。
+OK：变异「分钟/种子那句被改写到正则不认识」被抓到 → FAIL：§7C 的耗时核对少了一条路径（「分钟/种子 ⇒」与「个档案/分钟 ⇒」两条都要在）。只剩一条时，把另一句改写掉就能让那条检查空转。
+变异 = 6 条（注入点取自正文自己的耗时句），漏抓 = 0 条；副本已删：True。
+=== results_semantic_need/verdict_readme_guard.py
+OK（v1（I/J/K））：判定原文 11 行已逐行出现在 ## 7B.（含次要指标表）与 §9（主判据），没有改写。
+OK（v2（I2/J2/K2））：判定原文 12 行已逐行出现在 ## 7C.（含次要指标表）与 §9（主判据），没有改写。
+=== results_batches/readme_number_guard.py
+README §7 配对表核对行数 = 14（报告侧对比表 14 行）
+README §7 均值表核对行数 = 9
+问题 = 无：§7 每个数字都能在同一份报告里找到
+=== results_need_v2/prereg_coverage_guard.py
+问题 = 无：§4 承诺 4 项次要判据 + 4 项新字段指标，连同主判据门槛与 13 条固定要求，共 24 条全部出现在 FROZEN_VERDICT_V2.md（承诺列表取自 PREREGISTRATION_NEED_V2.md §4 的实时解析）
+=== results_need_v2/report_field_probe.py
+读的是已收尾分块 ['dev_1_4', 'dev_5_6', 'smoke_s1', 'test_11_14', 'test_15_18', 'test_19_22', 'test_23_26', 'test_7_10']，落盘种子 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]（共 26 颗），行数 81；只数覆盖，不报数值、不报差值、不报方向。
+覆盖 最终效用 | total_preference_utility | I2_规则完整需求模型：27/27 行带数值
+覆盖 最终效用 | total_preference_utility | J2_AI完整需求模型：26/26 行带数值
+覆盖 最终效用 | total_preference_utility | K2_真实需求标签参照：27/27 行带数值
+覆盖 需求识别质量 | need_f1_pct | I2_规则完整需求模型：27/27 行带数值
+覆盖 需求识别质量 | need_f1_pct | J2_AI完整需求模型：26/26 行带数值
+覆盖 需求识别质量 | need_f1_pct | K2_真实需求标签参照：27/27 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | I2_规则完整需求模型：27/27 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | J2_AI完整需求模型：26/26 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | K2_真实需求标签参照：27/27 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | I2_规则完整需求模型：27/27 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | J2_AI完整需求模型：26/26 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | K2_真实需求标签参照：27/27 行带数值
+  ↑ 该项 27 行全是 100.0｜定性：构造｜机制：semantic_needs.py:535 的 key_tp÷key_total：K2 的需求记录由隐藏真值标签直接生成（build_need_model_v2 parser='truth'），真值里的重要需求必然全在记录中，所以召回 = 100.0 是定义式结果，不能读成'K2 识别得准'
+覆盖 低分位效用（p10 学生） | student_p10_utility | I2_规则完整需求模型：27/27 行带数值
+覆盖 低分位效用（p10 学生） | student_p10_utility | J2_AI完整需求模型：26/26 行带数值
+覆盖 低分位效用（p10 学生） | student_p10_utility | K2_真实需求标签参照：27/27 行带数值
+覆盖 运行成本：调用 | llm_calls | J2_AI完整需求模型：26/26 行带数值
+  ↑ 该项 26 行全是 12｜定性：构造｜机制：semantic_needs.py:38 的 STUDENTS_PER_CALL=6：每颗种子 72 份档案按 6 份一批问，72÷6=12 次，恒定是分批构造的结果（也正因此 §8 那条 216 次 = 18 种子 × 12）
+覆盖 运行成本：提示 token | llm_prompt_tokens | J2_AI完整需求模型：26/26 行带数值
+覆盖 运行成本：补全 token | llm_completion_tokens | J2_AI完整需求模型：26/26 行带数值
+覆盖 运行成本：缓存命中 | cache_hits | J2_AI完整需求模型：26/26 行带数值
+覆盖 运行成本：缓存未命中 | cache_misses | J2_AI完整需求模型：26/26 行带数值
+覆盖 规则未被越过 | hard_violations | I2_规则完整需求模型：27/27 行带数值
+  ↑ 该项 27 行全是 0｜定性：结果｜机制：§一 要核对的就是这一列全 0：三臂都没有越过培养方案的硬约束
+覆盖 规则未被越过 | hard_violations | J2_AI完整需求模型：26/26 行带数值
+  ↑ 该项 26 行全是 0｜定性：结果｜机制：§一 要核对的就是这一列全 0：三臂都没有越过培养方案的硬约束
+覆盖 规则未被越过 | hard_violations | K2_真实需求标签参照：27/27 行带数值
+  ↑ 该项 27 行全是 0｜定性：结果｜机制：§一 要核对的就是这一列全 0：三臂都没有越过培养方案的硬约束
+覆盖 运行成本：逐臂求解耗时 | solver_seconds | I2_规则完整需求模型：27/27 行带数值
+  ↑ 该项 27 行全是 0.0｜定性：未测量｜机制：planner_core.solve_assignment 的诊断字典只有 engine/status/objective/best_bound/bound_gap，没有任何计时刻度；experiments 的行装配原先用 .get('solver_seconds', 0.0) 补默认值，所以落盘的 0 不是『求解花了 0 秒』。本批不发布逐臂求解耗时，运行成本改用 llm_calls、两类 token 与批次墙钟（扣除宿主挂起）说话；生产端那个默认值已改为 None
+  ↑ 因此本批不把这列当成本证据引用；判定与 README 都不引用它。
+覆盖 运行成本：逐臂求解耗时 | solver_seconds | J2_AI完整需求模型：26/26 行带数值
+  ↑ 该项 26 行全是 0.0｜定性：未测量｜机制：同上：v2 三臂都不经手动过求解计时
+  ↑ 因此本批不把这列当成本证据引用；判定与 README 都不引用它。
+覆盖 运行成本：逐臂求解耗时 | solver_seconds | K2_真实需求标签参照：27/27 行带数值
+  ↑ 该项 27 行全是 0.0｜定性：未测量｜机制：同上：v2 三臂都不经手动过求解计时
+  ↑ 因此本批不把这列当成本证据引用；判定与 README 都不引用它。
+问题 = 无：任务书 §四 点名的五项报告与成本字段，在已落盘的每一臂可用行上都有可读数值；整列为常数的项都已在清单里定性与写明机制。
+=== results_need_v2/_selftest_field_probe_constant_mutant.py
+OK：真探针 rc=0 且核对了常数项；清空清单后 rc=1，8 项整列常数全部被退回，未测量/构造/结果三种各有点名样本。
+  - 重要需求识别召回 / key_need_recall_pct @ K2_真实需求标签参照：27 行可用行的该项全是 100.0，而这张清单里没有它——整列常数既不可能是测量结果也不该被引用，先查生产端（是否 .get 默认值补了空、是否由构造决定），查清再决定写进 §7C 还是撤下…
+=== results_need_v2/pair_health_v2.py
+=== 配对健康度（批次进行中的运维读数，不是判定；不含任何均值、差值或胜负局数）===
+计入分块：test_11_14
+计入分块：test_15_18
+计入分块：test_19_22
+计入分块：test_23_26
+计入分块：test_7_10
+
+已落盘测试种子：20 / 20，缺 []
+三臂不齐的种子：无
+
+状态与可用性计数（按臂）：
+  I2_规则完整需求模型：行 20｜状态 {'已运行': 20}｜求解器 {'OPTIMAL': 20}｜回退 0｜valid_for_ai_claim 为真 20
+  J2_AI完整需求模型：行 20｜状态 {'已运行': 20}｜求解器 {'OPTIMAL': 16, 'FEASIBLE': 4}｜回退 0｜valid_for_ai_claim 为真 20
+  K2_真实需求标签参照：行 20｜状态 {'已运行': 20}｜求解器 {'FEASIBLE': 17, 'OPTIMAL': 3}｜回退 0｜valid_for_ai_claim 为真 20
+
+可进入主判据的配对种子数（I2 与 J2 都「已运行」、都可用、效用都读得出）：20
+预注册的显著门槛按 20 颗种子的非平局配对冻结；上面的数掉得越多，判定越可能只能写成「样本不足以支撑宣称」。
+！判定文件已在盘上，本工具的历史读数不再具有时效，请以判定与守卫为准。
+=== results_need_v2/cache_yield_v2.py
+已收尾分块 7 个（dev_1_4, dev_5_6, test_11_14, test_15_18, test_19_22, test_23_26, test_7_10），种子 1-26 共 26 颗，J2 可用行 26 行；整批计划 26 颗种子 × 72 人。
+  llm_calls 合计 = 312（26/26 行有数值）
+  cache_hits 合计 = 1（26/26 行有数值）
+  cache_misses 合计 = 1871（26/26 行有数值）
+  llm_prompt_tokens 合计 = 764962（26/26 行有数值）
+  llm_completion_tokens 合计 = 1072462（26/26 行有数值）
+
+复用率 = cache_hits ÷ (hits+misses) = 1 ÷ 1872 = 0.05%
+对照 2：档案数 = 26 种子 × 72 人 = 1872；实际请求 312 次 ⇒ 请求/档案 = 0.167
+对照 3：缓存里不同 key = 1871 个，档案数 = 1872 ⇒ key/档案 = 0.999
+
+问题 = 无：三条路径都读到了数，复用率可核对。本脚本不判断这个复用率好不好，只把它算出来。
+=== results_need_v2/_selftest_splice_chain.py（批次期间的合成样本预跑）
+FAIL：/home/redaunt/ai_course_planner_mvp/results_need_v2/FROZEN_VERDICT_V2.md 已经存在——判定已落盘，本自检不再往 README 副本里拼合成样本。
+=== results_need_v2/_selftest_analyze_contract.py
+已写出合成判定：/home/redaunt/ai_course_planner_mvp/results_need_v2/_selftest_from_analyze_v2.md
+搬运链会抓到的行数：9
+   - 判据（独立测试种子 7-26，19 个非平局配对场景）：J2 − I2 = 1.95，10 胜 9 负平 1，双侧精确符号检验 p = 1.0，门槛 ≥15 胜，结论：未过线，按预注册读作阴性结果。
+   - 幅度：标准误 5.03，±2SE 区间 [-8.1, 12.0]；单场景最小 -30、最大 40——均值可能被个别种子拉起，所以先看胜局数再看均值。
+   - 差距：还需 5 胜才达到 5% 显著线；按停止规则不追加种子、不换指标。点估计小且 ±2SE 跨 0 时，结论是**本设计测不出差异**，不是**证明了两法无差异**。
+   - 低分位：p10 学生效用差 0.03。总效用更高不必然更公平，这一行单独给出最差学生的变化方向。
+   | 指标（测试种子均值） | I2_规则完整需求模型 | J2_AI完整需求模型 | K2_真实需求标签参照 |
+   - 判据（开发种子 1-6（只用于确认管线，不作宣称），6 个非平局配对场景）：J2 − I2 = -4.17，2 胜 4 负平 0，双侧精确符号检验 p = 0.6875，门槛 ≥6 胜，结论：未过线，按预注册读作阴性
+   - 幅度：标准误 9.14，±2SE 区间 [-22.5, 14.1]；单场景最小 -30、最大 25——均值可能被个别种子拉起，所以先看胜局数再看均值。
+   - 差距：还需 4 胜才达到 5% 显著线；按停止规则不追加种子、不换指标。点估计小且 ±2SE 跨 0 时，结论是**本设计测不出差异**，不是**证明了两法无差异**。
+OK：变异「百分比被当成计数加总」被抓到：一般偏好行命中率(%) → 864
+OK：变异「列 cache_misses 缺失」拒绝出稿——J2_AI完整需求模型 的 CSV 表头里没有列 cache_misses（该表共 35 列）：……
+OK：变异「列 v2_rows_preference 缺失」拒绝出稿——I2_规则完整需求模型 的 CSV 表头里没有列 v2_rows_preference（该表共 ……
+OK：变异「列 llm_calls 缺失」拒绝出稿——J2_AI完整需求模型 的 CSV 表头里没有列 llm_calls（该表共 35 列）：读成 ……
+OK：变异「列 solver_status 缺失」拒绝出稿——I2_规则完整需求模型 的 CSV 表头里没有列 solver_status（该表共 35 列）……
+OK：变异「整臂 J2 不在样本里」拒绝出稿——判定样本里没有任何 J2_AI完整需求模型 的行，列 total_preference_util……
+OK：缓存条目在「零命中 / 部分命中 / 确有复用 / 全部回退 / 无记录」五种状态下各印各话，零命中用实测打包比解释成本、不再声称种子内部复用有效，两种空数据都选不到「有效」那半句。
+OK：变异「奉承句放回零命中分支」被指名抓到：FAIL：状态「零命中」没有印出「一次命中都没有」那半句，实际是：- 缓存复用实测：命中 0 / 未命中 1440。……
+OK：变异「零命中句丢掉实测打包比」被指名抓到：FAIL：零命中那句没给出可核对的打包比（期望「打包 6.0 份档案」），实际是：成本完全靠每次调用打包多份档案压下……
+OK：「被判不可用的 J2 行」按 _usable 计数，回退与状态异常都算，那句「全部走了 LLM 解析」只在真的没有例外时才出现。
+OK：§6 的收敛披露逐臂印出由落盘行现算的 OPTIMAL 计数（I2_规则完整需求模型 20/20、J2_AI完整需求模型 14/20、K2_真实需求标签参照 4/20），整臂回退时那一条臂显式写成 0/0，旧的「同分布」断言不再出现。
+OK：变异「把未经实测的「同分布」断言放回披露句」被指名抓到：FAIL：三臂行数与假行现算结果不一致：- 求解器可重复性的边界：`--solver-max-seconds` 是墙……
+OK：变异「披露格式不变但分子被当成全部收敛」被指名抓到：FAIL：三臂行数与假行现算结果不一致：- 求解器可重复性的边界：`--solver-max-seconds` 是墙……
+OK：analyze_need_v2 的实际输出格式与搬运链找的标记一致。
+OK：全部 (%) 列的单元格都在 0..100 内，百分比没有被当成计数加总。
+=== results_need_v2/_selftest_prereg_coverage.py
+未变异通过：问题 = 无：§4 承诺 4 项次要判据 + 4 项新字段指标，连同主判据门槛与 13 条固定要求，共 24 条全部出现在 _selftest_from_analyze_v2.md（承诺列表取自 PREREGISTRATION_NEED_V2.md §4 的实时解析）
+OK：变异「判定少印一行「重要需求识别召回」——复刻 00:55 那次漏印」按预期被抓到 → §4 承诺「重要需求识别召回」
+OK：变异「判定把「需求识别 F1(%)」改成全角括号」按预期被抓到 → 判定里没有「需求识别 F1(%)」
+OK：变异「判定删掉缓存复用那句披露」按预期被抓到 → 任务书 §四 要求的缓存复用
+OK：变异「判定删掉低分位那一行（测试与开发两处）」按预期被抓到 → 任务书 §四 要求的低分位效用
+OK：变异「判定的显著门槛被写成 ≥14 胜」按预期被抓到 → §4 冻结的显著门槛是至少 15 胜
+OK：变异「判定的测试种子范围被写成 7-25」按预期被抓到 → §3 划定的测试种子范围
+OK：变异「文档新增一项次要判据，映射表还没跟上」按预期被抓到 → §4 新增了次要判据「中位学生效用」
+OK：变异「文档给已承诺的指标改名（映射表反向失效，等于悄悄放弃承诺）」按预期被抓到 → 映射表还写着「重要需求识别召回」
+OK：变异「文档整项删掉一个承诺（解析条数必须触发下限，不许少承诺就少检查）」按预期被抓到 → §4 承诺列表只解析到
+OK：变异「文档用逗号分隔次要判据（换行/改标点打断解析）」按预期被抓到 → §4 承诺列表只解析到
+OK：变异「文档把显著门槛改成 12 胜（判定仍是 15）」按预期被抓到 → §4 冻结的显著门槛是至少 12 胜
+OK：变异「文档把 §4 条目改名（解析落空，守卫必须拒绝执行而不是当作没承诺）」按预期被抓到 → 找不到以「- **次要判据」开头的条目
+变异 = 12 条（判定侧 6、文档侧 6），漏抓 = 0 条；副本已删：True。
+=== results_need_v2/_selftest_waiter_bracket.py
+[wait_batch_then_fulltests.sh] 匹配串 ['[r]un_need_v2_chunks.sh', '[r]un_need_v2\\.py']，目标 2 个
+    '[r]un_need_v2_chunks.sh' 认出 1/2 个目标：跑批外壳
+    '[r]un_need_v2\\.py' 认出 1/2 个目标：真实批次
+[post_batch_pipeline.sh] 匹配串 ['run_need_v2_[c]hunks.sh', 'run_need_v2[.]py', 'wait_batch_then_fulltests[.]sh']，目标 3 个
+    'run_need_v2_[c]hunks.sh' 认出 1/3 个目标：跑批外壳
+    'run_need_v2[.]py' 认出 1/3 个目标：真实批次
+    'wait_batch_then_fulltests[.]sh' 认出 1/3 个目标：等待器自身
+
+变异：
+  改前的字面量 'run_need_v2_chunks.sh' → 自我命中 = True（应为 True，否则本核对没有区分力）
+  收得过紧的括号类 '[r]un_need_v2_chunxks.sh' → 一个目标都认不出 = True（应为 True）
+
+OK：两条等待循环的每个匹配串都仍认出自己的被等对象，且都不再命中携带自身字面量的命令行；两个变异（改前字面量、过紧括号类）都被指名抓到。
+=== results_need_v2/waiter_pattern_probe.py
+[等待器] results_need_v2/wait_batch_then_fulltests.sh：匹配串 ['[r]un_need_v2_chunks.sh', '[r]un_need_v2\\.py']，轮询间隔 60s，存活 ≥60s 的进程 64 个
+    '[r]un_need_v2_chunks.sh' 命中 0 个长期进程
+    '[r]un_need_v2\\.py' 命中 0 个长期进程
+[收尾器] results_need_v2/post_batch_pipeline.sh：匹配串 ['run_need_v2_[c]hunks.sh', 'run_need_v2[.]py', 'wait_batch_then_fulltests[.]sh']，轮询间隔 120s，存活 ≥120s 的进程 64 个
+    'run_need_v2_[c]hunks.sh' 命中 0 个长期进程
+    'run_need_v2[.]py' 命中 0 个长期进程
+    'wait_batch_then_fulltests[.]sh' 命中 0 个长期进程
+
+问题 = 无：两条等待循环只命中真实批次与跑批外壳；批次一退出，链就会在一轮间隔内放行。（判据是「活过自己的轮询间隔」，2026-10-18 10:43:41 的 /proc 快照）
+=== -m unittest discover -s tests -t .
+2026-10-18 10:43:41.533 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:43:41.534 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:43:41.534 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+.....2026-10-18 10:43:42.215 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:43:42.218 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:43:42.218 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:43:42.338 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 136, in exec_func_with_error_handling
+    result = func()
+             ^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 924, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/app.py", line 253, in <module>
+    sem_preset, sem_diag = solve_assignment(world, sem_visible)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/tests/test_app_need_v2_tab.py", line 78, in _raise
+    raise AssertionError(f"{name} 被调用：本文件承诺不进求解器、不发 API 请求")
+AssertionError: planner_core.solve_assignment 被调用：本文件承诺不进求解器、不发 API 请求
+...2026-10-18 10:43:42.505 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+..................................................................................................................................[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+..[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+...............
+----------------------------------------------------------------------
+Ran 155 tests in 26.165s
+
+OK

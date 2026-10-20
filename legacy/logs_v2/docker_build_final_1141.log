@@ -1,0 +1,57 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.11kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 1.13kB done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#5 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.1s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 176.58kB done
+#4 DONE 0.0s
+
+#6 [3/8] COPY requirements.txt /app/requirements.txt
+#6 CACHED
+
+#7 [4/8] RUN pip install  --no-cache-dir -r /app/requirements.txt  && python -c "import ortools, streamlit, pandas, requests, dotenv; print('deps-ok')"
+#7 CACHED
+
+#8 [2/8] WORKDIR /app
+#8 CACHED
+
+#9 [5/8] RUN set -eux;     if [ -n "libgomp1 tzdata ca-certificates" ]; then       if [ -n "https://mirrors.tuna.tsinghua.edu.cn" ]; then         sed -i "s|http://deb.debian.org/debian-security|https://mirrors.tuna.tsinghua.edu.cn/debian-security|g;                 s|http://deb.debian.org/debian|https://mirrors.tuna.tsinghua.edu.cn/debian|g" /etc/apt/sources.list.d/debian.sources;       fi;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 update;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 install -y --no-install-recommends libgomp1 tzdata ca-certificates;       rm -rf /var/lib/apt/lists/*;     fi
+#9 CACHED
+
+#10 [6/8] COPY . .
+#10 DONE 0.1s
+
+#11 [7/8] COPY data/ /app/data_ship/
+#11 DONE 0.1s
+
+#12 [8/8] RUN useradd --create-home --uid 1000 --shell /bin/bash planner  && mkdir -p /app/data /app/semantic_cache /app/logs /app/outputs  && cp -rn /app/data_ship/. /app/data/  && chmod +x /app/docker-entrypoint.sh  && find /app -name __pycache__ -type d -prune -exec rm -rf {} +  && chown -R planner:planner /app
+#12 DONE 1.4s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.4s done
+#13 exporting manifest sha256:c3f63a48fa1d5f93ba7d44a83221b2b01f410c358e05ca8bef7149e8a9405341 0.0s done
+#13 exporting config sha256:b9cef323d64002c8977dcc792d12824d8193d812168ac948fd0d3d8f9d99b3c0 0.0s done
+#13 exporting attestation manifest sha256:6ba015b2c34695dfc837eb9e35a0c047ca51891c46566577d6284e100cb8779a
+#13 exporting attestation manifest sha256:6ba015b2c34695dfc837eb9e35a0c047ca51891c46566577d6284e100cb8779a 0.1s done
+#13 exporting manifest list sha256:41d724dee9666265b94e423f7073c549fafd21848801793509ee53fe14b756d0 0.0s done
+#13 naming to docker.io/library/ai-course-planner:1.0.0 done
+#13 unpacking to docker.io/library/ai-course-planner:1.0.0
+#13 unpacking to docker.io/library/ai-course-planner:1.0.0 0.2s done
+#13 DONE 0.8s

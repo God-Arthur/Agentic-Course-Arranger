@@ -1,0 +1,28 @@
+2026-10-16 16:22:20.212 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[initial] exceptions=0 dataframes=1 metrics=0 markdown=2 info=1 warning=1 error=0
+[mode B] exceptions=0 dataframes=14 metrics=4 markdown=17 info=2 warning=1 error=0
+[mode F] exceptions=0 dataframes=15 metrics=6 markdown=17 info=1 warning=1 error=0
+[csv import] exceptions=0 dataframes=15 metrics=6 markdown=17 info=1 warning=1 error=0
+[all mechanisms] exceptions=0 dataframes=18 metrics=6 markdown=19 info=0 warning=2 error=0
+HEADLESS_APP_OK
+--- 2026-10-17 re-check (results/apptest_smoke.py, 40-seed report code) ---
+[initial] exceptions=0 dataframes=1 metrics=0 warnings=1 errors=0
+[run B] exceptions=0 dataframes=14 metrics=4 warnings=1 errors=0
+[all mechanisms (rule only)] exceptions=0 dataframes=17 metrics=4 warnings=2 errors=0
+[contrast columns] OK
+[caption] 符号检验只问“在非平局场景里前者赢的次数是否多于抛硬币”，不问赢的幅度。本轮最多 1 个非平局场景，即使 1 战全胜 p 也只到 1.0，达不到 5% 显著——因此这些行只能报告方向，不能报告效果。
+[excluded rows warning] OK
+HEADLESS_APP_OK
+exit=0
+==============================================================
+re-run 2026-10-17 (README 批次 3 改写后：新增未复现 caption、配对表破折号、H≡B0 种子数现算)
+2026-10-17 13:30:05
+2026-10-17 13:30:06.073 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[initial] exceptions=0 dataframes=1 metrics=0 warnings=1 errors=0
+[run B] exceptions=0 dataframes=14 metrics=4 warnings=1 errors=0
+[all mechanisms (rule only)] exceptions=0 dataframes=17 metrics=4 warnings=2 errors=0
+[contrast columns] OK
+[caption] 符号检验只问“在非平局场景里前者赢的次数是否多于抛硬币”，不问赢的幅度。本轮最多 1 个非平局场景，即使 1 战全胜 p 也只到 1.0，达不到 5% 显著——因此这些行只能报告方向，不能报告效果。
+[excluded rows warning] OK
+HEADLESS_APP_OK
+exit=0

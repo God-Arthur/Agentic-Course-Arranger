@@ -1,0 +1,19 @@
+# 可选 overlay：把宿主仓库根的 .env 只读挂进容器 /app/.env，让演示页预填 Base URL 与模型名。
+#
+#   docker compose -f compose.yaml -f compose.dotenv.yaml up -d
+#
+# 为什么单独一个文件：现行代码只读 .env 文件、不读环境变量（planner/env_config.py），
+# 而 bind 挂载指向不存在的源会让容器起不来，compose 又不允许对 bind 用 required: false。
+# 所以基础 compose.yaml 里不挂密钥，谁有 .env 谁多传一层这个文件。
+#
+# 密钥只进这一次挂载：不进镜像层、不进构建上下文（.dockerignore 已排除 .env）、
+# 不出现在 docker compose config 的输出里（它只渲染挂载路径，不渲染文件内容）。
+services:
+  demo:
+    volumes:
+      - type: bind
+        source: .env
+        target: /app/.env
+        read_only: true
+        bind:
+          create_host_path: false

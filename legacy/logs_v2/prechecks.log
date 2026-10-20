@@ -1,0 +1,9 @@
+已拼接：@@VERDICT_MAIN@@ → 4 行；@@VERDICT_HEAD@@ → 1 行；@@VERDICT_TABLE@@ → 6 行
+OK：判定原文 8 行已逐行出现在 §7B（含次要指标表）与 §9（主判据），没有改写。
+README §7B 开发集核对：9 / 9 行一致
+README §7 配对表核对行数 = 14（报告侧对比表 14 行）
+README §7 均值表核对行数 = 9
+问题 = 无：§7 每个数字都能在同一份报告里找到
+GUARDS_OK
+TESTS_OK
+NO_V1_RUNNING

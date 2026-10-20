@@ -1,0 +1,162 @@
+[watch] 09:44:33 开始等待判定；此刻 results_need_v2/FROZEN_VERDICT_V2.md 存在=no
+[watch] 10:19:26 判定循环结束，存在=yes
+[watch] 10:25:58 收尾日志连续 3 分钟停在 16443 字节，判定链已结束
+[watch] 10:25:58 收尾日志 logs_v2/post_batch_pipeline.log 全文：
+2026-10-18 10:17:14 批次进程已退出。logs_v2/v2_chunks.log 里 [seed N] 行数 = 26。
+2026-10-18 10:19:25 等待器已退出，全套单测结果见 logs_v2/wait_batch_then_fulltests.log。
+2026-10-18 10:19:25 == .venv/bin/python analyze_need_v2.py
+开发分块 ['dev_1_4', 'dev_5_6']；测试分块 ['test_11_14', 'test_15_18', 'test_19_22', 'test_23_26', 'test_7_10']。
+# 冻结判据：完整语义需求模型（J2 AI 解析）相对（I2 规则解析）
+
+> 本文件由 `analyze_need_v2.py` 从 `raw_rows.csv` 计算生成，任何数字都不是手填的。
+> 判据、种子划分与停止规则冻结于 `PREREGISTRATION_NEED_V2.md`；需求模型版本 semantic-need-v2。
+
+- 测试种子 20 个、开发种子 6 个；学生 72 名/种子，每方案重放 3 个配对随机情景；模型 agnes-3.0-flash，配额 20 次/分钟；三臂各 0 次询问。
+
+**读数字之前必须先记住的两件事**：
+1. 新增的学习目标、点名的第一志愿、可接受替代项、需求类别**都不进入优化目标**——分数映射、采纳阈值、每人课位上限与 v1 完全相同。因此 J2 与 I2 的任何效用差只能解释为**换提示词以后相关度变了**，不能叙述成「因为 AI 识别出了可接受替代项所以课表变好」。
+2. 行级「明确要求」标签对三臂都是结构性空集（唯一被逐字点名的课是学生自申报的专业选修，必被合法性校验拒绝），所以下表它的行数恒为 0；真·明确要求由 `explicit_request` 字段承载，用生成器给的真第一志愿判分。
+
+## 1. 主判据
+
+- 判据（独立测试种子 7-26，20 个非平局配对场景）：J2 − I2 = 1.06，11 胜 9 负平 0，双侧精确符号检验 p = 0.8238，门槛 ≥15 胜，结论：未过线，按预注册读作阴性结果。
+- 幅度：标准误 27.31，±2SE 区间 [-53.6, 55.7]；单场景最小 -208.0、最大 194.0——均值可能被个别种子拉起，所以先看胜局数再看均值。
+- 差距：还需 4 胜才达到 5% 显著线；按停止规则不追加种子、不换指标。点估计小且 ±2SE 跨 0 时，结论是**本设计测不出差异**，不是**证明了两法无差异**。
+- 低分位：p10 学生效用差 -0.04。总效用更高不必然更公平，这一行单独给出最差学生的变化方向。
+
+## 2. 次要指标（只描述，不做显著性宣称）
+
+| 指标（测试种子均值） | I2_规则完整需求模型 | J2_AI完整需求模型 | K2_真实需求标签参照 |
+| --- | --- | --- | --- |
+| 最终总效用 | 13173.37 | 13174.43 | 13249.27 |
+| 需求识别 F1(%) | 51.12 | 30.96 | 77.22 |
+| 重要需求识别召回(%) | 52.99 | 22.79 | 100.0 |
+| 重要需求最终满足率(%) | 19.94 | 20.43 | 22.67 |
+| p10 学生效用 | 48.09 | 48.05 | 48.46 |
+
+- 相对真值参照的剩余差距：K2 − J2 = 74.83（14 胜 / 20 个非平局配对）。K2 用隐藏标签、不可部署，只说明同一接口还剩多少天花板；若 K2 也几乎不超过 I2，瓶颈在座位与两轮分配，不在解析器。
+
+## 3. 新字段本身可不可信（判分来自生成器事实与规则校验，模型不给自己打分）
+
+| 字段指标（测试种子） | I2_规则完整需求模型 规则 | J2_AI完整需求模型 AI | 方向 |
+| --- | --- | --- | --- |
+| 点名第一志愿识别率(%) | 100.0 | 98.8 | 对，逐字比对生成器给的真第一志愿 |
+| 点名幻觉数（全批合计） | 0.0 | 0.0 | 对，声称学生点过它没点的课 |
+| 可接受替代项判断正确率(%) | 100.0 | 98.9 | 对，与记录里的原句一致 |
+| 替代项幻觉数（全批合计） | 0.0 | 0.0 | 越少越好 |
+| 替代项漏判数（全批合计） | 0.0 | 0.8 | 越少越好 |
+| 自称明确要求被规则纠正数（全批合计） | 0.0 | 0.0 | 越少越好 |
+| 类别虚报率(%) | 0.0 | 0.0 | 越少越好 |
+| 每人生成可核对学习目标数 | 1.0 | 2.47 | 只说明交付了字段 |
+| 学习目标被规则拒绝率(%) | 0.0 | 0.03 | 越少越好 |
+| 学习目标覆盖真值主题率(%) | 100.0 | 98.96 | 越高越好 |
+| 模型自报歧义提问数（全批合计） | 71.7 | 63.6 | 只说明交付了字段 |
+| 相关度行的平均不确定性 | 0.2 | 0.24 | 只说明交付了字段 |
+
+### 需求类别的行数分布（三臂合并看，用来暴露结构性空集）
+
+| 类别 | I2_规则完整需求模型 行数 | J2_AI完整需求模型 行数 | 说明 |
+| --- | --- | --- | --- |
+| 明确要求行数 | 0 | 0 | 结构性空集，见开头第 2 条 |
+| 一般偏好行数 | 3145 | 1041 |  |
+| 仍有歧义行数 | 0 | 148 |  |
+| 一般偏好行命中率(%) | 51.3 | 60.0 | 按各类别行数合并后重算，不是各种子百分比的平均或加总 |
+| 仍有歧义行命中率(%) | 该臂无此行 | 48.0 | 按各类别行数合并后重算，不是各种子百分比的平均或加总 |
+- 两臂的行不是按同一个分母切的：一般偏好行 I2_规则完整需求模型 3145 / J2_AI完整需求模型 1041，仍有歧义行 I2_规则完整需求模型 0 / J2_AI完整需求模型 148。所以逐类别的百分比只能当描述，**不能当成同分母的可比差异**；某臂在该类别一行都没有时不给百分比，也不给 0。
+
+## 4. 运行成本与可靠性
+
+- J2 组：LLM 调用 240 次，提示词 588625 token / 补全 824242 token，批次重试 0 次，档案缓存命中 0 / 未命中 1440。
+- 被判不可用的 J2 行：0 行；本轮每一行 J2 的状态都是「已运行」且带 valid_for_ai_claim，即全部测试种子都真正走了 LLM 解析（这一句只陈述状态字段的取值，不解释原因）。
+- 硬约束违规：I2 0 个、J2 0 个、K2 0 个（两种解析器都不得越过规则系统，必修清单不由模型决定）。
+- 推断课位：I2 每颗种子平均 157.25 个、J2 56.15 个（该字段是一整场所有学生合计，不是每人），覆盖学生率 75.14% / 59.65%。
+- 缓存复用实测：命中 0 / 未命中 1440。一次命中都没有：这批档案没有一份被复用过，缓存没有省下任何一次调用，成本完全靠每次调用打包多份档案压下来（实测每次 LLM 调用打包 6.0 份档案）。档案每颗种子重新生成、缓存键含 `.skill` 原文，跨种子没有可复用的键；同一颗种子内每份档案也只解析一次，所以连种子内部都不存在可命中的重复。任务书设想的「相同档案跨种子复用」在这批数据里没有发生，这句不能写成缓存起了作用。
+
+## 5. 开发种子（同一判据的另一种算法，只用于说明方差）
+
+- 判据（开发种子 1-6（只用于确认管线，不作宣称），6 个非平局配对场景）：J2 − I2 = -32.93，1 胜 5 负平 0，双侧精确符号检验 p = 0.2188，门槛 ≥6 胜，结论：未过线，按预注册读作阴性结果。
+- 幅度：标准误 35.75，±2SE 区间 [-104.4, 38.6]；单场景最小 -108.3、最大 133.0——均值可能被个别种子拉起，所以先看胜局数再看均值。
+- 差距：还需 5 胜才达到 5% 显著线；按停止规则不追加种子、不换指标。点估计小且 ±2SE 跨 0 时，结论是**本设计测不出差异**，不是**证明了两法无差异**。
+- 低分位：p10 学生效用差 0.38。总效用更高不必然更公平，这一行单独给出最差学生的变化方向。
+
+## 6. 已验证 / 未验证
+
+- 已验证：完整需求模型的每个字段都有可核对来源，模型自称的内容逐条过规则校验，非法推断被丢弃并计数；三臂共用同一分数映射、同一优化器、同一两轮模拟；隐藏真实分数从不进入 I2 或 J2 的提示词；LLM 失败必回退并标记为不可用作 AI 证据。
+- 未验证 / 无法由本实验回答：真实学生是否真会这样写 `.skill`（记录为合成改写）；培养制度是否如假设；把课程介绍换成真实教务数据后别名表与提示词是否需要重做；n=20 的功效只够检出很强效应。
+- 求解器可重复性的边界：`--solver-max-seconds` 是墙钟上限且单 worker，撞上上限时交出的是**未证优的可行解**。同一颗种子、同一配置、同一个臂已经实测过目标函数值与最终效用都能移动（核对过程与数值见 README §7C；那是参照臂 K2，不在主判据里）。因此**单颗种子的效用差不能当成解析器的效应**，只有配对胜局数与跨种子合并区间可以。三臂共用同一上限与同一配对情景，但「未证优」在三臂之间不是同分布的噪声：本批测试种子上 solver_status 为 OPTIMAL 的行数实测为 I2_规则完整需求模型 20/20、J2_AI完整需求模型 16/20、K2_真实需求标签参照 3/20（分母是该臂可用的行数，由判定脚本从落盘 CSV 现算）。撞上上限的那一臂交出的是可行解而不是最优解，所以 J2 − I2 里混进了「搜索难度随解析结果而变」这一系统成分：判读时按混杂处理，不能只当作两臂同分布的随机抖动；符号检验的配对结构不受影响，但 ±2SE 区间里天然含未收敛的成分。
+- 与 v1 的关系：v1 检验的是任务书的原始设计（只判相关度），v2 检验的是把字段补齐成需求模型之后是否换来了最终收益。两者主判据互相独立，谁都不能用来宣布对方被推翻。
+
+已写出：/home/redaunt/ai_course_planner_mvp/results_need_v2/FROZEN_VERDICT_V2.md
+2026-10-18 10:19:25 rc=0
+2026-10-18 10:19:25 判定文件已产出，重跑离线 v2 界面测试以覆盖「已在盘上」分支。
+2026-10-18 10:19:25 == .venv/bin/python -m unittest tests.test_app_need_v2_tab -v
+2026-10-18 10:19:26.151 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:19:26.151 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:19:26.151 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+test_default_selection_is_the_offline_rule_arm (tests.test_app_need_v2_tab.V2NeedTabInApp.test_default_selection_is_the_offline_rule_arm) ... ok
+test_expander_declares_that_it_does_not_re_solve (tests.test_app_need_v2_tab.V2NeedTabInApp.test_expander_declares_that_it_does_not_re_solve) ... ok
+test_llm_arm_warns_about_shared_quota_and_is_never_clicked_here (tests.test_app_need_v2_tab.V2NeedTabInApp.test_llm_arm_warns_about_shared_quota_and_is_never_clicked_here) ... ok
+test_llm_guard_is_armed_on_the_module_the_app_calls (tests.test_app_need_v2_tab.V2NeedTabInApp.test_llm_guard_is_armed_on_the_module_the_app_calls) ... ok
+test_rule_arm_yields_a_v2_shaped_model_without_calling_the_llm (tests.test_app_need_v2_tab.V2NeedTabInApp.test_rule_arm_yields_a_v2_shaped_model_without_calling_the_llm) ... ok
+test_solver_guard_bites_through_the_app_import_path (tests.test_app_need_v2_tab.V2NeedTabInApp.test_solver_guard_bites_through_the_app_import_path) ... 2026-10-18 10:19:26.985 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:19:26.987 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:19:26.987 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-18 10:19:27.125 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 136, in exec_func_with_error_handling
+    result = func()
+             ^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 924, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/app.py", line 253, in <module>
+    sem_preset, sem_diag = solve_assignment(world, sem_visible)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/ai_course_planner_mvp/tests/test_app_need_v2_tab.py", line 78, in _raise
+    raise AssertionError(f"{name} 被调用：本文件承诺不进求解器、不发 API 请求")
+AssertionError: planner_core.solve_assignment 被调用：本文件承诺不进求解器、不发 API 请求
+ok
+test_truth_arm_has_no_natural_language_goals_by_contract (tests.test_app_need_v2_tab.V2NeedTabInApp.test_truth_arm_has_no_natural_language_goals_by_contract) ... ok
+test_verdict_is_either_shown_or_declared_missing_never_blurred (tests.test_app_need_v2_tab.V2NeedTabInApp.test_verdict_is_either_shown_or_declared_missing_never_blurred) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.122s
+
+OK
+2026-10-18 10:19:27 rc=0
+2026-10-18 10:19:27 == .venv/bin/python results_need_v2/prereg_coverage_guard.py
+问题 = 无：§4 承诺 4 项次要判据 + 4 项新字段指标，连同主判据门槛与 13 条固定要求，共 24 条全部出现在 FROZEN_VERDICT_V2.md（承诺列表取自 PREREGISTRATION_NEED_V2.md §4 的实时解析）
+2026-10-18 10:19:27 rc=0
+2026-10-18 10:19:27 == .venv/bin/python results_need_v2/need_v2_number_guard.py
+OK：I2_规则完整需求模型=13461.0 能在盘上的落盘文件或批次日志里找到。
+OK：J2_AI完整需求模型=13390.0 能在盘上的落盘文件或批次日志里找到。
+OK：K2_真实需求标签参照=13528.0 能在盘上的落盘文件或批次日志里找到。
+OK：K2_真实需求标签参照=13610.67 能在盘上的落盘文件或批次日志里找到。
+OK：差值 −82.67 与 13610.67、13528.0 的算术一致（本守卫重算）。
+OK：差值 −40.0 与 212480.0、212440.0 的算术一致（本守卫重算）。
+OK：差值 +790.0 与 213760.0、214550.0 的算术一致（本守卫重算）。
+OK：18.67 分钟/种子 × 分块计划的 26 颗种子 = 8.09 小时（本守卫重算）。
+OK：1872 档案 ÷ 3.86 个/分钟 = 8.08 小时，且 1872 = 26 × 72（分块计划与批次脚本）。
+问题 = 无：§7C 的 4 个数值 token、3 个差值与 2 条耗时算术全部可追溯。
+2026-10-18 10:19:27 rc=0
+2026-10-18 10:19:27 == .venv/bin/python results_semantic_need/verdict_readme_guard.py
+OK（v1（I/J/K））：判定原文 11 行已逐行出现在 ## 7B.（含次要指标表）与 §9（主判据），没有改写。
+FAIL：v2（I2/J2/K2） 有 11/12 行没有原样出现在 README（主判据要同时出现在 ## 7C. 与 §9，次要指标表出现在 ## 7C.）：
+  - 判据（独立测试种子 7-26，20 个非平局配对场景）：J2 − I2 = 1.06，11 胜 9 负平 0，双侧精确符号检验 p = 0.8238，门槛 ≥15 胜，结论：未过线，按预注册读作阴性结果。
+  - 幅度：标准误 27.31，±2SE 区间 [-53.6, 55.7]；单场景最小 -208.0、最大 194.0——均值可能被个别种子拉起，所以先看胜局数再看均值。
+  - 差距：还需 4 胜才达到 5% 显著线；按停止规则不追加种子、不换指标。点估计小且 ±2SE 跨 0 时，结论是**本设计测不出差异**，不是**证明了两法无差异**。
+  - 低分位：p10 学生效用差 -0.04。总效用更高不必然更公平，这一行单独给出最差学生的变化方向。
+  | --- | --- | --- | --- |
+  | 最终总效用 | 13173.37 | 13174.43 | 13249.27 |
+  | 需求识别 F1(%) | 51.12 | 30.96 | 77.22 |
+  | 重要需求识别召回(%) | 52.99 | 22.79 | 100.0 |
+  | 重要需求最终满足率(%) | 19.94 | 20.43 | 22.67 |
+  | p10 学生效用 | 48.09 | 48.05 | 48.46 |
+  - 判据（独立测试种子 7-26，20 个非平局配对场景）：J2 − I2 = 1.06，11 胜 9 负平 0，双侧精确符号检验 p = 0.8238，门槛 ≥15 胜，结论：未过线，按预注册读作阴性结果。   [§9 缺少主判据原文]
+2026-10-18 10:19:27 rc=1
+2026-10-18 10:19:27 == .venv/bin/python results_batches/readme_number_guard.py
+README §7 配对表核对行数 = 14（报告侧对比表 14 行）
+README §7 均值表核对行数 = 9
+问题 = 无：§7 每个数字都能在同一份报告里找到
+2026-10-18 10:19:27 rc=0
+2026-10-18 10:19:27 === pipeline end ===

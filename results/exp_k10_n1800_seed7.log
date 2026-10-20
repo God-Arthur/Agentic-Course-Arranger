@@ -1,0 +1,745 @@
+[needs] 25/1800 用时 20s 调用 25
+[needs] 50/1800 用时 40s 调用 50
+[needs] 75/1800 用时 55s 调用 75
+[needs] 100/1800 用时 74s 调用 100
+[needs] 125/1800 用时 89s 调用 125
+[needs] 150/1800 用时 105s 调用 150
+[needs] 175/1800 用时 124s 调用 175
+[needs] 200/1800 用时 142s 调用 200
+[needs] 225/1800 用时 160s 调用 225
+[needs] 250/1800 用时 178s 调用 250
+[needs] 275/1800 用时 194s 调用 275
+=== 重启：加入 sanitized 分项计数 ===
+[needs] 25/1600 用时 20s 调用 25
+[needs] 50/1600 用时 36s 调用 50
+[needs] 75/1600 用时 51s 调用 75
+[needs] 100/1600 用时 68s 调用 100
+[needs] 125/1600 用时 87s 调用 125
+[needs] 150/1600 用时 103s 调用 150
+[needs] 175/1600 用时 121s 调用 175
+[needs] 200/1600 用时 140s 调用 200
+[needs] 225/1600 用时 158s 调用 225
+[needs] 250/1600 用时 174s 调用 250
+[needs] 275/1600 用时 193s 调用 275
+[needs] 300/1600 用时 209s 调用 300
+[needs] 325/1600 用时 226s 调用 325
+[needs] 350/1600 用时 244s 调用 350
+[needs] 375/1600 用时 257s 调用 375
+[needs] 400/1600 用时 275s 调用 400
+[needs] 425/1600 用时 290s 调用 425
+[needs] 450/1600 用时 308s 调用 450
+[needs] 475/1600 用时 324s 调用 475
+[needs] 500/1600 用时 342s 调用 500
+[needs] 525/1600 用时 357s 调用 525
+[needs] 550/1600 用时 374s 调用 550
+[needs] 575/1600 用时 392s 调用 575
+[needs] 600/1600 用时 408s 调用 600
+[needs] 625/1600 用时 426s 调用 625
+[needs] 650/1600 用时 443s 调用 650
+[needs] 675/1600 用时 459s 调用 675
+[needs] 700/1600 用时 478s 调用 700
+[needs] 725/1600 用时 496s 调用 725
+[needs] 750/1600 用时 511s 调用 750
+[needs] 775/1600 用时 527s 调用 775
+[needs] 800/1600 用时 544s 调用 800
+[needs] 825/1600 用时 562s 调用 825
+[needs] 850/1600 用时 578s 调用 850
+[needs] 875/1600 用时 595s 调用 875
+[needs] 900/1600 用时 614s 调用 900
+[needs] 925/1600 用时 632s 调用 925
+[needs] 950/1600 用时 651s 调用 950
+[needs] 975/1600 用时 670s 调用 975
+[needs] 1000/1600 用时 685s 调用 1000
+[needs] 1025/1600 用时 699s 调用 1025
+[needs] 1050/1600 用时 719s 调用 1050
+[needs] 1075/1600 用时 735s 调用 1075
+[needs] 1100/1600 用时 754s 调用 1100
+[needs] 1125/1600 用时 770s 调用 1125
+[needs] 1150/1600 用时 789s 调用 1150
+[needs] 1175/1600 用时 806s 调用 1175
+[needs] 1200/1600 用时 825s 调用 1200
+[needs] 1225/1600 用时 841s 调用 1225
+[needs] 1250/1600 用时 857s 调用 1250
+[needs] 1275/1600 用时 873s 调用 1275
+[needs] 1300/1600 用时 889s 调用 1300
+[needs] 1325/1600 用时 908s 调用 1325
+[needs] 1350/1600 用时 925s 调用 1350
+[needs] 1375/1600 用时 942s 调用 1375
+[needs] 1400/1600 用时 958s 调用 1400
+[needs] 1425/1600 用时 976s 调用 1425
+[needs] 1450/1600 用时 993s 调用 1450
+[needs] 1475/1600 用时 1008s 调用 1475
+[needs] 1500/1600 用时 1026s 调用 1500
+[needs] 1525/1600 用时 1046s 调用 1525
+[needs] 1550/1600 用时 1063s 调用 1550
+[needs] 1575/1600 用时 1078s 调用 1575
+[needs] 1600/1600 用时 1088s 调用 1600
+[phase] 需求 1800 人就绪，累计调用 1600
+[perf] {"avg_latency_s": 10.74, "max_latency_s": 23.86, "call_span_s": 1084.2, "effective_rpm": 88.5, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 1600）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 415, in <module>
+  File "/home/redaunt/redo/tools/run_experiment.py", line 391, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 250, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 205, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 113, in run_rounds
+    _apply_grants(world, state, prefs, allocator(round_index, prefs, state.view()),
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 256, in allocate
+    raw = client.chat_json(system=_ALLOC_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：The read operation timed out
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[plans] iter0 r1 已填 200/1800 累计调用 200
+[plans] iter0 r1 已填 400/1800 累计调用 401
+[plans] iter0 r1 已填 600/1800 累计调用 601
+[plans] iter0 r1 已填 800/1800 累计调用 801
+[plans] iter0 r1 已填 1000/1800 累计调用 1001
+[plans] iter0 r1 已填 1200/1800 累计调用 1201
+[plans] iter0 r1 已填 1400/1800 累计调用 1401
+[plans] iter0 r1 已填 1600/1800 累计调用 1602
+[plans] iter0 r1 已填 1800/1800 累计调用 1802
+[alloc] r1 块 1/1 行数 112 用时 1936s 累计调用 1806
+[ckpt] iter0 round1 落盘，累计调用 1806
+[plans] iter0 r2 已填 200/1800 累计调用 2006
+[plans] iter0 r2 已填 400/1800 累计调用 2206
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：<urlopen error [Errno -2] Name or service not known>
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 1 轮已复用（450 条事件）
+[resume] 第 0 轮第 2 轮志愿复用 400 人（不调模型）
+[plans] iter0 r2 已填 600/1800 累计调用 201
+[plans] iter0 r2 已填 800/1800 累计调用 401
+[plans] iter0 r2 已填 1000/1800 累计调用 601
+[plans] iter0 r2 已填 1200/1800 累计调用 802
+[plans] iter0 r2 已填 1400/1800 累计调用 1002
+[plans] iter0 r2 已填 1600/1800 累计调用 1202
+[plans] iter0 r2 已填 1800/1800 累计调用 1402
+[alloc] r2 块 1/1 行数 119 用时 813s 累计调用 1404
+[ckpt] iter0 round2 落盘，累计调用 1404
+[satisfy i0] 25/1800 用时 27s 调用 25
+[satisfy i0] 50/1800 用时 44s 调用 50
+[satisfy i0] 75/1800 用时 62s 调用 75
+[satisfy i0] 100/1800 用时 80s 调用 100
+[satisfy i0] 125/1800 用时 100s 调用 125
+[satisfy i0] 150/1800 用时 118s 调用 150
+[satisfy i0] 175/1800 用时 140s 调用 175
+[satisfy i0] 200/1800 用时 161s 调用 200
+[satisfy i0] 225/1800 用时 178s 调用 225
+[satisfy i0] 250/1800 用时 200s 调用 250
+[satisfy i0] 275/1800 用时 215s 调用 275
+[satisfy i0] 300/1800 用时 235s 调用 300
+[satisfy i0] 325/1800 用时 251s 调用 325
+[satisfy i0] 350/1800 用时 272s 调用 350
+[satisfy i0] 375/1800 用时 293s 调用 375
+[satisfy i0] 400/1800 用时 314s 调用 400
+[satisfy i0] 425/1800 用时 336s 调用 425
+[satisfy i0] 450/1800 用时 353s 调用 450
+[satisfy i0] 475/1800 用时 372s 调用 475
+[satisfy i0] 500/1800 用时 388s 调用 500
+[satisfy i0] 525/1800 用时 407s 调用 525
+[satisfy i0] 550/1800 用时 427s 调用 550
+[satisfy i0] 575/1800 用时 450s 调用 575
+[satisfy i0] 600/1800 用时 469s 调用 600
+[satisfy i0] 625/1800 用时 489s 调用 625
+[satisfy i0] 650/1800 用时 508s 调用 650
+[satisfy i0] 675/1800 用时 525s 调用 675
+[satisfy i0] 700/1800 用时 545s 调用 700
+[satisfy i0] 725/1800 用时 566s 调用 725
+[satisfy i0] 750/1800 用时 585s 调用 750
+[satisfy i0] 775/1800 用时 602s 调用 775
+[satisfy i0] 800/1800 用时 622s 调用 800
+[satisfy i0] 825/1800 用时 642s 调用 825
+[satisfy i0] 850/1800 用时 666s 调用 850
+[satisfy i0] 875/1800 用时 688s 调用 875
+[satisfy i0] 900/1800 用时 708s 调用 900
+[satisfy i0] 925/1800 用时 728s 调用 925
+[satisfy i0] 950/1800 用时 749s 调用 950
+[satisfy i0] 975/1800 用时 770s 调用 975
+[satisfy i0] 1000/1800 用时 789s 调用 1000
+[satisfy i0] 1025/1800 用时 808s 调用 1025
+[satisfy i0] 1050/1800 用时 832s 调用 1050
+[satisfy i0] 1075/1800 用时 850s 调用 1075
+[satisfy i0] 1100/1800 用时 872s 调用 1100
+[satisfy i0] 1125/1800 用时 892s 调用 1125
+[satisfy i0] 1150/1800 用时 910s 调用 1150
+[satisfy i0] 1175/1800 用时 932s 调用 1175
+[satisfy i0] 1200/1800 用时 950s 调用 1200
+[satisfy i0] 1225/1800 用时 972s 调用 1225
+[satisfy i0] 1250/1800 用时 991s 调用 1250
+[satisfy i0] 1275/1800 用时 1011s 调用 1275
+[satisfy i0] 1300/1800 用时 1026s 调用 1300
+[satisfy i0] 1325/1800 用时 1047s 调用 1325
+[satisfy i0] 1350/1800 用时 1069s 调用 1350
+[satisfy i0] 1375/1800 用时 1085s 调用 1375
+[satisfy i0] 1400/1800 用时 1104s 调用 1400
+[satisfy i0] 1425/1800 用时 1120s 调用 1425
+[satisfy i0] 1450/1800 用时 1141s 调用 1450
+[satisfy i0] 1475/1800 用时 1160s 调用 1475
+[satisfy i0] 1500/1800 用时 1183s 调用 1500
+[satisfy i0] 1525/1800 用时 1205s 调用 1525
+[satisfy i0] 1550/1800 用时 1224s 调用 1550
+[satisfy i0] 1575/1800 用时 1245s 调用 1575
+[satisfy i0] 1600/1800 用时 1265s 调用 1600
+[satisfy i0] 1625/1800 用时 1285s 调用 1625
+[satisfy i0] 1650/1800 用时 1303s 调用 1650
+[satisfy i0] 1675/1800 用时 1329s 调用 1675
+[satisfy i0] 1700/1800 用时 1347s 调用 1700
+[satisfy i0] 1725/1800 用时 1365s 调用 1725
+[satisfy i0] 1750/1800 用时 1384s 调用 1750
+[satisfy i0] 1775/1800 用时 1400s 调用 1775
+[satisfy i0] 1800/1800 用时 1413s 调用 1800
+[iter 0] {"mean_satisfaction": 30.8, "preset_keep_pct": 100.0, "final_assigned_total": 5511} 累计调用 3205
+[phase] iter 1 预置开始（1800 人，workers=16，累计调用 3205）
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 438, in main
+    preset_map = ai_retune(world, needs, skill_texts, client, stats, previous_map,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/ai_planner.py", line 138, in ai_retune
+    refined.update(_plan_batch(world, client, llm_stats, items, remaining, workers))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/ai_planner.py", line 92, in _plan_batch
+    return dict(parallel_map(items, plan, workers))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/ai_planner.py", line 87, in plan
+    raw = client.chat_json(system=_PRESET_SYSTEM,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 107, in chat_json
+    content_plain = self._chat(system, user, json_mode=False)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 164, in _chat
+    raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+planner.llm.LLMError: LLM 请求在重试后仍失败：The read operation timed out
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 2 轮已复用（755 条事件）
+[iter 0] {"mean_satisfaction": 30.8, "preset_keep_pct": 100.0, "final_assigned_total": 5511} 累计调用 0
+[phase] iter 1 预置开始（1800 人，workers=16，累计调用 0）
+[plans] iter1 r1 已填 200/1800 累计调用 743
+[plans] iter1 r1 已填 400/1800 累计调用 943
+[plans] iter1 r1 已填 600/1800 累计调用 1143
+[plans] iter1 r1 已填 800/1800 累计调用 1343
+[plans] iter1 r1 已填 1000/1800 累计调用 1544
+[plans] iter1 r1 已填 1200/1800 累计调用 1745
+[plans] iter1 r1 已填 1400/1800 累计调用 1945
+[plans] iter1 r1 已填 1600/1800 累计调用 2145
+Traceback (most recent call last):
+  File "/home/redaunt/redo/tools/run_experiment.py", line 466, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 443, in main
+    evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 300, in run
+    result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/tools/run_experiment.py", line 255, in simulate_rounds
+    return run_rounds(world, state, builder, allocator, stats, start_round, LAST_ROUND,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/selection.py", line 102, in run_rounds
+    plans = plan_builder(round_index, state.view())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 108, in build
+    done.update(zip(part, parallel_map(
+                          ^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 176, in parallel_map
+    return list(pool.map(work, entries))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 110, in <lambda>
+    lambda sid: _ai_round(world, skill_texts[sid], needs[sid], view,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/behavior.py", line 143, in _ai_round
+    raw = client.chat_json(system=_AI_SYSTEM, user=user)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 100, in chat_json
+    content = self._chat(system, user, json_mode=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redaunt/redo/planner/llm.py", line 140, in _chat
+    with urllib.request.urlopen(request, timeout=self.timeout) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1392, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1348, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1457, in getresponse
+    response.begin()
+  File "/usr/lib/python3.12/http/client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+[phase] 需求 1800 人就绪，累计调用 0
+[perf] {"avg_latency_s": 0.0, "max_latency_s": 0.0, "call_span_s": 0.0, "effective_rpm": null, "backoffs": 0}
+[phase] iter 0 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 0 轮跑到第 2 轮已复用（755 条事件）
+[iter 0] {"mean_satisfaction": 30.8, "preset_keep_pct": 100.0, "final_assigned_total": 5511} 累计调用 0
+[phase] iter 1 预置开始（1800 人，workers=16，累计调用 0）
+[resume] 第 1 轮第 1 轮志愿复用 1600 人（不调模型）
+[plans] iter1 r1 已填 1800/1800 累计调用 200
+[alloc] r1 块 1/1 行数 110 用时 1914s 累计调用 204
+[ckpt] iter1 round1 落盘，累计调用 204
+[plans] iter1 r2 已填 200/1800 累计调用 405
+[plans] iter1 r2 已填 400/1800 累计调用 605
+[plans] iter1 r2 已填 600/1800 累计调用 805
+[plans] iter1 r2 已填 800/1800 累计调用 1005
+[plans] iter1 r2 已填 1000/1800 累计调用 1205
+[plans] iter1 r2 已填 1200/1800 累计调用 1407
+[plans] iter1 r2 已填 1400/1800 累计调用 1608
+[plans] iter1 r2 已填 1600/1800 累计调用 1808
+[plans] iter1 r2 已填 1800/1800 累计调用 2008
+[alloc] r2 块 1/1 行数 119 用时 3s 累计调用 2009
+[ckpt] iter1 round2 落盘，累计调用 2009
+[satisfy i1] 25/1800 用时 21s 调用 25
+[satisfy i1] 50/1800 用时 44s 调用 50
+[satisfy i1] 75/1800 用时 61s 调用 75
+[satisfy i1] 100/1800 用时 81s 调用 100
+[satisfy i1] 125/1800 用时 104s 调用 125
+[satisfy i1] 150/1800 用时 124s 调用 150
+[satisfy i1] 175/1800 用时 146s 调用 175
+[satisfy i1] 200/1800 用时 169s 调用 200
+[satisfy i1] 225/1800 用时 189s 调用 225
+[satisfy i1] 250/1800 用时 207s 调用 250
+[satisfy i1] 275/1800 用时 224s 调用 275
+[satisfy i1] 300/1800 用时 245s 调用 300
+[satisfy i1] 325/1800 用时 274s 调用 325
+[satisfy i1] 350/1800 用时 293s 调用 350
+[satisfy i1] 375/1800 用时 312s 调用 375
+[satisfy i1] 400/1800 用时 334s 调用 400
+[satisfy i1] 425/1800 用时 352s 调用 425
+[satisfy i1] 450/1800 用时 370s 调用 450
+[satisfy i1] 475/1800 用时 391s 调用 475
+[satisfy i1] 500/1800 用时 409s 调用 500
+[satisfy i1] 525/1800 用时 430s 调用 525
+[satisfy i1] 550/1800 用时 450s 调用 550
+[satisfy i1] 575/1800 用时 473s 调用 575
+[satisfy i1] 600/1800 用时 495s 调用 600
+[satisfy i1] 625/1800 用时 518s 调用 625
+[satisfy i1] 650/1800 用时 540s 调用 650
+[satisfy i1] 675/1800 用时 564s 调用 675
+[satisfy i1] 700/1800 用时 583s 调用 700
+[satisfy i1] 725/1800 用时 604s 调用 725
+[satisfy i1] 750/1800 用时 627s 调用 750
+[satisfy i1] 775/1800 用时 648s 调用 775
+[satisfy i1] 800/1800 用时 670s 调用 800
+[satisfy i1] 825/1800 用时 689s 调用 825
+[satisfy i1] 850/1800 用时 709s 调用 850
+[satisfy i1] 875/1800 用时 730s 调用 875
+[satisfy i1] 900/1800 用时 750s 调用 900
+[satisfy i1] 925/1800 用时 773s 调用 925
+[satisfy i1] 950/1800 用时 794s 调用 950
+[satisfy i1] 975/1800 用时 816s 调用 975
+[satisfy i1] 1000/1800 用时 837s 调用 1000
+[satisfy i1] 1025/1800 用时 857s 调用 1025
+[satisfy i1] 1050/1800 用时 877s 调用 1050
+[satisfy i1] 1075/1800 用时 899s 调用 1075
+[satisfy i1] 1100/1800 用时 924s 调用 1100
+[satisfy i1] 1125/1800 用时 944s 调用 1125
+[satisfy i1] 1150/1800 用时 965s 调用 1150
+[satisfy i1] 1175/1800 用时 984s 调用 1175
+[satisfy i1] 1200/1800 用时 1002s 调用 1200
+[satisfy i1] 1225/1800 用时 1023s 调用 1225
+[satisfy i1] 1250/1800 用时 1043s 调用 1250
+[satisfy i1] 1275/1800 用时 1065s 调用 1275
+[satisfy i1] 1300/1800 用时 1086s 调用 1300
+[satisfy i1] 1325/1800 用时 1106s 调用 1325
+[satisfy i1] 1350/1800 用时 1124s 调用 1350
+[satisfy i1] 1375/1800 用时 1146s 调用 1375
+[satisfy i1] 1400/1800 用时 1166s 调用 1400
+[satisfy i1] 1425/1800 用时 1187s 调用 1425
+[satisfy i1] 1450/1800 用时 1208s 调用 1450
+[satisfy i1] 1475/1800 用时 1231s 调用 1475
+[satisfy i1] 1500/1800 用时 1253s 调用 1500
+[satisfy i1] 1525/1800 用时 1273s 调用 1525
+[satisfy i1] 1550/1800 用时 1293s 调用 1550
+[satisfy i1] 1575/1800 用时 1316s 调用 1575
+[satisfy i1] 1600/1800 用时 1338s 调用 1600
+[satisfy i1] 1625/1800 用时 1357s 调用 1625
+[satisfy i1] 1650/1800 用时 1382s 调用 1650
+[satisfy i1] 1675/1800 用时 1404s 调用 1675
+[satisfy i1] 1700/1800 用时 1422s 调用 1700
+[satisfy i1] 1725/1800 用时 1446s 调用 1725
+[satisfy i1] 1750/1800 用时 1467s 调用 1750
+[satisfy i1] 1775/1800 用时 1488s 调用 1775
+[satisfy i1] 1800/1800 用时 1501s 调用 1800
+[iter 1] {"mean_satisfaction": 35.7, "preset_keep_pct": 100.0, "final_assigned_total": 6443} 累计调用 3810
+{"mean_satisfaction": 35.7, "preset_keep_pct": 100.0, "final_assigned_total": 6443, "students": 1800, "majors": 160, "unmet_required_students": 1797, "unmet_required_slots": 13021, "grant_events": 219, "rejected_grants": 0, "drops": 0, "sections_used": 1096}
+written: results/exp_k10_n1800_seed7.json（检查点在 results/exp_k10_n1800_seed7.json.ckpt/）

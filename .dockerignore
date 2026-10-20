@@ -1,0 +1,48 @@
+# 上下文里只留代码 + 测试 + 演示页 + 一份 courses.json。
+# 数据原件、实验输出、归档与文书都留在宿主：镜像小、构建快，也避免把这些东西推到镜像仓库。
+
+# 密钥：绝不进构建上下文，也就不进任何镜像层。容器运行期靠只读挂载（见 compose.yaml）。
+.env
+.env.*
+!.env.example
+
+# 版本控制与本地环境
+.git/
+.gitignore
+.venv/
+.venv_new/
+.venv*/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+*.pyc
+
+# 体积大且运行期用不到
+zju_catalog/
+results/
+backups/
+legacy/
+docs/
+files/
+*.mp4
+*.mov
+*.webm
+*.pdf
+*.docx
+*.doc
+*.xls
+*.xlsx
+*.jpg
+*.png
+*.log
+*.sha256
+
+# 实验专用数据（演示只用 data/courses.json）
+data/courses_k10.json
+data/courses_k20.json
+data/courses_k25.json
+data/courses_synthetic.json
+data/major_sizes.json
+data/scale_test_*.json
+data/zju_build_report.json
+data/README.md

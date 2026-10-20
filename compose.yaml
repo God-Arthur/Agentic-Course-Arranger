@@ -1,0 +1,56 @@
+name: ai-course-planner-demo
+
+services:
+  demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+      # 取包要翻代理的机器：BUILD_NETWORK=host 让构建容器直接用宿主网络
+      # （host 网络下 BUILD_PROXY 里的 127.0.0.1 才指得到宿主代理）。
+      network: ${BUILD_NETWORK:-default}
+      args:
+        # 取不到 Docker Hub 时换成本地已有镜像。
+        BASE_IMAGE: ${BASE_IMAGE:-python:3.12-slim}
+        # pip 那一层属于 deps/test 阶段，runtime 一行都不装，所以这里只影响 test 阶段。
+        PIP_ADDITIONAL_ARGS: ${PIP_ADDITIONAL_ARGS:-}
+        # 构建期代理：只有 BuildKit 看得见，不会进入运行环境。
+        HTTP_PROXY: ${BUILD_PROXY:-}
+        HTTPS_PROXY: ${BUILD_PROXY:-}
+        NO_PROXY: localhost,127.0.0.1
+    image: ai-course-planner-demo:${APP_VERSION:-local}
+    restart: unless-stopped
+    ports:
+      # 默认只绑宿主回环：这个应用没有身份认证，公开监听等于把"谁能发起一次演示"交给整网。
+      # 要给同局域网的人看，显式设 PLANNER_BIND_IP=0.0.0.0 并接受无认证的事实。
+      - "${PLANNER_BIND_IP:-127.0.0.1}:${PLANNER_HOST_PORT:-8765}:8765"
+    # 这里刻意不挂密钥：现行代码只读仓库根的 .env 文件（planner/env_config.py 不读环境变量），
+    # 而 bind 挂载一个不存在的源会让容器直接起不来，且 compose 不支持对 bind 用 required: false。
+    # 默认形态用页面逐次填 Base URL / 模型 / Key（密钥只活在那一次请求的内存里）。
+    # 要把 .env 带进容器，加一层 overlay：
+    #   docker compose -f compose.yaml -f compose.dotenv.yaml up -d
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import json,sys,urllib.request as r; d=json.load(r.urlopen('http://127.0.0.1:8765/api/state', timeout=5)); sys.exit(0 if d.get('course_data_loaded') else 1)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+  # docker compose --profile test run --rm test
+  # 更快的验收是 docker build --target test .（pytest 在构建阶段就跑完，失败即构建失败）。
+  test:
+    profiles: ["test"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+      network: ${BUILD_NETWORK:-default}
+      args:
+        BASE_IMAGE: ${BASE_IMAGE:-python:3.12-slim}
+        PIP_ADDITIONAL_ARGS: ${PIP_ADDITIONAL_ARGS:-}
+        HTTP_PROXY: ${BUILD_PROXY:-}
+        HTTPS_PROXY: ${BUILD_PROXY:-}
+        NO_PROXY: localhost,127.0.0.1
+    image: ai-course-planner-demo-test:${APP_VERSION:-local}
+    command: ["python", "-m", "pytest", "-q"]

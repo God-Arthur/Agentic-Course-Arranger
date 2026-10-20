@@ -1,0 +1,8 @@
+2026-10-17 22:09:46.022 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+................................................................................................................................[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+[need-llm-v2] 第 1 批解析失败（RuntimeError），0 秒后重试：gateway down
+...........
+----------------------------------------------------------------------
+Ran 139 tests in 31.189s
+
+OK

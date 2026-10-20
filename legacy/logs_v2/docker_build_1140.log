@@ -1,0 +1,59 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.27kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 1.13kB done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#5 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.0s done
+#5 DONE 0.2s
+
+#4 [internal] load build context
+#4 transferring context: 276.95kB 0.0s done
+#4 DONE 0.1s
+
+#6 [2/8] WORKDIR /app
+#6 DONE 0.1s
+
+#7 [3/8] RUN apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*
+#7 4.717 Err:1 http://deb.debian.org/debian trixie InRelease
+#7 4.717   502  Bad Gateway [IP: 127.0.0.1 7890]
+#7 5.215 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#7 5.629 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#7 6.186 Get:4 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+#7 6.549 Get:5 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [269 kB]
+#7 6.702 Reading package lists...
+#7 6.721 E: Failed to fetch http://deb.debian.org/debian/dists/trixie/InRelease  502  Bad Gateway [IP: 127.0.0.1 7890]
+#7 6.721 E: The repository 'http://deb.debian.org/debian trixie InRelease' is no longer signed.
+#7 ERROR: process "/bin/sh -c apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+------
+ > [3/8] RUN apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*:
+4.717 Err:1 http://deb.debian.org/debian trixie InRelease
+4.717   502  Bad Gateway [IP: 127.0.0.1 7890]
+5.215 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+5.629 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+6.186 Get:4 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+6.549 Get:5 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [269 kB]
+
+6.721 E: Failed to fetch http://deb.debian.org/debian/dists/trixie/InRelease  502  Bad Gateway [IP: 127.0.0.1 7890]
+6.721 E: The repository 'http://deb.debian.org/debian trixie InRelease' is no longer signed.
+------
+Dockerfile:26
+--------------------
+  25 |     # libgomp1：OR-Tools 的 CP-SAT 轮子加载需要；tzdata：日志时间戳按本地时区可读；ca-certificates：LLM 走 HTTPS。
+  26 | >>> RUN apt-get update \
+  27 | >>>  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates \
+  28 | >>>  && rm -rf /var/lib/apt/lists/*
+  29 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100

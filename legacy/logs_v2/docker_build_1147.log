@@ -1,0 +1,77 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.27kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 1.13kB done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#5 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.0s done
+#5 DONE 0.0s
+
+#6 [2/8] WORKDIR /app
+#6 CACHED
+
+#4 [internal] load build context
+#4 transferring context: 20.51kB done
+#4 DONE 0.0s
+
+#7 [3/8] RUN apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*
+#7 0.492 Hit:1 http://deb.debian.org/debian trixie InRelease
+#7 0.834 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#7 1.249 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#7 1.699 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+#7 4.651 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+#7 5.018 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [269 kB]
+#7 5.157 Fetched 10.0 MB in 5s (1989 kB/s)
+#7 5.157 Reading package lists...
+#7 5.702 Reading package lists...
+#7 6.173 Building dependency tree...
+#7 6.296 Reading state information...
+#7 6.455 tzdata is already the newest version (2026c-0+deb13u1).
+#7 6.455 ca-certificates is already the newest version (20250419).
+#7 6.455 The following NEW packages will be installed:
+#7 6.456   libgomp1
+#7 14.00 0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+#7 14.00 Need to get 137 kB of archives.
+#7 14.00 After this operation, 377 kB of additional disk space will be used.
+#7 14.00 Err:1 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19
+#7 14.00   502  Bad Gateway [IP: 127.0.0.1 7890]
+#7 14.01 E: Failed to fetch http://deb.debian.org/debian/pool/main/g/gcc-14/libgomp1_14.2.0-19_amd64.deb  502  Bad Gateway [IP: 127.0.0.1 7890]
+#7 14.01 E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+#7 ERROR: process "/bin/sh -c apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+------
+ > [3/8] RUN apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*:
+6.455 ca-certificates is already the newest version (20250419).
+6.455 The following NEW packages will be installed:
+6.456   libgomp1
+14.00 0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+14.00 Need to get 137 kB of archives.
+14.00 After this operation, 377 kB of additional disk space will be used.
+14.00 Err:1 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19
+14.00   502  Bad Gateway [IP: 127.0.0.1 7890]
+14.01 E: Failed to fetch http://deb.debian.org/debian/pool/main/g/gcc-14/libgomp1_14.2.0-19_amd64.deb  502  Bad Gateway [IP: 127.0.0.1 7890]
+14.01 E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+------
+Dockerfile:26
+--------------------
+  25 |     # libgomp1：OR-Tools 的 CP-SAT 轮子加载需要；tzdata：日志时间戳按本地时区可读；ca-certificates：LLM 走 HTTPS。
+  26 | >>> RUN apt-get update \
+  27 | >>>  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates \
+  28 | >>>  && rm -rf /var/lib/apt/lists/*
+  29 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c apt-get update  && apt-get install -y --no-install-recommends libgomp1 tzdata ca-certificates  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+BUILD-RC=0

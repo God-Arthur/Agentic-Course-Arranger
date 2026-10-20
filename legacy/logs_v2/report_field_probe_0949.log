@@ -1,0 +1,36 @@
+读的是已收尾分块 ['dev_1_4', 'dev_5_6', 'smoke_s1', 'test_11_14', 'test_15_18', 'test_19_22', 'test_7_10']，落盘种子 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]（共 22 颗），行数 69；只数覆盖，不报数值、不报差值、不报方向。
+覆盖 最终效用 | total_preference_utility | I2_规则完整需求模型：23/23 行带数值
+覆盖 最终效用 | total_preference_utility | J2_AI完整需求模型：22/22 行带数值
+覆盖 最终效用 | total_preference_utility | K2_真实需求标签参照：23/23 行带数值
+覆盖 需求识别质量 | need_f1_pct | I2_规则完整需求模型：23/23 行带数值
+覆盖 需求识别质量 | need_f1_pct | J2_AI完整需求模型：22/22 行带数值
+覆盖 需求识别质量 | need_f1_pct | K2_真实需求标签参照：23/23 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | I2_规则完整需求模型：23/23 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | J2_AI完整需求模型：22/22 行带数值
+覆盖 重要需求满足率 | key_need_fulfillment_pct | K2_真实需求标签参照：23/23 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | I2_规则完整需求模型：23/23 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | J2_AI完整需求模型：22/22 行带数值
+覆盖 重要需求识别召回 | key_need_recall_pct | K2_真实需求标签参照：23/23 行带数值
+覆盖 低分位效用（p10 学生） | student_p10_utility | I2_规则完整需求模型：23/23 行带数值
+覆盖 低分位效用（p10 学生） | student_p10_utility | J2_AI完整需求模型：22/22 行带数值
+覆盖 低分位效用（p10 学生） | student_p10_utility | K2_真实需求标签参照：23/23 行带数值
+覆盖 运行成本：调用 | llm_calls | J2_AI完整需求模型：22/22 行带数值
+覆盖 运行成本：提示 token | llm_prompt_tokens | J2_AI完整需求模型：22/22 行带数值
+覆盖 运行成本：补全 token | llm_completion_tokens | J2_AI完整需求模型：22/22 行带数值
+覆盖 运行成本：缓存命中 | cache_hits | J2_AI完整需求模型：22/22 行带数值
+覆盖 运行成本：缓存未命中 | cache_misses | J2_AI完整需求模型：22/22 行带数值
+  ↑ 该项 23 行全是 0：这一项全同一数是**要核对的结果**（§一 硬约束未被越过），不是缺失
+覆盖 规则未被越过 | hard_violations | I2_规则完整需求模型：23/23 行带数值
+  ↑ 该项 22 行全是 0：这一项全同一数是**要核对的结果**（§一 硬约束未被越过），不是缺失
+覆盖 规则未被越过 | hard_violations | J2_AI完整需求模型：22/22 行带数值
+  ↑ 该项 23 行全是 0：这一项全同一数是**要核对的结果**（§一 硬约束未被越过），不是缺失
+覆盖 规则未被越过 | hard_violations | K2_真实需求标签参照：23/23 行带数值
+  ↑ 该项 23 行全是 0.0：按**已记录的未测量**处理，不作为数值发布。原因：v2 三臂走 planner_core.solve_assignment，它的诊断字典只有 engine/status/objective/best_bound/bound_gap，没有任何计时刻度；experiments 的行装配用 .get('solver_seconds', 0.0) 补默认值，所以落盘的 0 不是『求解花了 0 秒』。本批不发布逐臂求解耗时，运行成本改用 llm_calls、两类 token 与批次墙钟（扣除宿主挂起）说话。
+覆盖 逐臂求解耗时 | solver_seconds | I2_规则完整需求模型：23/23 行带数值
+  ↑ 该项 22 行全是 0.0：按**已记录的未测量**处理，不作为数值发布。原因：v2 三臂走 planner_core.solve_assignment，它的诊断字典只有 engine/status/objective/best_bound/bound_gap，没有任何计时刻度；experiments 的行装配用 .get('solver_seconds', 0.0) 补默认值，所以落盘的 0 不是『求解花了 0 秒』。本批不发布逐臂求解耗时，运行成本改用 llm_calls、两类 token 与批次墙钟（扣除宿主挂起）说话。
+覆盖 逐臂求解耗时 | solver_seconds | J2_AI完整需求模型：22/22 行带数值
+  ↑ 该项 23 行全是 0.0：按**已记录的未测量**处理，不作为数值发布。原因：v2 三臂走 planner_core.solve_assignment，它的诊断字典只有 engine/status/objective/best_bound/bound_gap，没有任何计时刻度；experiments 的行装配用 .get('solver_seconds', 0.0) 补默认值，所以落盘的 0 不是『求解花了 0 秒』。本批不发布逐臂求解耗时，运行成本改用 llm_calls、两类 token 与批次墙钟（扣除宿主挂起）说话。
+覆盖 逐臂求解耗时 | solver_seconds | K2_真实需求标签参照：23/23 行带数值
+问题 = 2 条（批次还在跑，这些现在还能改生产端）：
+  - 重要需求识别召回 / key_need_recall_pct @ K2_真实需求标签参照：23 行可用行的该项全是 100.0，既不在未测量清单里，也不是『全同一数即为结果』的核对项——先查生产端是否用 .get 默认值补了空，再谈能不能引用它
+  - 运行成本：调用 / llm_calls @ J2_AI完整需求模型：22 行可用行的该项全是 12，既不在未测量清单里，也不是『全同一数即为结果』的核对项——先查生产端是否用 .get 默认值补了空，再谈能不能引用它

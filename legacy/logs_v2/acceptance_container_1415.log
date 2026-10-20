@@ -1,0 +1,30 @@
+============================================================================================
+部署验收 · /app/deployment_acceptance.py
+python 3.12.15 · 数据根 /app · 导出目录 /app/outputs · 密钥在场 是
+============================================================================================
+[通过] 服务健康检查（§4.3）
+        http://127.0.0.1:8501/_stcore/health → 200 ok
+2026-10-18 14:12:34.136 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[通过] 无密钥端到端 + 独立硬约束复核 + 两轮模拟（§5.5/5.6/5.7/5.11）
+        无密钥跑通：3 个配对情景、轮统计字段 6 项、预置与最终课表各自复核违规均为 0、LLM 调用 0 次
+2026-10-18 14:12:34.975 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[通过] 导出内容非空且保存后可读回（§5.8）
+        7 个导出载荷全部非空、CSV 全部带 BOM；其中 6 张表保存后从盘上读回，字节级与页面交给浏览器的一致（acceptance-20261018T141235-48f699）
+2026-10-18 14:12:35.504 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[通过] 坏表格被数据契约拒绝（§5.1）
+        页面明确报错并停止：数据契约校验失败：students.csv 缺少必需列：['year', 'priority_group', 'priority_tier', 'interests', 'target_courses', 'requir
+2026-10-18 14:12:35.684 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+[通过] 路径输入不能越界（§4.4）
+        目录越界被拒（表格目录 '../../etc' 解析到 /etc，超出允许的数据根 /app。只接受该目录之内的路径；要指向别处请设置 PLANNER_DATA_ROOT。…），运行编号越界也被拒，页面给出可读错误
+[need-llm] 第 1 批解析失败（LLMPlanningError），30 秒后重试：ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=1): Max retries exceeded with url: /v1/chat/completions (Caus
+[need-llm] 第 1 批解析失败（LLMPlanningError），30 秒后重试：ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=1): Max retries exceeded with url: /v1/chat/completions (Caus
+[通过] LLM 失败按记录回退（§5.12）
+        不可达端点下按预期回退到规则解析并留痕：LLM 语义需求解析不可用，本行回退到规则解析：LLMPlanningError: ConnectionError: HTTPConnectionPool(host='127.0.；6 名学生的记录每条判断都带原文依据
+[通过] 运行日志可运维（§4.3）
+        /app/logs/runs.jsonl 共 10 条，含 start/end 与耗时、LLM 调用数与回退标记；未见密钥
+[通过] 实验拒绝静默覆盖（§5.9）
+        重复 --out 被拒绝且原文件字节不变（需覆盖要显式 --allow-overwrite）
+[通过] 依赖钉死可复现（§5.2）
+        6 个直接依赖全部与 requirements.txt 的钉值一致
+--------------------------------------------------------------------------------------------
+合计：通过 9 条、失败 0 条、未执行 0 条

@@ -1,0 +1,18 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.11kB done
+#1 DONE 0.1s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 ERROR: failed to do request: Head "https://registry-1.docker.io/v2/docker/dockerfile/manifests/1": dial tcp [2a03:2880:f10a:83:face:b00c:0:25de]:443: i/o timeout
+------
+ > resolve image config for docker-image://docker.io/docker/dockerfile:1:
+------
+Dockerfile:1
+--------------------
+   1 | >>> # syntax=docker/dockerfile:1
+   2 |     #
+   3 |     # 默认基础镜像用 Docker Hub 的 python:3.12-slim。网络取不到时可用任意同版本镜像顶替：
+--------------------
+ERROR: failed to build: failed to solve: failed to resolve source metadata for docker.io/docker/dockerfile:1: failed to do request: Head "https://registry-1.docker.io/v2/docker/dockerfile/manifests/1": dial tcp [2a03:2880:f10a:83:face:b00c:0:25de]:443: i/o timeout

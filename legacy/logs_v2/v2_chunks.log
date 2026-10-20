@@ -1,0 +1,98 @@
+{
+  "parser_used": "LLM 语义解析",
+  "llm_calls": 1,
+  "llm_fallback": false,
+  "cache_misses": 6,
+  "rows_per_student": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    2
+  ],
+  "rejected_items": [],
+  "problems": [
+    "S001: C14 已由学生自己申报，无需推断",
+    "S001: C02 已由学生自己申报，无需推断",
+    "S001: C01 是培养方案必修，不属于可推断的匹配"
+  ],
+  "sample": {
+    "course_id": "C04",
+    "relevance": 0.6,
+    "evidence": [
+      "让分散的机器可靠地互通"
+    ],
+    "uncertainty": 0.4
+  }
+}
+[preflight] LLM 通道可用：1 次调用，每人采纳 [1, 1, 1, 1, 0, 2] 条相关度。
+=== dev_1_4 start seeds=1 2 3 4 其它求解进程=
+[seed 1] I2_规则完整需求模型=13461.0  J2_AI完整需求模型=13390.0  K2_真实需求标签参照=13528.0
+[seed 2] I2_规则完整需求模型=13396.0  J2_AI完整需求模型=13529.0  K2_真实需求标签参照=13308.67
+[seed 3] I2_规则完整需求模型=13108.0  J2_AI完整需求模型=13080.0  K2_真实需求标签参照=13087.67
+[seed 4] I2_规则完整需求模型=13188.67  J2_AI完整需求模型=13158.67  K2_真实需求标签参照=12958.33
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_1_4/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_1_4/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_1_4/PERFORMANCE_REPORT_V2.md
+=== dev_1_4 rc=0 done 其它求解进程=
+=== dev_5_6 start seeds=5 6 其它求解进程=
+[seed 5] I2_规则完整需求模型=13313.0  J2_AI完整需求模型=13219.67  K2_真实需求标签参照=13295.33
+[seed 6] I2_规则完整需求模型=12854.33  J2_AI完整需求模型=12746.0  K2_真实需求标签参照=13106.67
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_5_6/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_5_6/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/dev_5_6/PERFORMANCE_REPORT_V2.md
+=== dev_5_6 rc=0 done 其它求解进程=
+=== test_7_10 start seeds=7 8 9 10 其它求解进程=
+[seed 7] I2_规则完整需求模型=12922.33  J2_AI完整需求模型=12952.33  K2_真实需求标签参照=12997.67
+[seed 8] I2_规则完整需求模型=13365.33  J2_AI完整需求模型=13284.67  K2_真实需求标签参照=13346.33
+[seed 9] I2_规则完整需求模型=13112.33  J2_AI完整需求模型=13216.33  K2_真实需求标签参照=13434.67
+[seed 10] I2_规则完整需求模型=13440.33  J2_AI完整需求模型=13320.33  K2_真实需求标签参照=13418.0
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_7_10/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_7_10/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_7_10/PERFORMANCE_REPORT_V2.md
+=== test_7_10 rc=0 done 其它求解进程=
+=== test_11_14 start seeds=11 12 13 14 其它求解进程=
+[seed 11] I2_规则完整需求模型=12760.67  J2_AI完整需求模型=12833.0  K2_真实需求标签参照=12816.33
+[seed 12] I2_规则完整需求模型=13113.0  J2_AI完整需求模型=13244.67  K2_真实需求标签参照=13315.67
+[seed 13] I2_规则完整需求模型=13077.33  J2_AI完整需求模型=13053.0  K2_真实需求标签参照=13190.67
+[seed 14] I2_规则完整需求模型=13319.67  J2_AI完整需求模型=13141.33  K2_真实需求标签参照=13592.67
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_11_14/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_11_14/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_11_14/PERFORMANCE_REPORT_V2.md
+=== test_11_14 rc=0 done 其它求解进程=
+=== test_15_18 start seeds=15 16 17 18 其它求解进程=
+[seed 15] I2_规则完整需求模型=13755.0  J2_AI完整需求模型=13611.33  K2_真实需求标签参照=13703.0
+[seed 16] I2_规则完整需求模型=13124.33  J2_AI完整需求模型=12916.33  K2_真实需求标签参照=13143.0
+[seed 17] I2_规则完整需求模型=13594.67  J2_AI完整需求模型=13555.0  K2_真实需求标签参照=13526.0
+[seed 18] I2_规则完整需求模型=12823.33  J2_AI完整需求模型=12848.67  K2_真实需求标签参照=12728.33
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_15_18/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_15_18/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_15_18/PERFORMANCE_REPORT_V2.md
+=== test_15_18 rc=0 done 其它求解进程=
+=== test_19_22 start seeds=19 20 21 22 其它求解进程=
+[seed 19] I2_规则完整需求模型=13152.67  J2_AI完整需求模型=13311.67  K2_真实需求标签参照=13385.67
+[seed 20] I2_规则完整需求模型=13050.33  J2_AI完整需求模型=13204.0  K2_真实需求标签参照=13195.33
+[seed 21] I2_规则完整需求模型=13235.33  J2_AI完整需求模型=13298.33  K2_真实需求标签参照=13365.67
+[seed 22] I2_规则完整需求模型=13489.33  J2_AI完整需求模型=13492.67  K2_真实需求标签参照=13397.67
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_19_22/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_19_22/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_19_22/PERFORMANCE_REPORT_V2.md
+=== test_19_22 rc=0 done 其它求解进程=
+=== test_23_26 start seeds=23 24 25 26 其它求解进程=
+[seed 23] I2_规则完整需求模型=12607.0  J2_AI完整需求模型=12801.0  K2_真实需求标签参照=12848.0
+[seed 24] I2_规则完整需求模型=13036.33  J2_AI完整需求模型=13032.33  K2_真实需求标签参照=13116.33
+[seed 25] I2_规则完整需求模型=13286.33  J2_AI完整需求模型=13101.0  K2_真实需求标签参照=13265.33
+[seed 26] I2_规则完整需求模型=13201.67  J2_AI完整需求模型=13270.67  K2_真实需求标签参照=13199.0
+
+原始结果：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_23_26/raw_rows.csv
+运行配置：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_23_26/summary.json
+逐种子报告：/home/redaunt/ai_course_planner_mvp/results_need_v2/test_23_26/PERFORMANCE_REPORT_V2.md
+=== test_23_26 rc=0 done 其它求解进程=
+=== ALL_CHUNKS_COMPLETE_V2 种子 1-26 全部落盘

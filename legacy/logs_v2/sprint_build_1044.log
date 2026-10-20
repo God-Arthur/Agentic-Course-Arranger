@@ -1,0 +1,67 @@
+ Image ai-course-planner:1.0.0 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 925B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 3.39kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.13kB done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [1/8] FROM docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1
+#6 resolve docker.io/library/python:3.12-slim@sha256:65cbf12d253553a7b305a6c9a909878c66d08c2a89154becdbd10a342d02f4d1 0.0s done
+#6 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 426.88kB 0.0s done
+#5 DONE 0.0s
+
+#7 [4/8] RUN pip install  --no-cache-dir -r /app/requirements.txt  && python -c "import ortools, streamlit, pandas, requests, dotenv; print('deps-ok')"
+#7 CACHED
+
+#8 [2/8] WORKDIR /app
+#8 CACHED
+
+#9 [3/8] COPY requirements.txt /app/requirements.txt
+#9 CACHED
+
+#10 [5/8] RUN set -eux;     if [ -n "libgomp1 tzdata ca-certificates" ]; then       if [ -n "" ]; then         sed -i "s|http://deb.debian.org/debian-security|/debian-security|g;                 s|http://deb.debian.org/debian|/debian|g" /etc/apt/sources.list.d/debian.sources;       fi;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 update;       apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=20 install -y --no-install-recommends libgomp1 tzdata ca-certificates;       rm -rf /var/lib/apt/lists/*;     fi
+#10 CACHED
+
+#11 [6/8] COPY . .
+#11 DONE 0.1s
+
+#12 [7/8] COPY data/ /app/data_ship/
+#12 DONE 0.1s
+
+#13 [8/8] RUN useradd --create-home --uid 1000 --shell /bin/bash planner  && mkdir -p /app/data /app/semantic_cache /app/logs /app/outputs  && cp -rn /app/data_ship/. /app/data/  && chmod +x /app/docker-entrypoint.sh  && find /app -name __pycache__ -type d -prune -exec rm -rf {} +  && chown -R planner:planner /app
+#13 DONE 1.7s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.4s done
+#14 exporting manifest sha256:7b1425d699145dd2ceefa78cc105c81783e48c38bfccbcd615af4fad6d5d0f8c 0.0s done
+#14 exporting config sha256:fcb2c7a2d0cf221fb4d0baa47002ee1ff27af5b68be28be8f74dc01faea62622 0.0s done
+#14 exporting attestation manifest sha256:caf916978b1ad6ccd4f1bf8e5bc2c5809003e2d256bae6169025e75bb6c73de7 0.1s done
+#14 exporting manifest list sha256:facd9657200380b9f38abbb0cde092bb8a0330ad41ba04ef41359deac205b56e 0.0s done
+#14 naming to docker.io/library/ai-course-planner:1.0.0 done
+#14 unpacking to docker.io/library/ai-course-planner:1.0.0
+#14 unpacking to docker.io/library/ai-course-planner:1.0.0 0.2s done
+#14 DONE 0.8s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image ai-course-planner:1.0.0 Built 
+ Container ai-course-planner-planner-1 Recreate 
+ Container ai-course-planner-planner-1 Recreated 
+ Container ai-course-planner-planner-1 Starting 
+ Container ai-course-planner-planner-1 Started 

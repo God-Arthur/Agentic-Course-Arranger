@@ -1,0 +1,9 @@
+[等待器] results_need_v2/wait_batch_then_fulltests.sh：匹配串 ['run_need_v2_chunks.sh', 'run_need_v2.py']，轮询间隔 60s，存活 ≥60s 的进程 79 个
+    'run_need_v2_chunks.sh' 命中 pid=10300 龄 15045s 跑批外壳 | bash results_need_v2/run_need_v2_chunks.sh
+    'run_need_v2.py' 命中 pid=746947 龄 670s 真实批次 | .venv/bin/python run_need_v2.py --seeds 19 20 21 22 --n-students 72 --question-budget 30 --questions
+[收尾器] results_need_v2/post_batch_pipeline.sh：匹配串 ['run_need_v2_[c]hunks.sh', 'run_need_v2[.]py', 'wait_batch_then_fulltests[.]sh']，轮询间隔 120s，存活 ≥120s 的进程 77 个
+    'run_need_v2_[c]hunks.sh' 命中 pid=10300 龄 15045s 跑批外壳 | bash results_need_v2/run_need_v2_chunks.sh
+    'run_need_v2[.]py' 命中 pid=746947 龄 670s 真实批次 | .venv/bin/python run_need_v2.py --seeds 19 20 21 22 --n-students 72 --question-budget 30 --questions
+    'wait_batch_then_fulltests[.]sh' 命中 pid=735903 龄 2930s 等待器自身 | bash results_need_v2/wait_batch_then_fulltests.sh
+
+问题 = 无：两条等待循环只命中真实批次与跑批外壳；批次一退出，链就会在一轮间隔内放行。（判据是「活过自己的轮询间隔」，2026-10-18 02:43:32 的 /proc 快照）
