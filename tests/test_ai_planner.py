@@ -104,6 +104,44 @@ def test_ai_presets_with_workers_never_books_beyond_capacity():
     assert len(client.prompts) == 8
 
 
+def test_ai_presets_resume_skips_students_already_paid_for():
+    world = _world("N1", "N2")
+    needs = dict(_needs("N1", required={"外语类": 1}), **_needs("N2", required={"外语类": 1}))
+    client = FakeClient([{"sections": ["B2"], "why": "只问剩下的人"}])
+    presets = ai_presets(world, needs, {"N1": "@SKILL N1", "N2": "@SKILL N2"}, client, {},
+                         resume={"N1": ["B1"]})
+    assert client.calls == 1
+    assert presets == {"N1": ["B1"], "N2": ["B2"]}
+
+
+def test_ai_presets_flushes_each_finished_batch():
+    world = _world("N1", "N2")
+    needs = _needs("N1", "N2", required={"思政类": 1})
+    texts = {"N1": "@SKILL N1", "N2": "@SKILL N2"}
+    client = FakeClient([{"sections": ["A1"], "why": "先"}, {"sections": [], "why": "满了"}])
+    seen = []
+    ai_presets(world, needs, texts, client, {}, flush_every=1,
+               on_progress=lambda presets, retuned: seen.append(set(presets)))
+    assert seen == [{"N1"}, {"N1", "N2"}]
+
+
+def test_grouped_preset_is_one_call_and_refuses_a_missing_student():
+    world = _world("N1", "N2")
+    needs = _needs("N1", "N2", required={"思政类": 1})
+    texts = {"N1": "@SKILL N1", "N2": "@SKILL N2"}
+    client = FakeClient([{"plans": [
+        {"student_id": "N1", "sections": ["A1"], "why": "a"},
+        {"student_id": "N2", "sections": [], "why": "b"},
+    ]}])
+    presets = ai_presets(world, needs, texts, client, {}, group_size=2)
+    assert client.calls == 1
+    assert presets["N1"] == ["A1"]
+    assert "多名学生" in client.prompts[0][0]
+    client = FakeClient([{"plans": [{"student_id": "N1", "sections": [], "why": "漏了"}]}])
+    with pytest.raises(LLMError, match="漏了学生"):
+        ai_presets(world, needs, texts, client, {}, group_size=2)
+
+
 def test_ai_presets_sequential_and_parallel_agree_on_totals():
     ids = [f"N{i}" for i in range(4)]
     needs = _needs(*ids, required={"外语类": 1})

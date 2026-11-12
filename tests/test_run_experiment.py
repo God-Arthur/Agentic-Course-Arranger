@@ -25,6 +25,8 @@ class ScriptedClient:
     fail_on_review = False
     fail_on_alloc = False
     plan_round1 = 0
+    preset_calls = 0
+    fail_preset_after = 0
 
     def __init__(self, base_url=None, model=None, api_key=None, **kwargs):
         pass
@@ -46,6 +48,9 @@ class ScriptedClient:
         if system.startswith("你是教务系统的需求解析器"):
             return {"required": {"思政类": 1}, "elective": {}, "avoid_slots": [], "notes": "无"}
         if system.startswith("你是教务系统的预置课表规划器"):
+            type(self).preset_calls += 1
+            if type(self).fail_preset_after and type(self).preset_calls >= type(self).fail_preset_after:
+                raise AssertionError("模拟端点在预置阶段断线")
             return {"sections": ["A1", "PE1"], "why": "先必修"}
         if system.startswith("你扮演一名中国大学生"):
             return {"drops": [], "preferences": [{"section_id": "B1", "rank": 1}]}
@@ -64,6 +69,8 @@ def reset_client():
     ScriptedClient.fail_on_review = False
     ScriptedClient.fail_on_alloc = False
     ScriptedClient.plan_round1 = 0
+    ScriptedClient.preset_calls = 0
+    ScriptedClient.fail_preset_after = 0
     yield
 
 
@@ -218,3 +225,26 @@ def test_allocator_crash_does_not_rebill_the_round_one_plans(dataset):
     assert rx.main(_argv(dataset, out, iterations="0")) == 0
     assert ScriptedClient.plan_round1 == 0            # 重启后一个志愿调用都没再花
     assert json.loads(out.read_text(encoding="utf-8"))["summary"]["grant_events"] >= 1
+
+
+def test_preset_crash_reuses_the_flushed_students(dataset, capsys):
+    """预置按人落盘：杀掉下一名后续跑只补没落盘的人，日志写明复用了几人。"""
+    rx.LLMClient = ScriptedClient
+    rx.resolve_llm = lambda user: ({"base_url": "http://x", "model": "m", "api_key": "k",
+                                    "min_interval": 0}, {})
+    out = dataset / "preset_crash.json"
+    argv = _argv(dataset, out, "0") + ["--flush-every", "1", "--workers", "1"]
+    ScriptedClient.fail_preset_after = 2
+    with pytest.raises(AssertionError, match="预置阶段断线"):
+        rx.main(argv)
+    partial = json.loads((Path(str(out) + ".ckpt") / "presets_0.json").read_text(encoding="utf-8"))
+    assert partial["complete"] is False
+    assert len(partial["presets"]) == 1
+    assert (Path(str(out) + ".ckpt") / "open_batch.json").exists()
+
+    ScriptedClient.fail_preset_after = 0
+    ScriptedClient.preset_calls = 0
+    assert rx.main(argv) == 0
+    err = capsys.readouterr().err
+    assert "预置复用 1 人（不调模型）" in err
+    assert ScriptedClient.preset_calls == 2

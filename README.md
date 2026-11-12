@@ -28,7 +28,7 @@ docker compose up -d          # 打开 http://127.0.0.1:8765
 验收构建（假客户端、不联网、不消耗任何配额）：
 
 ```bash
-docker build --target test -f Dockerfile .   # 构建阶段直接跑 pytest，109 项失败即构建失败
+docker build --target test -f Dockerfile .   # 构建阶段直接跑 pytest，118 项失败即构建失败
 ```
 
 ### 想把 `.env` 里的密钥带进容器
@@ -60,7 +60,7 @@ docker compose -f compose.yaml -f compose.dotenv.yaml up -d
 ```bash
 .venv/bin/python server/demo_server.py --port 8765      # 浏览器打开 http://localhost:8765
 .venv/bin/python -m planner.cli --n 10 --seed 7 --courses data/courses.json --out /tmp/result.json
-.venv/bin/python -m pytest tests/ -q                    # 109 项离线测试
+.venv/bin/python -m pytest tests/ -q                    # 118 项离线测试
 ```
 
 `.venv` 在 WSL 内创建，只装 pytest（唯一开发依赖）；核心与服务器只用标准库，LLM 调用走 `urllib`。
@@ -80,8 +80,23 @@ bash tools/rebuild_zju_datasets.sh        # zju_catalog 抓取原始件 → data
 ```
 
 长跑实验走独立入口（不受演示 2–60 人护栏约束，逐轮增量落盘 + 检查点续跑）：`tools/run_experiment.py`，
-参数看 `--help`。n=1800 正式跑的完整口径、逐类缺口与逐进程事故账在
+参数看 `--help`。预置和复盘默认每 200 人落一次盘（`--flush-every`），中断后续跑会写
+「复用 N 人（不调模型）」。真实 HTTP 在发出前把一行追加进 `<out>.ckpt/attempts.jsonl`，
+已发起的请求数就是这个文件的行数。`--preset-batch N` 把 N 名学生打进同一次预置调用，默认仍是一人一次。
+n=1800 正式跑的完整口径、逐类缺口与逐进程事故账在
 [docs/实验披露_n1800.md](docs/实验披露_n1800.md)，结果本体在 `results/exp_k10_n1800_seed7.json`。
+
+不联网的机制实验（决策模型只被这条命令用到，演示和长跑默认路径不会导入它）：
+
+```bash
+python tools/run_mechanism_experiments.py
+python tools/supply_table.py --courses data/courses_k10.json --sizes data/major_sizes.json --n 1800 \
+    --out results/mechanism/supply_k10.json
+```
+
+判决和数字在 [docs/机制实验报告.md](docs/机制实验报告.md)，机器可读结果在 `results/mechanism/`。
+它测的是：没有竞争时两轮事件流相同；志愿和预置抢同一批座位时出现退课且两轮哈希不同；
+24 个种子的配对复盘能提高满意度，把不同种子拆开比则会出现负差；扩容按（专业 × 学年 × 类别）列账。
 
 ## 目录
 
@@ -90,7 +105,7 @@ bash tools/rebuild_zju_datasets.sh        # zju_catalog 抓取原始件 → data
 | `planner/` | 核心包（纯标准库）：模型、时间网格、制度口径、AI 排课/行为/筛选/打分/复盘、LLM 客户端 |
 | `server/` `demo/` | 标准库 HTTP 演示服务器（8765）+ 单页 HTML |
 | `tools/` | 教务数据抓取转换、人数推算、规模档长跑实验、文书转 PDF |
-| `tests/` | 109 项离线测试（假客户端，不消耗配额）；`pytest.ini` 已排除 `legacy/` |
+| `tests/` | 118 项离线测试（假客户端，不消耗配额）；`pytest.ini` 已排除 `legacy/` |
 | `data/` | `courses.json`（真实目录 + 培养方案目标 + need_rules）与三档缩尺、人数推测 |
 | `docs/` | 作品介绍文档、实验披露_n1800（各含 PDF）——其余文书的缺失见下方「文档缺口」 |
 | `files/` | 申报附件（原创承诺书 PDF/docx、申报书 docx）与 `演示视频.mp4`（143 MB）——**整体不入库** |
@@ -105,6 +120,7 @@ bash tools/rebuild_zju_datasets.sh        # zju_catalog 抓取原始件 → data
 | 文档 | 讲什么 |
 |---|---|
 | [docs/实验披露_n1800.md](docs/实验披露_n1800.md) | 正式跑的完整口径、逐类缺口与逐进程事故账 |
+| [docs/机制实验报告.md](docs/机制实验报告.md) | 竞争、复盘多种子、扩容表、批量请求和阶段内落盘的判决 |
 | [docs/作品介绍文档.md](docs/作品介绍文档.md) | 作品介绍 |
 | [data/README.md](data/README.md) | `courses.json` 字段格式与需求口径对照 |
 | [legacy/ARCHIVE_NOTE.md](legacy/ARCHIVE_NOTE.md) | 归档边界：哪些还能读、哪些已经跑不起来 |
