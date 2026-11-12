@@ -1,0 +1,394 @@
+{
+ "preregistration": {
+  "paired_seeds": 24,
+  "paired_frac": 1.0,
+  "paired_min_delta": 5.0,
+  "paired_min_seeds": 18,
+  "morning_penalty": 15,
+  "jitter": 20,
+  "hot_cap": 2,
+  "scale_ns": [
+   4,
+   8,
+   12
+  ]
+ },
+ "verdicts": {
+  "control": "通过",
+  "competition": "通过",
+  "scale": "通过",
+  "overlap": "通过",
+  "priority": "通过",
+  "paired_retune": "通过",
+  "batch": "通过",
+  "checkpoint": "通过",
+  "supply": "通过"
+ },
+ "control": {
+  "drops": 0,
+  "grant_events": 0,
+  "round1_events": 0,
+  "round2_events": 0,
+  "round1_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "round2_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "round_hashes_differ": false,
+  "seat_rejections": 0,
+  "preset_grant_overlap": [],
+  "violations": [],
+  "mean_satisfaction": 100.0,
+  "unmet_required_slots": 0,
+  "calls": 20
+ },
+ "competition": {
+  "drops": 8,
+  "grant_events": 10,
+  "round1_events": 10,
+  "round2_events": 8,
+  "round1_sha256": "1e7724ba96c72ed48aa9ccfe035838f3f792b1be4f370565ce5c335d8132aaae",
+  "round2_sha256": "11ec5c507195ffc9c164256098e1bf237394f68d9cd6a82fa4a162d8d3d15152",
+  "round_hashes_differ": true,
+  "seat_rejections": 6,
+  "preset_grant_overlap": [],
+  "violations": [],
+  "mean_satisfaction": 62.5,
+  "unmet_required_slots": 6,
+  "calls": 42,
+  "n": 8,
+  "expected_rejections": 6
+ },
+ "scale": [
+  {
+   "n": 4,
+   "drops": 4,
+   "seat_rejections": 2,
+   "expected_rejections": 2,
+   "round_hashes_differ": true,
+   "unmet_required_slots": 2
+  },
+  {
+   "n": 8,
+   "drops": 8,
+   "seat_rejections": 6,
+   "expected_rejections": 6,
+   "round_hashes_differ": true,
+   "unmet_required_slots": 6
+  },
+  {
+   "n": 12,
+   "drops": 12,
+   "seat_rejections": 10,
+   "expected_rejections": 10,
+   "round_hashes_differ": true,
+   "unmet_required_slots": 10
+  }
+ ],
+ "overlap": {
+  "drops": 4,
+  "grant_events": 6,
+  "round1_events": 6,
+  "round2_events": 4,
+  "round1_sha256": "5e37bc82125dbeeba16317365292a7c56e7a8f6d7f24fb6c2f88eed8949f438f",
+  "round2_sha256": "bf63549e5ea82c9ec3b4e12fdbc6201e3e1703047d1bcb08e05df273abdf54af",
+  "round_hashes_differ": true,
+  "seat_rejections": 2,
+  "preset_grant_overlap": [
+   "HOT"
+  ],
+  "violations": [],
+  "mean_satisfaction": 80.0,
+  "unmet_required_slots": 2,
+  "calls": 27
+ },
+ "priority": {
+  "winners": [
+   "S003"
+  ],
+  "graduating_wins": true,
+  "seat_rejections": 2,
+  "violations": []
+ },
+ "paired_retune": {
+  "seeds": 24,
+  "frac": 1.0,
+  "min_delta": 15.0,
+  "max_delta": 15.0,
+  "mean_delta": 15.0,
+  "seeds_delta_at_least_min": 24,
+  "seeds_delta_negative": 0,
+  "seeds_unmet_increased": 0,
+  "dose_frac": 0.3,
+  "dose_mean_delta": 3.75,
+  "cross_seed_negative": 10,
+  "example_preset_before": [
+   "BAD"
+  ],
+  "example_preset_after": [
+   "GOOD"
+  ]
+ },
+ "batch": {
+  "single_calls": 4,
+  "grouped_calls": 1,
+  "single_violations": [],
+  "grouped_violations": [],
+  "grouped_covers_everyone": true
+ },
+ "checkpoint": {
+  "crashed_on_second_preset": true,
+  "partial_students": 1,
+  "partial_complete": false,
+  "resume_log": true,
+  "resume_excerpt": "[resume] 第 0 轮预置复用 1 人（不调模型）",
+  "preset_calls_on_resume": 2,
+  "exit_code": 0,
+  "violations_note": "续跑走的是同一条事实校验"
+ },
+ "supply": {
+  "students": 1800,
+  "positive_gap_cells": 128,
+  "extra_seats_sum": 128,
+  "actionable_extra_seats": 16,
+  "rollup": [
+   {
+    "category": "专业基础课",
+    "demand_slots": 1359.0,
+    "seats": 1879,
+    "gap_slots": 0.0,
+    "surplus_slots": 520.0,
+    "actionable_extra_seats": 0
+   },
+   {
+    "category": "专业课",
+    "demand_slots": 6807.0,
+    "seats": 10578,
+    "gap_slots": 0.0,
+    "surplus_slots": 3771.0,
+    "actionable_extra_seats": 0
+   },
+   {
+    "category": "外语类",
+    "demand_slots": 594.0,
+    "seats": 781,
+    "gap_slots": 0.0,
+    "surplus_slots": 187.0,
+    "actionable_extra_seats": 0
+   },
+   {
+    "category": "思政类",
+    "demand_slots": 2605.0,
+    "seats": 2791,
+    "gap_slots": 0.0,
+    "surplus_slots": 186.0,
+    "actionable_extra_seats": 0
+   },
+   {
+    "category": "自然科学通识类",
+    "demand_slots": 1501.0,
+    "seats": 2453,
+    "gap_slots": 0.0,
+    "surplus_slots": 952.0,
+    "actionable_extra_seats": 0
+   },
+   {
+    "category": "计算机通识类",
+    "demand_slots": 686.0,
+    "seats": 670,
+    "gap_slots": 16.0,
+    "surplus_slots": 0.0,
+    "actionable_extra_seats": 16
+   },
+   {
+    "category": "通识与体育类",
+    "demand_slots": 2107.0,
+    "seats": 5076,
+    "gap_slots": 0.0,
+    "surplus_slots": 2969.0,
+    "actionable_extra_seats": 0
+   }
+  ],
+  "top": [
+   {
+    "major": "电气工程及其自动化",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 15,
+    "demand_slots": 30.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 29.3,
+    "supply_slots": 29.3,
+    "gap_slots": 0.7,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "药学",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 14,
+    "demand_slots": 28.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 27.347,
+    "supply_slots": 27.347,
+    "gap_slots": 0.653,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "生物医学工程",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 13,
+    "demand_slots": 26.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 25.394,
+    "supply_slots": 25.394,
+    "gap_slots": 0.606,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "机械工程",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 23,
+    "demand_slots": 23.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 22.464,
+    "supply_slots": 22.464,
+    "gap_slots": 0.536,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "土木、水利与交通工程",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 6,
+    "demand_slots": 12.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 11.72,
+    "supply_slots": 11.72,
+    "gap_slots": 0.28,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "心理学",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 6,
+    "demand_slots": 12.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 11.72,
+    "supply_slots": 11.72,
+    "gap_slots": 0.28,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "临床医学（5+3）",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "临床医学（儿科方向）（5+3）",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "信息与计算科学",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "储能科学与工程（卓越工程师班）",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "医学实验班（临床医学八年制）",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   },
+   {
+    "major": "口腔医学（5+3）",
+    "year": "一",
+    "category": "计算机通识类",
+    "students": 4,
+    "demand_slots": 8.0,
+    "dedicated_seats": 0,
+    "shared_seats_global": 670,
+    "fair_shared_seats": 7.813,
+    "supply_slots": 7.813,
+    "gap_slots": 0.187,
+    "extra_seats": 1,
+    "median_section_capacity": 9,
+    "extra_sections": 1
+   }
+  ],
+  "dedicated_not_shared": true,
+  "path": "/workspace/results/mechanism/supply_k10.json"
+ }
+}

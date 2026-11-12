@@ -3,8 +3,11 @@
     .venv/bin/python tools/run_experiment.py --courses data/courses_k10.json \
         --scale-divisor 10 --iterations 1 --workers 6 --out results/micro_k10.json
 
-检查点写在 <out>.ckpt/：needs.json、presets_<i>.json、iter<i>_round<k>.json、iter<i>_scores.json。
+检查点写在 <out>.ckpt/：needs.json、presets_<i>.json、iter<i>_round<k>.json、iter<i>_scores.json、
+attempts.jsonl（每次 HTTP 发起前追加一行）。预置和复盘每 --flush-every 人落一次盘，
+中断后续跑日志会写「复用 N 人（不调模型）」。
 中断（含宿主机休眠）后用同一条命令重跑，就从最近的检查点继续，已经花掉配额的部分不再问一次。
+已发起的请求数等于 attempts.jsonl 的行数，不再是一个区间。
 检查点只省钱，不保证可复现：谁中签由模型决定，重跑同一个种子也会得到另一份名单。
 """
 from __future__ import annotations
@@ -29,7 +32,7 @@ from planner.ai_planner import ai_presets, ai_retune        # noqa: E402
 from planner.behavior import (ai_allocator, ai_plan_builder,  # noqa: E402
                               ai_satisfaction)
 from planner.env_config import resolve_llm                  # noqa: E402
-from planner.llm import LLMClient                           # noqa: E402
+from planner.llm import LLMClient, count_attempt_log        # noqa: E402
 from planner.models import NeedModel, World, load_world     # noqa: E402
 from planner.pipeline import Evaluation, students_payload   # noqa: E402
 from planner.selection import (RoundPlanEntry, SelectionResult,  # noqa: E402
@@ -185,7 +188,8 @@ def view_fingerprint(view: dict) -> str:
 
 def simulate_rounds(world: World, preset_map: dict[str, list[str]], client: LLMClient,
                     stats: dict, skill_texts: dict[str, str], needs: dict[str, NeedModel],
-                    workers: int, ckpt_dir: Path, iteration: int) -> SelectionResult:
+                    workers: int, ckpt_dir: Path, iteration: int,
+                    flush_every: int = PLAN_FLUSH_EVERY) -> SelectionResult:
     """两轮模拟，每轮结束落一次盘；已有检查点的轮次不再重新花钱。
 
     志愿阶段本身也按 PLAN_FLUSH_EVERY 人一段落盘——一轮要 1800 次调用、75 分钟，
@@ -216,7 +220,7 @@ def simulate_rounds(world: World, preset_map: dict[str, list[str]], client: LLMC
 
     builder = ai_plan_builder(world, skill_texts, needs, client, stats, workers,
                               resume_for=resume_for, on_batch=on_batch,
-                              batch=PLAN_FLUSH_EVERY)
+                              batch=flush_every)
     allocator = ai_allocator(world, client, stats)
     signature = preset_hash(preset_map)
     files = {index: ckpt_dir / f"iter{iteration}_round{index}.json" for index in (1, 2)}
@@ -262,7 +266,8 @@ def _call_count(client: LLMClient) -> int:
 
 def score_all(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, str],
               result: SelectionResult, client: LLMClient, stats: dict, workers: int,
-              ckpt_dir: Path, iteration: int) -> tuple[dict[str, int], dict[str, str]]:
+              ckpt_dir: Path, iteration: int,
+              flush_every: int = PLAN_FLUSH_EVERY) -> tuple[dict[str, int], dict[str, str]]:
     path = ckpt_dir / f"iter{iteration}_scores.json"
     stored = read_json(path) if path.exists() else {"scores": {}, "reasons": {}}
     scores = {sid: int(value) for sid, value in stored["scores"].items() if sid in needs}
@@ -283,7 +288,7 @@ def score_all(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, 
         write_json(path, {"scores": merged_scores, "reasons": merged_reasons})
 
     if pending:
-        got = run_tasks(pending, work, workers, flush, flush_every=200,
+        got = run_tasks(pending, work, workers, flush, flush_every=flush_every,
                         log=f"[satisfy i{iteration}]")
         for sid, value, reason in got.values():
             scores[sid] = value
@@ -293,20 +298,99 @@ def score_all(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, 
 
 
 def evaluate(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, str],
-             client: LLMClient, stats: dict, workers: int, ckpt_dir: Path, iteration: int):
+             client: LLMClient, stats: dict, workers: int, ckpt_dir: Path, iteration: int,
+             flush_every: int = PLAN_FLUSH_EVERY):
     """返回 evaluate(preset_map)：先复用/补齐两轮模拟，再补满意度。"""
 
     def run(preset_map: dict[str, list[str]]) -> Evaluation:
         result = simulate_rounds(world, preset_map, client, stats, skill_texts, needs,
-                                 workers, ckpt_dir, iteration)
+                                 workers, ckpt_dir, iteration, flush_every)
         scores, reasons = score_all(world, needs, skill_texts, result, client, stats,
-                                    workers, ckpt_dir, iteration)
+                                    workers, ckpt_dir, iteration, flush_every)
         kept = {sid: sorted(set(result.assignments[sid]) & set(preset_map.get(sid, [])))
                 for sid in needs}
         if len(scores) != len(needs):
             raise SystemExit(f"满意度打分只有 {len(scores)}/{len(needs)} 人，检查点不完整")
         return Evaluation(preset_map, result, scores, reasons, kept)
     return run
+
+
+def load_preset_checkpoint(path: Path):
+    """兼容两种预置文件：旧的「学号 → 课表」整表，以及带 complete/phase 的分批文件。"""
+    raw = read_json(path)
+    if not isinstance(raw, dict):
+        raise SystemExit(f"{path.name} 不是预置检查点")
+    if "complete" in raw and isinstance(raw.get("presets"), dict):
+        presets = {sid: list(sections) for sid, sections in raw["presets"].items()}
+        retuned = [str(sid) for sid in (raw.get("retuned") or [])]
+        return presets, bool(raw["complete"]), str(raw.get("phase") or ""), retuned
+    return {sid: list(sections) for sid, sections in raw.items()}, True, "legacy", []
+
+
+def write_preset_checkpoint(path: Path, presets: dict, *, complete: bool, phase: str,
+                            retuned: list[str] | None = None) -> None:
+    payload = {
+        "complete": complete,
+        "phase": phase,
+        "presets": {sid: list(sections) for sid, sections in presets.items()},
+    }
+    if retuned is not None:
+        payload["retuned"] = list(retuned)
+    write_json(path, payload)
+
+
+def load_or_build_presets(iteration, presets_path, world, needs, skill_texts, client, stats,
+                          args, previous_map, previous_eval, note_open_batch, clear_open_batch):
+    """预置或复盘：完整检查点直接复用；缺人的检查点只为剩下的学生调用模型。"""
+    stored, complete, phase, retuned = ({}, False, "", [])
+    if presets_path.exists():
+        stored, complete, phase, retuned = load_preset_checkpoint(presets_path)
+
+    if iteration == 0:
+        if complete or set(needs) <= set(stored):
+            return {sid: list(stored[sid]) for sid in needs}
+        if stored:
+            print(f"[resume] 第 {iteration} 轮预置复用 {len(stored)} 人（不调模型）",
+                  file=sys.stderr, flush=True)
+
+        def on_progress(presets, _retuned) -> None:
+            write_preset_checkpoint(presets_path, presets, complete=False, phase="preset")
+            clear_open_batch()
+
+        preset_map = ai_presets(
+            world, needs, skill_texts, client, stats, args.workers,
+            resume=stored, on_progress=on_progress,
+            on_open_batch=lambda ids: note_open_batch(iteration, "preset", ids),
+            flush_every=args.flush_every, group_size=args.preset_batch)
+        write_preset_checkpoint(presets_path, preset_map, complete=True, phase="preset")
+        return preset_map
+
+    if complete and phase in ("retune", "legacy"):
+        return {sid: list(stored[sid]) for sid in needs}
+    if previous_eval is None or previous_map is None:
+        raise SystemExit(f"缺少第 {iteration - 1} 轮的评估结果，无法复盘改写")
+    already = {sid: list(stored[sid]) for sid in retuned if sid in stored and sid in needs}
+    if already:
+        print(f"[resume] 第 {iteration} 轮复盘复用 {len(already)} 人（不调模型）",
+              file=sys.stderr, flush=True)
+
+    def on_retune(presets, done_ids) -> None:
+        write_preset_checkpoint(presets_path, presets, complete=False, phase="retune",
+                                retuned=done_ids)
+        clear_open_batch()
+
+    preset_map = ai_retune(
+        world, needs, skill_texts, client, stats, previous_map,
+        previous_eval.scores, previous_eval.reasons,
+        previous_eval.result.assignments, args.refine_frac, args.workers,
+        resume=already, on_progress=on_retune,
+        on_open_batch=lambda ids: note_open_batch(iteration, "retune", ids),
+        flush_every=args.flush_every, group_size=args.preset_batch)
+    ranked = sorted(previous_eval.scores, key=lambda sid: (previous_eval.scores[sid], sid))
+    worst_n = max(1, round(len(ranked) * args.refine_frac)) if previous_eval.scores else 0
+    write_preset_checkpoint(presets_path, preset_map, complete=True, phase="retune",
+                            retuned=ranked[:worst_n])
+    return preset_map
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -320,6 +404,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--iterations", type=int, default=1, help="复盘改写轮数 R")
     parser.add_argument("--refine-frac", type=float, default=0.3)
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--flush-every", type=int, default=PLAN_FLUSH_EVERY,
+                        help="预置、复盘、志愿、打分每多少人落一次盘")
+    parser.add_argument("--preset-batch", type=int, default=1,
+                        help="一次预置/复盘调用里打包几名学生；1 表示保持一人一次")
     parser.add_argument("--min-interval", type=float, default=None,
                         help="全局最小请求间隔秒数；不给就用 .env 推出的值")
     parser.add_argument("--max-per-minute", type=float, default=0,
@@ -359,9 +447,11 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     min_interval = (args.min_interval if args.min_interval is not None
                     else float(config.get("min_interval", 3.0)))
+    attempt_log = ckpt_dir / "attempts.jsonl"
     client = LLMClient(base_url=config["base_url"], model=config["model"],
                        api_key=config["api_key"], min_interval=min_interval,
-                       max_per_minute=args.max_per_minute, timeout=args.timeout)
+                       max_per_minute=args.max_per_minute, timeout=args.timeout,
+                       attempt_log=str(attempt_log))
     stats: dict = {"calls": 0, "failures": 0, "sanitized": 0}
     started = time.perf_counter()
 
@@ -380,6 +470,7 @@ def main(argv: list[str] | None = None) -> int:
         """每轮结束就落一次盘，长跑中途被回收也有一份能审的结果。"""
         stats["calls"] = client.calls
         stats["failures"] = client.failures + stats.get("failures", 0)
+        stats["initiated_requests"] = count_attempt_log(attempt_log)
         stats.update(client.perf())
         events = best_eval.result.events
         return {
@@ -422,26 +513,26 @@ def main(argv: list[str] | None = None) -> int:
             "students": students_payload(world, needs, skill_texts, best, best_eval),
         }
 
+    open_batch_path = ckpt_dir / "open_batch.json"
+
+    def note_open_batch(iteration: int, phase: str, ids: list[str]) -> None:
+        write_json(open_batch_path, {"iteration": iteration, "phase": phase, "ids": list(ids)})
+
+    def clear_open_batch() -> None:
+        if open_batch_path.exists():
+            open_batch_path.unlink()
+
     for iteration in range(args.iterations + 1):
         presets_path = ckpt_dir / f"presets_{iteration}.json"
         phase_started = time.perf_counter()
         print(f"[phase] iter {iteration} 预置开始（{len(needs)} 人，workers={args.workers}，"
               f"累计调用 {client.calls}）", file=sys.stderr, flush=True)
-        if presets_path.exists():
-            preset_map = {sid: list(v) for sid, v in read_json(presets_path).items()}
-        elif iteration == 0:
-            preset_map = ai_presets(world, needs, skill_texts, client, stats, args.workers)
-            write_json(presets_path, preset_map)
-        else:
-            if previous_eval is None or previous_map is None:
-                raise SystemExit(f"缺少第 {iteration - 1} 轮的评估结果，无法复盘改写")
-            preset_map = ai_retune(world, needs, skill_texts, client, stats, previous_map,
-                                   previous_eval.scores, previous_eval.reasons,
-                                   previous_eval.result.assignments, args.refine_frac,
-                                   args.workers)
-            write_json(presets_path, preset_map)
+        preset_map = load_or_build_presets(
+            iteration, presets_path, world, needs, skill_texts, client, stats, args,
+            previous_map, previous_eval, note_open_batch, clear_open_batch)
+        clear_open_batch()
         evaluation = evaluate(world, needs, skill_texts, client, stats, args.workers,
-                              ckpt_dir, iteration)(preset_map)
+                              ckpt_dir, iteration, args.flush_every)(preset_map)
         previous_map, previous_eval = preset_map, evaluation
         history.append(evaluation.summary())
         timeline.append({"iteration": iteration,

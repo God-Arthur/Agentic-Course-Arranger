@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import threading
 import time
@@ -14,6 +15,7 @@ import urllib.error
 import urllib.request
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 
 class LLMError(RuntimeError):
@@ -26,7 +28,7 @@ _FENCE = re.compile(r"```(?:json)?\s*(.*?)```", re.S)
 class LLMClient:
     def __init__(self, base_url: str, model: str, api_key: str,
                  timeout: float = 300.0, min_interval: float = 3.0, max_retries: int = 3,
-                 max_per_minute: float = 0.0):
+                 max_per_minute: float = 0.0, attempt_log: str | None = None):
         self.base_url = base_url.rstrip("/")
         # 有些端点（含校内网关）在 .env 里直接写成 .../v1/chat/completions，
         # 再拼一次会 404；已经指到 chat/completions 的就原样用。
@@ -52,6 +54,10 @@ class LLMClient:
         self._latency_count = 0
         self._latency_max = 0.0
         self.backoffs = 0
+        # 每次真正发出 HTTP 之前先把一行追加进这个日志并 fsync。
+        # 进程死在预置/复盘途中时，已发起的请求数就是日志行数，不再是一个区间。
+        self.attempt_log = attempt_log
+        self._attempt_lock = threading.Lock()
 
     def perf(self) -> dict:
         """实测：平均/最大单次网络延迟、发起跨度、跨度内的等效 RPM、退避次数。"""
@@ -115,6 +121,19 @@ class LLMClient:
         with self._lock:
             self.failures += 1
 
+    def _note_attempt(self) -> None:
+        """在 urlopen 之前落一行。崩溃后已发起的请求可逐条点数，不靠事后估算。"""
+        if not self.attempt_log:
+            return
+        path = Path(self.attempt_log)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        line = json.dumps({"n": self.calls + 1}, ensure_ascii=False)
+        with self._attempt_lock:
+            with open(path, "a", encoding="utf-8") as handle:
+                handle.write(line + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+
     def _chat(self, system: str, user: str, json_mode: bool) -> str:
         payload: dict = {
             "model": self.model,
@@ -128,6 +147,7 @@ class LLMClient:
         last_error = ""
         for attempt in range(self.max_retries):
             self._throttle()
+            self._note_attempt()
             request = urllib.request.Request(
                 self.endpoint, data=body,
                 headers={"Content-Type": "application/json",
@@ -162,6 +182,21 @@ class LLMClient:
                 continue
         self._count_failure()
         raise LLMError(f"LLM 请求在重试后仍失败：{last_error}")
+
+
+def count_attempt_log(path: str | os.PathLike | None) -> int:
+    """配额单值：日志里每一行都是一次已经发起的请求。空行不计。"""
+    if not path:
+        return 0
+    file = Path(path)
+    if not file.exists():
+        return 0
+    count = 0
+    with open(file, encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                count += 1
+    return count
 
 
 def parallel_map(items, work, workers: int):

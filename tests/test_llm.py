@@ -1,10 +1,11 @@
+import json
 import threading
 import time
 
 import pytest
 
 from planner.llm import (LLMError, LLMClient, _extract_json, bump_stats,
-                      parallel_map)
+                      count_attempt_log, parallel_map)
 
 
 class ScriptedLLM(LLMClient):
@@ -88,6 +89,29 @@ def test_throttle_spaces_call_starts_across_threads():
         thread.join()
     assert len(stamps) == 5
     assert max(stamps) - min(stamps) >= 0.02 * 4 - 0.005   # 全局最小间隔，不是每线程一份
+
+
+def test_attempt_log_is_one_line_per_request_and_lands_before_urlopen(tmp_path, monkeypatch):
+    log = tmp_path / "attempts.jsonl"
+    seen = {}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            seen["lines_before_read"] = count_attempt_log(log)
+            return json.dumps({"choices": [{"message": {"content": '{"ok": 1}'}}]}).encode()
+
+    monkeypatch.setattr("planner.llm.urllib.request.urlopen", lambda request, timeout: Response())
+    client = LLMClient("http://localhost:9/v1", "m", "k", min_interval=0, attempt_log=str(log))
+    assert client.chat_json("s", "u") == {"ok": 1}
+    assert seen["lines_before_read"] == 1
+    assert count_attempt_log(log) == 1
+    assert count_attempt_log(tmp_path / "missing.jsonl") == 0
 
 
 def test_bump_stats_loses_no_increment():

@@ -2,14 +2,18 @@
 
 代码只做事实校验：教学班是否存在、还有没有余座、时间是否冲突、同一门课程是否重复。
 校验剔除的条目计入 llm_stats["sanitized"]；LLM 调用失败直接上抛 LLMError，不出任何替代结果。
+
+长跑可以按批落盘：resume 里的学生不再发起调用，flush_every 人一批把已排完的结果交回调用方。
+group_size>1 时把多名学生打进同一次调用（批量请求）；默认仍是一人一次，提示词与旧行为一致。
 """
 from __future__ import annotations
 
 import threading
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .behavior import _assigned_lines, _catalog_lines, _unmet_lines
-from .llm import LLMClient, count_drop, parallel_map
+from .llm import LLMClient, LLMError, count_drop
 from .models import NeedModel, World
 from .timegrid import has_conflict
 
@@ -68,6 +72,30 @@ def _plan_one(world: World, client: LLMClient, llm_stats: dict, need: NeedModel,
     return _validated(world, list(raw.get("sections") or []), remaining, llm_stats)
 
 
+_PRESET_BATCH_SYSTEM = (
+    _PRESET_SYSTEM
+    + " 本次输入含多名学生，必须按学号分别给方案，不能漏人。"
+    + '只输出 JSON：{"plans": [{"student_id": "学号", "sections": ["教学班ID"], "why": "一句话"}]}'
+)
+
+
+def _occupy(remaining: dict[str, int], section_ids: list[str], student_id: str) -> None:
+    """把已经落盘的预置占座扣回余座。可行的一组课表按任何顺序扣都不会超座。"""
+    for section_id in section_ids:
+        if section_id not in remaining:
+            raise ValueError(f"检查点里 {student_id} 引用了未知教学班 {section_id}")
+        if remaining[section_id] <= 0:
+            raise ValueError(f"检查点里 {student_id} 的教学班 {section_id} 超出容量")
+        remaining[section_id] -= 1
+
+
+def _chunks(items: list, size: int) -> list[list]:
+    if not items:
+        return []
+    step = len(items) if size <= 0 else size
+    return [items[index:index + step] for index in range(0, len(items), step)]
+
+
 def _plan_batch(world: World, client: LLMClient, llm_stats: dict,
                 items: list[tuple[str, NeedModel, str, tuple]],
                 remaining: dict[str, int], workers: int) -> dict[str, list[str]]:
@@ -78,6 +106,8 @@ def _plan_batch(world: World, client: LLMClient, llm_stats: dict,
     （计入 sanitized），那个类别就留给两轮选课阶段补——顺序模式下"后一名看见前一名占座"
     在这里退化成"同批并发的学生共享一个轮初快照"，这是为把长跑压进可接受时长做的取舍。
     """
+    if not items:
+        return {}
     lock = threading.Lock()
 
     def plan(entry):
@@ -89,29 +119,145 @@ def _plan_batch(world: World, client: LLMClient, llm_stats: dict,
         with lock:
             return sid, _validated(world, list(raw.get("sections") or []), remaining, llm_stats)
 
-    return dict(parallel_map(items, plan, workers))
+    if workers <= 1 or len(items) == 1:
+        return dict(plan(entry) for entry in items)
+    out: dict[str, list[str]] = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(plan, entry) for entry in items]
+        for future in as_completed(futures):
+            sid, chosen = future.result()
+            out[sid] = chosen
+    return out
+
+
+def _plan_grouped(world: World, client: LLMClient, llm_stats: dict,
+                  items: list[tuple[str, NeedModel, str, tuple]],
+                  remaining: dict[str, int], workers: int, group_size: int) -> dict[str, list[str]]:
+    """把学生按 group_size 打进同一次调用。返回缺人直接失败，不拿空课表冒充模型的决定。"""
+    if group_size <= 1:
+        return _plan_batch(world, client, llm_stats, items, remaining, workers)
+    groups = _chunks(items, group_size)
+    lock = threading.Lock()
+
+    def plan_group(group):
+        with lock:
+            snapshot = dict(remaining)
+        blocks = [f"===== 学生 {sid} =====\n"
+                  + _preset_user(world, need, skill_text, snapshot, review)
+                  for sid, need, skill_text, review in group]
+        raw = client.chat_json(system=_PRESET_BATCH_SYSTEM,
+                               user="\n".join(blocks))
+        plans = raw.get("plans")
+        if not isinstance(plans, list):
+            raise LLMError("批量预置输出缺少 plans")
+        by_id: dict[str, list] = {}
+        for item in plans:
+            if not isinstance(item, dict) or item.get("student_id") is None:
+                raise LLMError(f"批量预置有一条没有学号：{item!r}")
+            by_id[str(item["student_id"])] = list(item.get("sections") or [])
+        missing = [sid for sid, _, _, _ in group if sid not in by_id]
+        if missing:
+            raise LLMError(f"批量预置漏了学生：{missing}")
+        chosen: dict[str, list[str]] = {}
+        with lock:
+            for sid, _, _, _ in group:
+                chosen[sid] = _validated(world, by_id[sid], remaining, llm_stats)
+        return chosen
+
+    if workers <= 1 or len(groups) == 1:
+        merged: dict[str, list[str]] = {}
+        for group in groups:
+            merged.update(plan_group(group))
+        return merged
+    merged = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(plan_group, group) for group in groups]
+        for future in as_completed(futures):
+            merged.update(future.result())
+    return merged
+
+
+def _run_planned(world: World, client: LLMClient, llm_stats: dict,
+                 items: list[tuple[str, NeedModel, str, tuple]],
+                 remaining: dict[str, int], workers: int, *,
+                 on_progress=None, on_open_batch=None,
+                 flush_every: int = 0, group_size: int = 1) -> dict[str, list[str]]:
+    """按批调用模型。items 里只放还没付过钱的学生，余座由调用方事先扣好。
+
+    每一批开始前 on_open_batch(学号) 记下在途的人；这一批全部返回后 on_progress(已完成)。
+    进程死在批内时，检查点停在上一批，在途的就是 open batch 里的学号。
+    """
+    done: dict[str, list[str]] = {}
+    for chunk in _chunks(items, flush_every):
+        if on_open_batch is not None:
+            on_open_batch([entry[0] for entry in chunk])
+        done.update(_plan_grouped(world, client, llm_stats, chunk, remaining,
+                                  workers, group_size))
+        if on_progress is not None:
+            on_progress(dict(done))
+    return done
 
 
 def ai_presets(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, str],
-               client: LLMClient, llm_stats: dict, workers: int = 1) -> dict[str, list[str]]:
+               client: LLMClient, llm_stats: dict, workers: int = 1, *,
+               resume: dict[str, list[str]] | None = None,
+               on_progress=None, on_open_batch=None,
+               flush_every: int = 0, group_size: int = 1) -> dict[str, list[str]]:
     """AI 排课：按学号顺序逐个学生生成预置课表，前一名学生占掉的余座对后一名可见。
 
-    workers>1 时改用上面那段并发口径（同批共享轮初快照）。
+    workers>1 时同批并发的学生共享该批开始时的余座快照。
+    resume 中的学生直接占座、不再调用模型。
     """
     remaining = {s.section_id: s.capacity for s in world.sections.values()}
-    if workers <= 1:
-        return {sid: _plan_one(world, client, llm_stats, needs[sid], skill_texts[sid], remaining)
-                for sid in sorted(needs)}
-    items = [(sid, needs[sid], skill_texts[sid], ()) for sid in sorted(needs)]
-    return _plan_batch(world, client, llm_stats, items, remaining, workers)
+    kept = {sid: list(sections) for sid, sections in (resume or {}).items() if sid in needs}
+    for sid in sorted(kept):
+        _occupy(remaining, kept[sid], sid)
+    items = [(sid, needs[sid], skill_texts[sid], ()) for sid in sorted(needs) if sid not in kept]
+    planned = _run_planned(world, client, llm_stats, items, remaining, workers,
+                           on_progress=_progress_with_kept(kept, on_progress),
+                           on_open_batch=on_open_batch,
+                           flush_every=flush_every, group_size=group_size)
+    kept.update(planned)
+    if len(kept) != len(needs):
+        missing = sorted(set(needs) - set(kept))
+        raise LLMError(f"预置课表缺少学生：{missing}")
+    return {sid: kept[sid] for sid in needs}
+
+
+def _progress_with_kept(kept: dict[str, list[str]], on_progress):
+    if on_progress is None:
+        return None
+
+    def report(done: dict[str, list[str]]) -> None:
+        merged = dict(kept)
+        merged.update(done)
+        on_progress(merged, None)
+
+    return report
+
+
+def _review_of(world: World, sid: str, preset_map: dict[str, list[str]],
+               scores: dict[str, object], reasons: dict[str, str],
+               final_assignments: dict[str, set[str]]) -> tuple:
+    return (
+        "【上一版预置课表】", *_assigned_lines(world, set(preset_map.get(sid, ()))),
+        "【两轮选课后的最终课表】", *_assigned_lines(world, final_assignments.get(sid, set())),
+        f"【上一轮满意度】{scores.get(sid)}——{reasons.get(sid, '')}",
+    )
 
 
 def ai_retune(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, str],
               client: LLMClient, llm_stats: dict, preset_map: dict[str, list[str]],
               scores: dict[str, object], reasons: dict[str, str],
               final_assignments: dict[str, set[str]], frac: float = 0.3,
-              workers: int = 1) -> dict[str, list[str]]:
-    """AI 复盘改写：满意度最低的一批学生连同上一轮结果交回模型重排，其余学生原样保留。"""
+              workers: int = 1, *,
+              resume: dict[str, list[str]] | None = None,
+              on_progress=None, on_open_batch=None,
+              flush_every: int = 0, group_size: int = 1) -> dict[str, list[str]]:
+    """AI 复盘改写：满意度最低的一批学生连同上一轮结果交回模型重排，其余学生原样保留。
+
+    resume 只含已经重排完的那部分学生。未重排的差生会释放旧座位后重新调用模型。
+    """
     refined = {sid: list(sections) for sid, sections in preset_map.items()}
     if not scores:
         return refined
@@ -121,19 +267,24 @@ def ai_retune(world: World, needs: dict[str, NeedModel], skill_texts: dict[str, 
     for sid, sections in refined.items():
         if sid in worst:
             continue
-        for section_id in sections:
-            remaining[section_id] -= 1
-    targets = sorted(worst & set(refined))
-    items = [(sid, needs[sid], skill_texts[sid], (
-        "【上一版预置课表】", *_assigned_lines(world, set(preset_map.get(sid, ()))),
-        "【两轮选课后的最终课表】", *_assigned_lines(world, final_assignments.get(sid, set())),
-        f"【上一轮满意度】{scores.get(sid)}——{reasons.get(sid, '')}",
-    )) for sid in targets]
-    if workers <= 1:
-        for entry in items:
-            sid, need, skill_text, review = entry
-            refined[sid] = _plan_one(world, client, llm_stats, need, skill_text,
-                                     remaining, review)
-    else:
-        refined.update(_plan_batch(world, client, llm_stats, items, remaining, workers))
+        _occupy(remaining, sections, sid)
+    already = {sid: list(sections) for sid, sections in (resume or {}).items() if sid in worst}
+    for sid in sorted(already):
+        refined[sid] = list(already[sid])
+        _occupy(remaining, already[sid], sid)
+    targets = [sid for sid in sorted(worst & set(refined)) if sid not in already]
+    items = [(sid, needs[sid], skill_texts[sid],
+              _review_of(world, sid, preset_map, scores, reasons, final_assignments))
+             for sid in targets]
+
+    def report(done: dict[str, list[str]]) -> None:
+        merged = dict(refined)
+        merged.update(done)
+        on_progress(merged, sorted(set(already) | set(done)))
+
+    planned = _run_planned(world, client, llm_stats, items, remaining, workers,
+                           on_progress=report if on_progress is not None else None,
+                           on_open_batch=on_open_batch,
+                           flush_every=flush_every, group_size=group_size)
+    refined.update(planned)
     return refined
